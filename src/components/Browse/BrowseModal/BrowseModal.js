@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
   Modal,
   Fade,
@@ -29,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    top: '10%',
+    left: '10%',
+    overflow: 'scroll',
   },
 
   image: {
@@ -37,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: '100%',
+    padding: '.2rem',
+    border: '1px solid #979797',
+    borderRadius: '15px',
+    display: 'block',
   },
   text: {
     marginRight: '40%',
@@ -73,7 +81,12 @@ function BrowseModal({ modalOpen, handleClose }) {
             {/* Grid container for buttones */}
             <Grid container direction='row' spacing={3}>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <ButtonBase className={classes.button}>
+                <ButtonBase
+                  component={Link}
+                  to='/browse/acoustic-guitars'
+                  onClick={handleClose}
+                  className={classes.button}
+                >
                   {/* Grid for image and text in button */}
                   <Grid
                     container
@@ -82,14 +95,14 @@ function BrowseModal({ modalOpen, handleClose }) {
                     alignItems='center'
                     spacing={1}
                   >
-                    <Grid item xs={5} sm={5} md={1} lg={1} xl={1}>
+                    <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
                       <img
                         style={{ objectFit: 'cover' }}
                         src={acousticGuitar}
                         alt='Acoustic Guitar Design'
                       />
                     </Grid>
-                    <Grid item xs={7} sm={7} md={11} lg={11} xl={11}>
+                    <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
                       <Typography variant='h5' className={classes.text}>
                         Acoustic Guitars
                       </Typography>
@@ -98,7 +111,12 @@ function BrowseModal({ modalOpen, handleClose }) {
                 </ButtonBase>
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <ButtonBase className={classes.button}>
+                <ButtonBase
+                  className={classes.button}
+                  component={Link}
+                  to='/browse/electric-guitars'
+                  onClick={handleClose}
+                >
                   {/* Grid for image and text in button */}
                   <Grid
                     container
@@ -107,14 +125,14 @@ function BrowseModal({ modalOpen, handleClose }) {
                     alignItems='center'
                     spacing={1}
                   >
-                    <Grid item xs={5} sm={5} md={1} lg={1} xl={1}>
+                    <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
                       <img
                         style={{ objectFit: 'cover' }}
                         src={electricGuitar}
                         alt='Electric Guitar Design'
                       />
                     </Grid>
-                    <Grid item xs={7} sm={7} md={11} lg={11} xl={11}>
+                    <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
                       <Typography variant='h5' className={classes.text}>
                         Electric Guitars
                       </Typography>
@@ -123,7 +141,12 @@ function BrowseModal({ modalOpen, handleClose }) {
                 </ButtonBase>
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <ButtonBase className={classes.button}>
+                <ButtonBase
+                  className={classes.button}
+                  component={Link}
+                  to='/browse/acoustic-amps'
+                  onClick={handleClose}
+                >
                   {/* Grid for image and text in button */}
                   <Grid
                     container
@@ -132,14 +155,14 @@ function BrowseModal({ modalOpen, handleClose }) {
                     alignItems='center'
                     spacing={1}
                   >
-                    <Grid item xs={5} sm={5} md={1} lg={1} xl={1}>
+                    <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
                       <img
                         style={{ objectFit: 'cover' }}
                         src={acousticAmp}
                         alt='Acoustic Amp Design'
                       />
                     </Grid>
-                    <Grid item xs={7} sm={7} md={11} lg={11} xl={11}>
+                    <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
                       <Typography variant='h5' className={classes.text}>
                         Acoustic Amps
                       </Typography>
@@ -148,7 +171,12 @@ function BrowseModal({ modalOpen, handleClose }) {
                 </ButtonBase>
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <ButtonBase className={classes.button}>
+                <ButtonBase
+                  className={classes.button}
+                  component={Link}
+                  to='/browse/electric-amps'
+                  onClick={handleClose}
+                >
                   {/* Grid for image and text in button */}
                   <Grid
                     container
@@ -157,14 +185,14 @@ function BrowseModal({ modalOpen, handleClose }) {
                     alignItems='center'
                     spacing={1}
                   >
-                    <Grid item xs={5} sm={5} md={1} lg={1} xl={1}>
+                    <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
                       <img
                         style={{ objectFit: 'cover' }}
                         src={electricAmp}
                         alt='Electric Amp Design'
                       />
                     </Grid>
-                    <Grid item xs={7} sm={7} md={11} lg={11} xl={11}>
+                    <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
                       <Typography variant='h5' className={classes.text}>
                         Electric Amps
                       </Typography>
@@ -180,8 +208,21 @@ function BrowseModal({ modalOpen, handleClose }) {
               alignItems='center'
               spacing={1}
             >
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <ButtonBase className={classes.button}>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                xl={6}
+                style={{ marginTop: '1rem' }}
+              >
+                <ButtonBase
+                  className={classes.button}
+                  component={Link}
+                  to='/browse/effect-pedals'
+                  onClick={handleClose}
+                >
                   {/* Grid for image and text in button */}
                   <Grid
                     container
@@ -190,14 +231,14 @@ function BrowseModal({ modalOpen, handleClose }) {
                     alignItems='center'
                     spacing={1}
                   >
-                    <Grid item xs={5} sm={5} md={6} lg={6} xl={6}>
+                    <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
                       <img
                         style={{ objectFit: 'cover' }}
                         src={effectPedal}
                         alt='Effect Pedal Design'
                       />
                     </Grid>
-                    <Grid item xs={7} sm={7} md={6} lg={6} xl={6}>
+                    <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
                       <Typography variant='h5' className={classes.text}>
                         Effect Pedals
                       </Typography>

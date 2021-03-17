@@ -1,5 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Button, Container, Box } from '@material-ui/core'
+import {
+  Grid,
+  Typography,
+  Button,
+  Container,
+  Box,
+  Grow,
+} from '@material-ui/core'
 import guitarHome from '../guitarDesign.svg'
 import BrowseModal from './Browse/BrowseModal/BrowseModal'
 
@@ -30,34 +37,42 @@ function Home({ modalOpen, handleClose, handleOpen }) {
   return (
     <Container justify='center'>
       <Grid container direction='row' spacing={1} className={classes.root}>
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-          <Typography variant='h6' className={classes.subText}>
-            Search, Compare, Own!
-          </Typography>
-          <Typography variant='h2'>
-            Find Your Guitar Gear Quick And Easy.
-          </Typography>
-          <Button
-            variant='contained'
-            size='large'
-            color='primary'
-            disableElevation
-            onClick={handleOpen}
-          >
-            Begin Browsing
-          </Button>
-          <BrowseModal modalOpen={modalOpen} handleClose={handleClose} />
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={6} align='center'>
-          <Box boxShadow={3} className={classes.box}>
-            <img
-              style={{ objectFit: 'cover' }}
-              src={guitarHome}
-              alt='Gutiar Browser Design'
-              className={classes.image}
-            />
-          </Box>
-        </Grid>
+        <Grow in={true}>
+          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+            <Typography variant='h6' className={classes.subText}>
+              Search, Compare, Own!
+            </Typography>
+            <Typography variant='h2'>
+              Find Your Guitar Gear Quick And Easy.
+            </Typography>
+            <Button
+              variant='contained'
+              size='large'
+              color='primary'
+              disableElevation
+              onClick={handleOpen}
+            >
+              Begin Browsing
+            </Button>
+            <BrowseModal modalOpen={modalOpen} handleClose={handleClose} />
+          </Grid>
+        </Grow>
+        <Grow
+          in={true}
+          style={{ transformOrigin: '0 0 0' }}
+          {...(true ? { timeout: 1000 } : {})}
+        >
+          <Grid item xs={12} sm={12} md={6} lg={6} xl={6} align='center'>
+            <Box boxShadow={3} className={classes.box}>
+              <img
+                style={{ objectFit: 'cover' }}
+                src={guitarHome}
+                alt='Gutiar Browser Design'
+                className={classes.image}
+              />
+            </Box>
+          </Grid>
+        </Grow>
       </Grid>
     </Container>
   )
