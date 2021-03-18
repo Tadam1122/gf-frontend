@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
   },
   box: {
     borderRadius: '3%',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '1.5rem',
+    },
   },
 }))
 
@@ -51,16 +54,19 @@ function Home({ modalOpen, handleClose, handleOpen }) {
               color='primary'
               disableElevation
               onClick={handleOpen}
+              style={{ marginTop: '2rem' }}
             >
               Begin Browsing
             </Button>
             <BrowseModal modalOpen={modalOpen} handleClose={handleClose} />
           </Grid>
         </Grow>
+
+        {/* let first grid load before this one */}
         <Grow
           in={true}
           style={{ transformOrigin: '0 0 0' }}
-          {...(true ? { timeout: 1000 } : {})}
+          {...{ timeout: 1000 }}
         >
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6} align='center'>
             <Box boxShadow={3} className={classes.box}>
@@ -69,6 +75,7 @@ function Home({ modalOpen, handleClose, handleOpen }) {
                 src={guitarHome}
                 alt='Gutiar Browser Design'
                 className={classes.image}
+                draggable={false}
               />
             </Box>
           </Grid>

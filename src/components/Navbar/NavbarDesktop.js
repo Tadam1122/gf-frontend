@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 function NavbarDesktop({ modalOpen, handleClose, handleOpen }) {
   const classes = useStyles()
-  const loggedOn = true //TODO: set this as state when authentication on frontend implemented
+  const loggedOn = false //TODO: set this as state when authentication on frontend implemented
 
   return (
     <div className={classes.root}>

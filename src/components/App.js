@@ -9,10 +9,20 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#3F98D8',
+      light: '#d3dedf',
     },
   },
   typography: {
     fontFamily: 'roboto, sans-serif',
+  },
+  overrides: {
+    MuiTableRow: {
+      hover: {
+        '&:hover': {
+          backgroundColor: '#f9f9f9 !important',
+        },
+      },
+    },
   },
 })
 

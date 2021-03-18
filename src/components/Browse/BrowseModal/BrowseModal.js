@@ -79,7 +79,13 @@ function BrowseModal({ modalOpen, handleClose }) {
               <ClearIcon fontSize='large' />
             </IconButton>
             {/* Grid container for buttones */}
-            <Grid container direction='row' spacing={3}>
+            <Grid
+              container
+              direction='row'
+              justify='center'
+              align='center'
+              spacing={3}
+            >
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <ButtonBase
                   component={Link}
@@ -91,7 +97,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                   <Grid
                     container
                     direction='row'
-                    justify='flex-start'
+                    justify='center'
                     alignItems='center'
                     spacing={1}
                   >
@@ -100,6 +106,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                         style={{ objectFit: 'cover' }}
                         src={acousticGuitar}
                         alt='Acoustic Guitar Design'
+                        draggable={false}
                       />
                     </Grid>
                     <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
@@ -121,7 +128,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                   <Grid
                     container
                     direction='row'
-                    justify='flex-start'
+                    justify='center'
                     alignItems='center'
                     spacing={1}
                   >
@@ -130,6 +137,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                         style={{ objectFit: 'cover' }}
                         src={electricGuitar}
                         alt='Electric Guitar Design'
+                        draggable={false}
                       />
                     </Grid>
                     <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
@@ -151,7 +159,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                   <Grid
                     container
                     direction='row'
-                    justify='flex-start'
+                    justify='center'
                     alignItems='center'
                     spacing={1}
                   >
@@ -160,6 +168,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                         style={{ objectFit: 'cover' }}
                         src={acousticAmp}
                         alt='Acoustic Amp Design'
+                        draggable={false}
                       />
                     </Grid>
                     <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
@@ -181,7 +190,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                   <Grid
                     container
                     direction='row'
-                    justify='flex-start'
+                    justify='center'
                     alignItems='center'
                     spacing={1}
                   >
@@ -190,6 +199,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                         style={{ objectFit: 'cover' }}
                         src={electricAmp}
                         alt='Electric Amp Design'
+                        draggable={false}
                       />
                     </Grid>
                     <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
@@ -227,7 +237,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                   <Grid
                     container
                     direction='row'
-                    justify='flex-start'
+                    justify='center'
                     alignItems='center'
                     spacing={1}
                   >
@@ -236,6 +246,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                         style={{ objectFit: 'cover' }}
                         src={effectPedal}
                         alt='Effect Pedal Design'
+                        draggable={false}
                       />
                     </Grid>
                     <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
