@@ -20,9 +20,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function NavbarDesktop({ modalOpen, handleClose, handleOpen }) {
+function NavbarDesktop({
+  modalOpen,
+  handleClose,
+  handleOpen,
+  handleSearchChange,
+  isLoggedIn,
+}) {
   const classes = useStyles()
-  const loggedOn = false //TODO: set this as state when authentication on frontend implemented
+  const loggedOn = isLoggedIn //TODO: set this as state when authentication on frontend implemented
 
   return (
     <div className={classes.root}>
@@ -44,9 +50,9 @@ function NavbarDesktop({ modalOpen, handleClose, handleOpen }) {
           </MenuItem>
           <BrowseModal modalOpen={modalOpen} handleClose={handleClose} />
           {/* <MenuLink name='Browse Gear' address='/browse' /> */}
-          <Searchbar />
+          <Searchbar handleSearchChange={handleSearchChange} />
           <div className={classes.padding} />
-          {!loggedOn ? (
+          {!isLoggedIn ? (
             <>
               <MenuLink name='Login' address='/login' />
               <MenuLink name='Register' address='/register' />

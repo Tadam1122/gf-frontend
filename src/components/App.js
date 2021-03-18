@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import Home from './Home'
@@ -28,13 +28,25 @@ const theme = createMuiTheme({
 
 //TODO: check if device is certain width to load desktop nav
 function App(props) {
+  //state for modal
   const [modalOpen, toggleModal] = useState(false)
+  const [searchText, changeSearchText] = useState('')
+  const [isLoggedIn, setLogin] = useState(false)
 
-  function handleOpen() {
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    token != null ? setLogin(true) : setLogin(false)
+  }, [])
+
+  function handleModalOpen() {
     toggleModal(true)
   }
-  function handleClose() {
+  function handleModalClose() {
     toggleModal(false)
+  }
+
+  function handleSearchChange(text) {
+    changeSearchText(text)
   }
 
   return (
@@ -42,8 +54,10 @@ function App(props) {
       <Router>
         <NavbarDesktop
           modalOpen={modalOpen}
-          handleClose={handleClose}
-          handleOpen={handleOpen}
+          handleClose={handleModalClose}
+          handleOpen={handleModalOpen}
+          handleSearchChange={handleSearchChange}
+          isLoggedIn={isLoggedIn}
         />
         {/* <NavbarMobile /> */}
         {/* <Home /> */}
@@ -54,8 +68,8 @@ function App(props) {
             render={(_) => (
               <Home
                 modalOpen={modalOpen}
-                handleClose={handleClose}
-                handleOpen={handleOpen}
+                handleClose={handleModalClose}
+                handleOpen={handleModalOpen}
               />
             )}
           />

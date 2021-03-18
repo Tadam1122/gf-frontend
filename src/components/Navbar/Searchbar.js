@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Searchbar() {
+function Searchbar({ handleSearchChange }) {
   const classes = useStyles()
   return (
     <div className={classes.search}>
@@ -56,6 +56,7 @@ function Searchbar() {
           input: classes.inputInput,
         }}
         inputProps={{ 'aria-label': 'search' }}
+        onChange={(e) => handleSearchChange(e.target.value)}
       />
     </div>
   )
