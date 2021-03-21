@@ -4,6 +4,8 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import Home from './Home'
 import Browse from './Browse/Browse'
 import NavbarDesktop from './Navbar/NavbarDesktop'
+import Login from './Login/Login'
+import Register from './Register/Register'
 
 const theme = createMuiTheme({
   palette: {
@@ -40,25 +42,43 @@ const theme = createMuiTheme({
 function App(props) {
   //state for modal
   const [modalOpen, toggleModal] = useState(false)
+
+  //searchbar component state
   const [searchText, changeSearchText] = useState('')
+
+  //login state
   const [isLoggedIn, setLogin] = useState(false)
 
+  //check local storage for login token
   useEffect(() => {
     const token = localStorage.getItem('token')
     token != null ? setLogin(true) : setLogin(false)
   }, [])
 
+  //modal opened
   function handleModalOpen() {
     toggleModal(true)
   }
+
+  //modal closed
   function handleModalClose() {
     toggleModal(false)
   }
 
+  //search text changed
   function handleSearchChange(text) {
     changeSearchText(text)
   }
 
+  //login user
+  function handleLogin() {
+    setLogin(!isLoggedIn)
+  }
+
+  //register user
+  function handleRegister() {}
+
+  //TODO: implement mobile navbar if time permits
   return (
     <MuiThemeProvider theme={theme}>
       <Router>
@@ -70,7 +90,6 @@ function App(props) {
           isLoggedIn={isLoggedIn}
         />
         {/* <NavbarMobile /> */}
-        {/* <Home /> */}
         <Switch>
           <Route
             path='/'
@@ -84,6 +103,14 @@ function App(props) {
             )}
           />
           <Route path='/browse' component={Browse} />
+          <Route
+            path='/login'
+            render={(_) => <Login handleLogin={handleLogin} />}
+          />
+          <Route
+            path='/register'
+            render={(_) => <Register handleRegister={handleRegister} />}
+          />
         </Switch>
       </Router>
     </MuiThemeProvider>

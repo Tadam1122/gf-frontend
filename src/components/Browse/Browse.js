@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// TODO: add filter functionality
 function Browse() {
   const classes = useStyles()
   const location = useLocation()
