@@ -23,6 +23,16 @@ const theme = createMuiTheme({
         },
       },
     },
+    MuiFormControlLabel: {
+      root: {
+        userSelect: 'none',
+      },
+    },
+    MuiButtonBase: {
+      root: {
+        userSelect: 'none',
+      },
+    },
   },
 })
 

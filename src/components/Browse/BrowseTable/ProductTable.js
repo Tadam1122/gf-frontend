@@ -44,22 +44,26 @@ function sortData(data, order, prop) {
 const useStyles = makeStyles((theme) => ({
   table: {
     background: 'white',
+    flexGrow: 1,
+    height: '100%',
   },
   toolbar: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
   },
-  title: {
-    flex: '1 1 100%',
-  },
 }))
 
-function ProductTable({ products, category }) {
+function ProductTable({
+  products,
+  category,
+  rowsPerPage,
+  page,
+  handleChangeRowsPerPage,
+  handleChangePage,
+}) {
   const classes = useStyles()
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
 
   function handleSort(_, property) {
     const isAsc = orderBy === property && order === 'asc'
@@ -67,57 +71,46 @@ function ProductTable({ products, category }) {
     setOrderBy(property)
   }
 
-  function handleChangePage(_, newPage) {
-    setPage(newPage)
-  }
-
-  function handleChangeRowsPerPage(event) {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }
-
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, products.length - page * rowsPerPage)
 
   return (
-    <div className={classes.table}>
-      <Toolbar>
-        <Typography component='div' variant='h6' className={classes.title}>
+    <TableContainer className={classes.table}>
+      <Toolbar className={classes.toolbar}>
+        <Typography component='div' variant='h6'>
           {category}
         </Typography>
       </Toolbar>
-      <TableContainer>
-        <Table color='white'>
-          <ProductTableHead
-            category={category}
-            order={order}
-            orderBy={orderBy}
-            handleSort={handleSort}
-          />
-          <TableBody>
-            {sortData(products, order, orderBy)
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((product) => {
-                return <ProductRow product={product} key={product._id} />
-              })}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 50 * emptyRows }}>
-                <TableCell colSpan={7} />
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component='div'
-          rowsPerPageOptions={[5, 15, 30, , 45]}
-          count={products.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        ></TablePagination>
-      </TableContainer>
-    </div>
+      <Table>
+        <ProductTableHead
+          category={category}
+          order={order}
+          orderBy={orderBy}
+          handleSort={handleSort}
+        />
+        <TableBody>
+          {sortData(products, order, orderBy)
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((product) => {
+              return <ProductRow product={product} key={product._id} />
+            })}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 50 * emptyRows }}>
+              <TableCell colSpan={10} />
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <TablePagination
+        component='div'
+        rowsPerPageOptions={[5, 10, 20, 35, 50]}
+        count={products.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      ></TablePagination>
+    </TableContainer>
   )
 }
 

@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '95%',
   },
 }))
-//TODO: create links for browsing categories
+
 function BrowseModal({ modalOpen, handleClose }) {
   const classes = useStyles()
   return (

@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  title: {
+    color: '#3F98D8',
+  },
   toolbar: {
     background: 'black',
   },
@@ -37,7 +40,7 @@ function NavbarDesktop({
           <MenuLink
             name={
               <span>
-                Guitar<span style={{ color: '#3F98D8' }}>Finder</span>
+                Guitar<span className={classes.title}>Finder</span>
               </span>
             }
             address='/'
