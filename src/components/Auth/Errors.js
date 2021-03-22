@@ -6,7 +6,7 @@ function Errors({ errors }) {
       <Grid item>
         {errors.map((error) => (
           <Typography variant='body2' color='secondary' key={error.message}>
-            {error.message}.
+            {error.message}
           </Typography>
         ))}
       </Grid>

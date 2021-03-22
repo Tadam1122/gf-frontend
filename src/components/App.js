@@ -87,11 +87,10 @@ function App(props) {
     setErrors([])
     const user = { username: username, password: password }
     const login = await loginUser(user)
-    console.log(login)
     //check for error message
     if (login) {
       let newErrors = []
-      for (let error of login.data.message.split('.')) {
+      for (let error of login.data.message.split('/')) {
         if (error.length > 1) newErrors.push({ message: `${error}` })
       }
       setErrors(newErrors)
@@ -115,10 +114,9 @@ function App(props) {
     const user = { username: username, password: password, email: email }
 
     const register = await registerUser(user)
-    console.log(register)
     if (register.status < 200 || register.status > 300) {
       let newErrors = []
-      for (let error of register.data.message.split('.')) {
+      for (let error of register.data.message.split('/')) {
         if (error.length > 1) newErrors.push({ message: `${error}` })
       }
 
