@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+
 import {
   TextField,
   Typography,
@@ -7,6 +10,7 @@ import {
   Grow,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import Errors from './Errors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,8 +26,23 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 //TODO: implement login functionalities
-function Login({ handleLogin }) {
+function Login({ handleLogin, errors }) {
   const classes = useStyles()
+  const history = useHistory()
+  const [username, changeUsername] = useState(' ')
+  const [password, changePassword] = useState(' ')
+
+  const usernameError = username.length > 0 ? false : true
+  const passwordError = password.length > 0 ? false : true
+
+  function handleUsernameChange(event) {
+    changeUsername(event.target.value)
+  }
+
+  function handlePasswordChange(event) {
+    changePassword(event.target.value)
+  }
+
   return (
     <Container maxWidth='sm'>
       <Grow in={true}>
@@ -35,15 +54,17 @@ function Login({ handleLogin }) {
           spacing={3}
           className={classes.root}
         >
-          <Grid>
+          <Grid item>
             <Typography variant='h3'>Login</Typography>
           </Grid>
+          <Errors errors={errors} />
           <Grid item>
             <TextField
               id='username'
               label='Username'
               fullWidth
               className={classes.TextField}
+              onChange={handleUsernameChange}
             />
           </Grid>
           <Grid item>
@@ -52,6 +73,7 @@ function Login({ handleLogin }) {
               label='Password'
               type='password'
               className={classes.TextField}
+              onChange={handlePasswordChange}
               fullWidth
             />
           </Grid>
@@ -62,6 +84,8 @@ function Login({ handleLogin }) {
               size='large'
               disableElevation
               fullWidth
+              disabled={usernameError || passwordError}
+              onClick={() => handleLogin(username, password, history)}
             >
               Login
             </Button>

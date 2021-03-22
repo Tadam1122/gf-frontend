@@ -1,8 +1,10 @@
+import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Toolbar, AppBar, MenuItem } from '@material-ui/core'
 import MenuLink from './MenuLink'
 import Searchbar from './Searchbar'
 import BrowseModal from '../Browse/BrowseModal/BrowseModal'
+import { capitalize } from '../../utilities/stringUtils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,9 +31,10 @@ function NavbarDesktop({
   handleOpen,
   handleSearchChange,
   isLoggedIn,
+  username,
+  handleLogout,
 }) {
   const classes = useStyles()
-  const loggedOn = isLoggedIn //TODO: set this as state when authentication on frontend implemented
 
   return (
     <div className={classes.root}>
@@ -63,8 +66,15 @@ function NavbarDesktop({
           ) : (
             <>
               {/* TODO: make username dynamic */}
-              <MenuLink name='Username' address='/profile' />
-              <MenuLink name='Logout' address='/' />
+              <MenuLink name={capitalize(username)} address='/profile' />
+              <MenuItem
+                component={Link}
+                to='/'
+                className={classes.link}
+                onClick={handleLogout}
+              >
+                Logout
+              </MenuItem>
             </>
           )}
         </Toolbar>

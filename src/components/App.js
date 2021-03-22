@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import Home from './Home'
 import Browse from './Browse/Browse'
 import NavbarDesktop from './Navbar/NavbarDesktop'
-import Login from './Login/Login'
-import Register from './Register/Register'
+import Login from './Auth/Login'
+import Register from './Auth/Register'
+import {
+  loginUser,
+  registerUser,
+  checkLogin,
+  getUsername,
+} from '../services/authServices'
 
 const theme = createMuiTheme({
   palette: {
@@ -48,11 +54,17 @@ function App(props) {
 
   //login state
   const [isLoggedIn, setLogin] = useState(false)
+  const [username, setUsername] = useState('')
+
+  //error state for registration and login
+  const [errors, setErrors] = useState([])
 
   //check local storage for login token
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    token != null ? setLogin(true) : setLogin(false)
+    if (checkLogin()) {
+      setLogin(checkLogin())
+      setUsername(getUsername())
+    }
   }, [])
 
   //modal opened
@@ -71,25 +83,65 @@ function App(props) {
   }
 
   //login user
-  function handleLogin() {
-    setLogin(!isLoggedIn)
+  async function handleLogin(username, password, history) {
+    setErrors([])
+    const user = { username: username, password: password }
+    const login = await loginUser(user)
+    console.log(login)
+    //check for error message
+    if (login) {
+      let newErrors = []
+      for (let error of login.data.message.split('.')) {
+        if (error.length > 1) newErrors.push({ message: `${error}` })
+      }
+      setErrors(newErrors)
+    } else {
+      setLogin(true)
+      setUsername(username)
+      history.push('/')
+    }
+  }
+
+  //logout user
+  function handleLogout() {
+    localStorage.clear()
+    setLogin(false)
+    setUsername('')
   }
 
   //register user
-  function handleRegister() {}
+  async function handleRegister(username, password, email, history) {
+    setErrors([])
+    const user = { username: username, password: password, email: email }
+
+    const register = await registerUser(user)
+    console.log(register)
+    if (register.status < 200 || register.status > 300) {
+      let newErrors = []
+      for (let error of register.data.message.split('.')) {
+        if (error.length > 1) newErrors.push({ message: `${error}` })
+      }
+
+      setErrors(newErrors)
+    } else {
+      await handleLogin(username, password, history)
+    }
+  }
 
   //TODO: implement mobile navbar if time permits
   return (
     <MuiThemeProvider theme={theme}>
-      <Router>
+      <BrowserRouter>
+        {/* <NavbarMobile /> */}
         <NavbarDesktop
           modalOpen={modalOpen}
           handleClose={handleModalClose}
           handleOpen={handleModalOpen}
           handleSearchChange={handleSearchChange}
           isLoggedIn={isLoggedIn}
+          username={username}
+          handleLogout={handleLogout}
         />
-        {/* <NavbarMobile /> */}
         <Switch>
           <Route
             path='/'
@@ -105,14 +157,16 @@ function App(props) {
           <Route path='/browse' component={Browse} />
           <Route
             path='/login'
-            render={(_) => <Login handleLogin={handleLogin} />}
+            render={(_) => <Login handleLogin={handleLogin} errors={errors} />}
           />
           <Route
             path='/register'
-            render={(_) => <Register handleRegister={handleRegister} />}
+            render={(_) => (
+              <Register handleRegister={handleRegister} errors={errors} />
+            )}
           />
         </Switch>
-      </Router>
+      </BrowserRouter>
     </MuiThemeProvider>
   )
 }
