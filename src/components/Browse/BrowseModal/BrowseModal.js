@@ -215,8 +215,9 @@ function BrowseModal({ modalOpen, handleClose }) {
               container
               direction='row'
               justify='center'
-              alignItems='center'
+              align='center'
               spacing={1}
+              classs={classes.breakpoint}
             >
               <Grid
                 item
