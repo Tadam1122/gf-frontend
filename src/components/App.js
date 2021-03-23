@@ -54,6 +54,7 @@ function App(props) {
 
   //login state
   const [isLoggedIn, setLogin] = useState(false)
+  // eslint-disable-next-line
   const [username, setUsername] = useState('')
 
   //error state for registration and login

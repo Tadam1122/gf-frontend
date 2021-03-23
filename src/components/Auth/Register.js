@@ -1,5 +1,6 @@
 import { useState } from 'react'
-// import { useHistory } from 'react-router-dom'
+// eslint-disable-next-line
+import { useHistory } from 'react-router-dom'
 import {
   TextField,
   Typography,
@@ -27,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
 //TODO: implement register functionalities
 function Register({ handleRegister, errors }) {
   const classes = useStyles()
-  // const history = useHistory()
+  // eslint-disable-next-line
+  const history = useHistory()
   const [username, changeUsername] = useState('')
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
@@ -118,7 +120,8 @@ function Register({ handleRegister, errors }) {
               disableElevation
               fullWidth
               disabled={repeatPasswordError || emailError}
-              // onClick={() => handleRegister(username, password, email, history)}
+              // eslint-disable-next-line
+              onClick={() => handleRegister(username, password, email, history)}
             >
               Login
             </Button>
