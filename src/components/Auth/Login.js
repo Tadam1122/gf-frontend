@@ -85,7 +85,7 @@ function Login({ handleLogin, errors }) {
               disableElevation
               fullWidth
               disabled={usernameError || passwordError}
-              onClick={() => handleLogin(username, password, history)}
+              // onClick={() => handleLogin(username, password, history)}
             >
               Login
             </Button>

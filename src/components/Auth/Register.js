@@ -118,7 +118,7 @@ function Register({ handleRegister, errors }) {
               disableElevation
               fullWidth
               disabled={repeatPasswordError || emailError}
-              onClick={() => handleRegister(username, password, email, history)}
+              // onClick={() => handleRegister(username, password, email, history)}
             >
               Login
             </Button>
