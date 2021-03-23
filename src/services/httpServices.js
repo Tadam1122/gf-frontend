@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+//TODO: swap baseURL to env var in production
 export function http() {
   return axios.create({
     baseURL: 'http://localhost:8000/api/',
