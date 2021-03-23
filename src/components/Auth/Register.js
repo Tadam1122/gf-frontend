@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 import {
   TextField,
   Typography,
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 //TODO: implement register functionalities
 function Register({ handleRegister, errors }) {
   const classes = useStyles()
-  const history = useHistory()
+  // const history = useHistory()
   const [username, changeUsername] = useState('')
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
