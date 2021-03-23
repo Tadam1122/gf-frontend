@@ -8,6 +8,7 @@ import {
   Typography,
   ButtonBase,
   IconButton,
+  Grow,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ClearIcon from '@material-ui/icons/Clear'
@@ -69,197 +70,199 @@ function BrowseModal({ modalOpen, handleClose }) {
     >
       <Fade in={modalOpen}>
         <div className={classes.container}>
-          <Container justify='center'>
-            <IconButton
-              color='primary'
-              aria-label='exit'
-              className={classes.exitBtn}
-              onClick={handleClose}
-            >
-              <ClearIcon fontSize='large' />
-            </IconButton>
-            {/* Grid container for buttones */}
-            <Grid
-              container
-              direction='row'
-              justify='center'
-              align='center'
-              spacing={3}
-            >
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <ButtonBase
-                  component={Link}
-                  to='/browse/acoustic-guitars'
-                  onClick={handleClose}
-                  className={classes.button}
-                >
-                  {/* Grid for image and text in button */}
-                  <Grid
-                    container
-                    direction='row'
-                    justify='center'
-                    alignItems='center'
-                    spacing={1}
-                  >
-                    <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
-                      <img
-                        style={{ objectFit: 'cover' }}
-                        src={acousticGuitar}
-                        alt='Acoustic Guitar Design'
-                        draggable={false}
-                      />
-                    </Grid>
-                    <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
-                      <Typography variant='h5' className={classes.text}>
-                        Acoustic Guitars
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </ButtonBase>
-              </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <ButtonBase
-                  className={classes.button}
-                  component={Link}
-                  to='/browse/electric-guitars'
-                  onClick={handleClose}
-                >
-                  {/* Grid for image and text in button */}
-                  <Grid
-                    container
-                    direction='row'
-                    justify='center'
-                    alignItems='center'
-                    spacing={1}
-                  >
-                    <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
-                      <img
-                        style={{ objectFit: 'cover' }}
-                        src={electricGuitar}
-                        alt='Electric Guitar Design'
-                        draggable={false}
-                      />
-                    </Grid>
-                    <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
-                      <Typography variant='h5' className={classes.text}>
-                        Electric Guitars
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </ButtonBase>
-              </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <ButtonBase
-                  className={classes.button}
-                  component={Link}
-                  to='/browse/acoustic-amps'
-                  onClick={handleClose}
-                >
-                  {/* Grid for image and text in button */}
-                  <Grid
-                    container
-                    direction='row'
-                    justify='center'
-                    alignItems='center'
-                    spacing={1}
-                  >
-                    <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
-                      <img
-                        style={{ objectFit: 'cover' }}
-                        src={acousticAmp}
-                        alt='Acoustic Amp Design'
-                        draggable={false}
-                      />
-                    </Grid>
-                    <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
-                      <Typography variant='h5' className={classes.text}>
-                        Acoustic Amps
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </ButtonBase>
-              </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <ButtonBase
-                  className={classes.button}
-                  component={Link}
-                  to='/browse/electric-amps'
-                  onClick={handleClose}
-                >
-                  {/* Grid for image and text in button */}
-                  <Grid
-                    container
-                    direction='row'
-                    justify='center'
-                    alignItems='center'
-                    spacing={1}
-                  >
-                    <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
-                      <img
-                        style={{ objectFit: 'cover' }}
-                        src={electricAmp}
-                        alt='Electric Amp Design'
-                        draggable={false}
-                      />
-                    </Grid>
-                    <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
-                      <Typography variant='h5' className={classes.text}>
-                        Electric Amps
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </ButtonBase>
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              direction='row'
-              justify='center'
-              align='center'
-              spacing={1}
-              classs={classes.breakpoint}
-            >
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={6}
-                lg={6}
-                xl={6}
-                style={{ marginTop: '1rem' }}
+          <Grow in={true}>
+            <Container justify='center'>
+              <IconButton
+                color='primary'
+                aria-label='exit'
+                className={classes.exitBtn}
+                onClick={handleClose}
               >
-                <ButtonBase
-                  className={classes.button}
-                  component={Link}
-                  to='/browse/effect-pedals'
-                  onClick={handleClose}
-                >
-                  {/* Grid for image and text in button */}
-                  <Grid
-                    container
-                    direction='row'
-                    justify='center'
-                    alignItems='center'
-                    spacing={1}
+                <ClearIcon fontSize='large' />
+              </IconButton>
+              {/* Grid container for buttones */}
+              <Grid
+                container
+                direction='row'
+                justify='center'
+                align='center'
+                spacing={3}
+              >
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <ButtonBase
+                    component={Link}
+                    to='/browse/acoustic-guitars'
+                    onClick={handleClose}
+                    className={classes.button}
                   >
-                    <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
-                      <img
-                        style={{ objectFit: 'cover' }}
-                        src={effectPedal}
-                        alt='Effect Pedal Design'
-                        draggable={false}
-                      />
+                    {/* Grid for image and text in button */}
+                    <Grid
+                      container
+                      direction='row'
+                      justify='center'
+                      alignItems='center'
+                      spacing={1}
+                    >
+                      <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
+                        <img
+                          style={{ objectFit: 'cover' }}
+                          src={acousticGuitar}
+                          alt='Acoustic Guitar Design'
+                          draggable={false}
+                        />
+                      </Grid>
+                      <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
+                        <Typography variant='h5' className={classes.text}>
+                          Acoustic Guitars
+                        </Typography>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
-                      <Typography variant='h5' className={classes.text}>
-                        Effect Pedals
-                      </Typography>
+                  </ButtonBase>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <ButtonBase
+                    className={classes.button}
+                    component={Link}
+                    to='/browse/electric-guitars'
+                    onClick={handleClose}
+                  >
+                    {/* Grid for image and text in button */}
+                    <Grid
+                      container
+                      direction='row'
+                      justify='center'
+                      alignItems='center'
+                      spacing={1}
+                    >
+                      <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
+                        <img
+                          style={{ objectFit: 'cover' }}
+                          src={electricGuitar}
+                          alt='Electric Guitar Design'
+                          draggable={false}
+                        />
+                      </Grid>
+                      <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
+                        <Typography variant='h5' className={classes.text}>
+                          Electric Guitars
+                        </Typography>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </ButtonBase>
+                  </ButtonBase>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <ButtonBase
+                    className={classes.button}
+                    component={Link}
+                    to='/browse/acoustic-amps'
+                    onClick={handleClose}
+                  >
+                    {/* Grid for image and text in button */}
+                    <Grid
+                      container
+                      direction='row'
+                      justify='center'
+                      alignItems='center'
+                      spacing={1}
+                    >
+                      <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
+                        <img
+                          style={{ objectFit: 'cover' }}
+                          src={acousticAmp}
+                          alt='Acoustic Amp Design'
+                          draggable={false}
+                        />
+                      </Grid>
+                      <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
+                        <Typography variant='h5' className={classes.text}>
+                          Acoustic Amps
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </ButtonBase>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <ButtonBase
+                    className={classes.button}
+                    component={Link}
+                    to='/browse/electric-amps'
+                    onClick={handleClose}
+                  >
+                    {/* Grid for image and text in button */}
+                    <Grid
+                      container
+                      direction='row'
+                      justify='center'
+                      alignItems='center'
+                      spacing={1}
+                    >
+                      <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
+                        <img
+                          style={{ objectFit: 'cover' }}
+                          src={electricAmp}
+                          alt='Electric Amp Design'
+                          draggable={false}
+                        />
+                      </Grid>
+                      <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
+                        <Typography variant='h5' className={classes.text}>
+                          Electric Amps
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </ButtonBase>
+                </Grid>
               </Grid>
-            </Grid>
-          </Container>
+              <Grid
+                container
+                direction='row'
+                justify='center'
+                align='center'
+                spacing={1}
+                classs={classes.breakpoint}
+              >
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  lg={6}
+                  xl={6}
+                  style={{ marginTop: '1rem' }}
+                >
+                  <ButtonBase
+                    className={classes.button}
+                    component={Link}
+                    to='/browse/effect-pedals'
+                    onClick={handleClose}
+                  >
+                    {/* Grid for image and text in button */}
+                    <Grid
+                      container
+                      direction='row'
+                      justify='center'
+                      alignItems='center'
+                      spacing={1}
+                    >
+                      <Grid item xs={5} sm={5} md={2} lg={2} xl={2}>
+                        <img
+                          style={{ objectFit: 'cover' }}
+                          src={effectPedal}
+                          alt='Effect Pedal Design'
+                          draggable={false}
+                        />
+                      </Grid>
+                      <Grid item xs={7} sm={7} md={10} lg={10} xl={10}>
+                        <Typography variant='h5' className={classes.text}>
+                          Effect Pedals
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Container>
+          </Grow>
         </div>
       </Fade>
     </Modal>
