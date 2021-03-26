@@ -81,7 +81,7 @@ function App(props) {
   //search text changed
   function handleSearchChange(text) {
     changeSearchText(text)
-    console.log(searchText)
+    // console.log(searchText)
   }
 
   //login user

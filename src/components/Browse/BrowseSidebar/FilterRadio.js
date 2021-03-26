@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Typography,
   TableRow,
@@ -9,6 +9,7 @@ import {
   FormControlLabel,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { capitalize } from '../../../utilities/stringUtils'
 
 const useStyles = makeStyles((theme) => ({
   font: {
@@ -16,15 +17,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function FilterRadio({ value, filterName, handleRadioSelect }) {
+function FilterRadio({ value, activeRadio, filterName, handleRadioSelect }) {
   const classes = useStyles()
   const [radioVal, setRadioVal] = useState('')
 
-  function handleClick(event) {
-    if (event.target.value === radioVal) {
+  //deselect radio values removed from active radio
+  useEffect(() => {
+    function updateRadio() {
+      const found = activeRadio.filter(
+        (radio) =>
+          capitalize(radio.name.replace(/([A-Z])/g, ' $1')) === filterName
+      )
+      if (found.length === 0) {
+        setRadioVal('')
+      }
+    }
+    updateRadio()
+  }, [activeRadio, filterName])
+
+  function handleClick(eventVal) {
+    if (eventVal === radioVal) {
       setRadioVal('')
     } else {
-      setRadioVal(event.target.value)
+      setRadioVal(eventVal)
     }
   }
 
@@ -40,7 +55,7 @@ function FilterRadio({ value, filterName, handleRadioSelect }) {
                   <Radio
                     color='primary'
                     onClick={(event) => {
-                      handleClick(event)
+                      handleClick(event.target.value)
                       handleRadioSelect(event.target.value, filterName)
                     }}
                   />
@@ -65,7 +80,7 @@ function FilterRadio({ value, filterName, handleRadioSelect }) {
                   <Radio
                     color='primary'
                     onClick={(event) => {
-                      handleClick(event)
+                      handleClick(event.target.value)
                       handleRadioSelect(event.target.value, filterName)
                     }}
                   />

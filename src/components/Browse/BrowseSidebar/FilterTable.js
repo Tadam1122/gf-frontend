@@ -28,7 +28,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function FilterTable({ prodFilter, handleActiveChecked, handleRadioSelect }) {
+function FilterTable({
+  prodFilter,
+  activeFilters,
+  activeRadio,
+  handleActiveChecked,
+  handleRadioSelect,
+}) {
   const [more, toggleMore] = useState(false)
   const displayNum = 3
   const classes = useStyles()
@@ -54,6 +60,7 @@ function FilterTable({ prodFilter, handleActiveChecked, handleRadioSelect }) {
               <FilterRadio
                 value={value}
                 filterName={prodFilter.filterName}
+                activeRadio={activeRadio}
                 handleRadioSelect={handleRadioSelect}
                 key={value}
               />
@@ -65,6 +72,7 @@ function FilterTable({ prodFilter, handleActiveChecked, handleRadioSelect }) {
                   <FilterSelect
                     value={value}
                     filterName={prodFilter.filterName}
+                    activeFilters={activeFilters}
                     handleActiveChecked={handleActiveChecked}
                     key={value}
                   />
@@ -76,6 +84,7 @@ function FilterTable({ prodFilter, handleActiveChecked, handleRadioSelect }) {
                   <FilterSelect
                     value={value}
                     filterName={prodFilter.filterName}
+                    activeFilters={activeFilters}
                     handleActiveChecked={handleActiveChecked}
                     key={value}
                   />
