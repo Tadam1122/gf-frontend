@@ -33,6 +33,7 @@ function FilterTable({
   prodFilter,
   activeFilters,
   activeRadio,
+  activePrice,
   handleActiveChecked,
   handleRadioSelect,
   handlePriceChange,
@@ -70,7 +71,7 @@ function FilterTable({
           {prodFilter.filterName === 'Price' && (
             <FilterPrice
               values={prodFilter.values}
-              key={prodFilter.filterName}
+              activePrice={activePrice}
               handlePriceChange={handlePriceChange}
             />
           )}

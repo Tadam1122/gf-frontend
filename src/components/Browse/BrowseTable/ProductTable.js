@@ -45,8 +45,10 @@ function ProductTable({
   page,
   activeFilters,
   activeRadio,
+  activePrice,
   handleActiveChecked,
   handleRadioSelect,
+  handleClearPrice,
   handleChangeRowsPerPage,
   handleChangePage,
 }) {
@@ -78,6 +80,26 @@ function ProductTable({
           {category}
         </Typography>
         <Hidden smDown>
+          {activePrice.length > 0 && (
+            <Button
+              className={classes.filterButton}
+              color='primary'
+              variant='contained'
+              size='small'
+              disableElevation
+              onClick={(_) => {
+                handleClearPrice()
+              }}
+            >
+              Price:{' '}
+              {activePrice[0] &&
+                activePrice[1] &&
+                `\$${activePrice[0]}-\$${activePrice[1]}`}
+              {!activePrice[0] && `Under \$${activePrice[1]}`}
+              {!activePrice[1] && `Over \$${activePrice[0]}`}
+              <HighlightOffIcon fontSize='small' className={classes.icon} />
+            </Button>
+          )}
           {activeRadio.map((radio) => (
             <Button
               className={classes.filterButton}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Typography,
   TextField,
@@ -33,10 +33,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function FilterPrice({ values, handlePriceChange }) {
+function FilterPrice({ values, activePrice, handlePriceChange }) {
   const classes = useStyles()
   const [minText, setMinText] = useState('')
   const [maxText, setMaxText] = useState('')
+
+  //deselect price values removed from active price
+  useEffect(() => {
+    function updatePrice() {
+      if (activePrice.length < 1) {
+        setMinText('')
+        setMaxText('')
+      }
+    }
+    updatePrice()
+  }, [activePrice])
 
   function handleMaxChange(e) {
     // handle max price change
@@ -60,7 +71,7 @@ function FilterPrice({ values, handlePriceChange }) {
         <TableCell className={classes.textCell}>
           <TextField
             label={<Typography className={classes.font}>Min</Typography>}
-            defaultValue={values[0]}
+            value={values[0] || minText}
             size='small'
             onChange={handleMinChange}
           />
@@ -68,7 +79,7 @@ function FilterPrice({ values, handlePriceChange }) {
         <TableCell className={classes.textCell}>
           <TextField
             label={<Typography className={classes.font}>Max</Typography>}
-            defaultValue={values[1]}
+            value={values[1] || maxText}
             size='small'
             onChange={handleMaxChange}
           />

@@ -5,8 +5,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import ProductTable from './BrowseTable/ProductTable'
 import Sidebar from './BrowseSidebar/Sidebar'
 import { capitalize, lowercase } from '../../utilities/stringUtils'
-import { getLowestNumber, getLowestPrice } from '../../utilities/priceUtil'
+import { getLowestNumber } from '../../utilities/priceUtil'
 
+// TODO: api url will need to be changed for production
 async function fetchProducts(table) {
   let data = ''
   if (table === 'electric-guitars') {
@@ -56,13 +57,14 @@ function Browse() {
   //filter value state
   const [activeFilters, setCheckActive] = useState([])
   const [activeRadio, setRadioActive] = useState([])
+  const [activePrice, setPriceActive] = useState([])
+
+  // price filters
   const [minPrice, setMinPrice] = useState('')
   const [maxPrice, setMaxPrice] = useState('')
 
   //product filters
   const [filters, setFilters] = useState([])
-
-  // price filters
 
   //table name and categories
   const tableName = location.pathname.split('/')[2]
@@ -84,6 +86,8 @@ function Browse() {
     function getFilters(products) {
       //array for filters to display on page
       let defaultFilters = []
+
+      // TODO: boolean attributes for other product categories need to be manually added
       for (let product of products) {
         //get attributes to filter from
         //don't select any attributes with boolean values
@@ -126,6 +130,7 @@ function Browse() {
           ))
       )
 
+      // TODO:default filters of other categories need to be manually added
       //manually set boolean filters depending on tablename
       if (tableName === 'electric-guitars') {
         defaultFilters.push({ filterName: 'Coil Split', values: [true] })
@@ -152,8 +157,6 @@ function Browse() {
       let useCheckFilters = activeFilters.filter(
         (filter) => filter.values.length > 0
       )
-
-      // TODO: filter max and min prices
 
       //filter selections from products
       let filtered = products.filter((product) => {
@@ -207,7 +210,7 @@ function Browse() {
     filterName = lowercase(filterName.replace(/ /g, ''))
 
     //found filter object
-    let found = activeFilters.find((item) => item.name === filterName)
+    let found = activeFilters.find((filter) => filter.name === filterName)
 
     if (found) {
       let index = found.values.indexOf(value)
@@ -221,7 +224,7 @@ function Browse() {
       }
       //update active filters
       let updatedFilters = activeFilters.filter(
-        (item) => item.name !== filterName
+        (filter) => filter.name !== filterName
       )
       //re-add found entry if values isn't empty after splice
       if (found.values.length > 0) {
@@ -264,8 +267,21 @@ function Browse() {
   }
 
   function handlePriceChange(min, max) {
-    setMinPrice(min)
-    setMaxPrice(max)
+    if (max >= min || !max || !min) {
+      setMinPrice(min)
+      setMaxPrice(max)
+      if (!min && !max) {
+        setPriceActive([])
+      } else {
+        setPriceActive([min, max])
+      }
+    }
+  }
+
+  function handleClearPrice() {
+    setMinPrice('')
+    setMaxPrice('')
+    setPriceActive([])
   }
 
   return (
@@ -283,6 +299,7 @@ function Browse() {
             filters={filters}
             activeFilters={activeFilters}
             activeRadio={activeRadio}
+            activePrice={activePrice}
             handleActiveChecked={handleActiveChecked}
             handleRadioSelect={handleRadioSelect}
             handlePriceChange={handlePriceChange}
@@ -309,8 +326,10 @@ function Browse() {
             page={page}
             activeFilters={activeFilters}
             activeRadio={activeRadio}
+            activePrice={activePrice}
             handleActiveChecked={handleActiveChecked}
             handleRadioSelect={handleRadioSelect}
+            handleClearPrice={handleClearPrice}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             handleChangePage={handleChangePage}
           />

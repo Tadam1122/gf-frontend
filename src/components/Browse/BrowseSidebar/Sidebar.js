@@ -19,6 +19,7 @@ function Sidebar({
   filters,
   activeFilters,
   activeRadio,
+  activePrice,
   handleActiveChecked,
   handleRadioSelect,
   handlePriceChange,
@@ -66,6 +67,7 @@ function Sidebar({
           prodFilter={prodFilter}
           activeFilters={activeFilters}
           activeRadio={activeRadio}
+          activePrice={activePrice}
           handleActiveChecked={handleActiveChecked}
           handleRadioSelect={handleRadioSelect}
           handlePriceChange={handlePriceChange}
