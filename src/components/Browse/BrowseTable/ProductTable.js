@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Button,
   Hidden,
@@ -15,7 +15,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import ProductTableHead from './ProductTableHead'
 import ProductRow from './ProductRow'
-import { getLowestNumber } from '../../../utilities/priceUtil'
+import { getHeaderCells } from './headerCells'
+import { sortData } from './sortData'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -37,33 +38,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function sortData(data, order, prop) {
-  if (prop === 'price') {
-    if (order === 'asc') {
-      return data.sort((a, b) =>
-        getLowestNumber(a.prices) > getLowestNumber(b.prices) ? 1 : -1
-      )
-    }
-    return data.sort((a, b) =>
-      getLowestNumber(a.prices) < getLowestNumber(b.prices) ? 1 : -1
-    )
-  }
-  if (prop === 'name') {
-    if (order === 'asc') {
-      return data.sort((a, b) =>
-        `${a.brand} ${a.model}` > `${b.brand} ${b.model}` ? 1 : -1
-      )
-    }
-    return data.sort((a, b) =>
-      `${a.brand} ${a.model}` < `${b.brand} ${b.model}` ? 1 : -1
-    )
-  }
-  if (order === 'asc') {
-    return data.sort((a, b) => (a[prop] > b[prop] ? 1 : -1))
-  }
-  return data.sort((a, b) => (a[prop] < b[prop] ? 1 : -1))
-}
-
 function ProductTable({
   products,
   category,
@@ -79,8 +53,16 @@ function ProductTable({
   const classes = useStyles()
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
+  const [headerCells, setHeaderCells] = useState([])
 
-  function handleSort(_, property) {
+  // get new header cells for different categories
+  useEffect(() => {
+    const newHeaderCells = getHeaderCells(category)
+    setHeaderCells(newHeaderCells)
+  }, [category])
+
+  // sort
+  function handleSort(property) {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
@@ -134,16 +116,23 @@ function ProductTable({
       </Toolbar>
       <Table>
         <ProductTableHead
-          category={category}
           order={order}
           orderBy={orderBy}
           handleSort={handleSort}
+          headerCells={headerCells}
         />
         <TableBody>
           {sortData(products, order, orderBy)
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((product) => {
-              return <ProductRow product={product} key={product._id} />
+              return (
+                <ProductRow
+                  product={product}
+                  category={category}
+                  key={product._id}
+                  headerCells={headerCells}
+                />
+              )
             })}
           {emptyRows > 0 && (
             <TableRow style={{ height: 50 * emptyRows }}>

@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   TableRow,
@@ -21,12 +22,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ProductRow({ product }) {
+function ProductRow({ product, category, headerCells }) {
   const classes = useStyles()
+  const history = useHistory()
+  // dynamic cells for a category
+  const cells = headerCells.filter(
+    (cell) => cell.id !== 'image' && cell.id !== 'name' && cell.id !== 'price'
+  )
+
+  // reroute product to product page
+  function handleProductClick() {
+    history.push({
+      pathname: '/product',
+      state: { product: product, category: category },
+    })
+  }
   return (
     <TableRow tabIndex={-1} hover>
       <TableCell align='center'>
-        <ButtonBase className={classes.imageContainer}>
+        <ButtonBase
+          className={classes.imageContainer}
+          onClick={handleProductClick}
+        >
           <img
             src={`data:image/png;base64, ${product.image}`}
             alt={`${product.brand} ${product.model}`}
@@ -38,17 +55,16 @@ function ProductRow({ product }) {
       <TableCell component='th' scope='row'>
         {product.brand} {product.model}
       </TableCell>
-      <TableCell>{product.bridgeConfig}</TableCell>
-      <TableCell>{product.stringCount}</TableCell>
-      <TableCell>{product.pickupConfig}</TableCell>
-      <TableCell>{product.scaleLen}</TableCell>
-      <TableCell>{product.neckConstruction}</TableCell>
+      {cells.map((cell) => (
+        <TableCell key={cell.id}>{product[cell.id]}</TableCell>
+      ))}
       <TableCell>
         <Button
           variant='contained'
           color='primary'
           size='large'
           disableElevation
+          onClick={handleProductClick}
         >
           <Typography variant='button'>
             {getLowestPrice(product.prices)}

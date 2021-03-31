@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-//TODO: implement login functionalities
 function Login({ handleLogin, errors }) {
   const classes = useStyles()
   // eslint-disable-next-line

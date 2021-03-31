@@ -65,7 +65,6 @@ function NavbarDesktop({
             </>
           ) : (
             <>
-              {/* TODO: make username dynamic */}
               <MenuLink name={capitalize(username)} address='/profile' />
               <MenuItem
                 component={Link}

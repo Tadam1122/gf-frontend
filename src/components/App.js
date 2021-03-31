@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import NavbarDesktop from './Navbar/NavbarDesktop'
 import Home from './Home'
 import Browse from './Browse/Browse'
-import NavbarDesktop from './Navbar/NavbarDesktop'
+import Product from './Product/Product'
 import Login from './Auth/Login'
 import Register from './Auth/Register'
 import {
@@ -44,7 +45,6 @@ const theme = createMuiTheme({
   },
 })
 
-//TODO: check if device is certain width to load desktop nav
 function App(props) {
   //state for modal
   const [modalOpen, toggleModal] = useState(false)
@@ -159,6 +159,7 @@ function App(props) {
             path='/login'
             render={(_) => <Login handleLogin={handleLogin} errors={errors} />}
           />
+          <Route path='/product' component={Product} />
           <Route
             path='/register'
             render={(_) => (

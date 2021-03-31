@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import {
   TableHead,
   TableRow,
@@ -6,8 +5,6 @@ import {
   TableSortLabel,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-
-import { getHeaderCells } from './headerCells'
 
 const useStyles = makeStyles((theme) => ({
   visuallyHidden: {
@@ -23,18 +20,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ProductTableHead({ category, order, orderBy, handleSort }) {
+function ProductTableHead({ order, orderBy, headerCells, handleSort }) {
   const classes = useStyles()
-  const [headerCells, setHeaderCells] = useState([])
-
-  const createSortHandler = (property) => (event) => {
-    handleSort(event, property)
-  }
-
-  useEffect(() => {
-    const newHeaderCells = getHeaderCells(category)
-    setHeaderCells(newHeaderCells)
-  }, [category])
 
   return (
     <TableHead>
@@ -50,7 +37,9 @@ function ProductTableHead({ category, order, orderBy, handleSort }) {
               <TableSortLabel
                 active={orderBy === headerCell.id}
                 direction={orderBy === headerCell.id ? order : 'asc'}
-                onClick={createSortHandler(headerCell.id)}
+                onClick={(event) => {
+                  handleSort(headerCell.id)
+                }}
               >
                 {headerCell.label}
                 {orderBy === headerCell.id ? (

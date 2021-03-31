@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-//TODO: implement register functionalities
+// TODO: look into cognito for email verification
 function Register({ handleRegister, errors }) {
   const classes = useStyles()
   // eslint-disable-next-line

@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-//TODO: implement side menu
+//TODO: implement side menu if time allows for mobile navbar
 function NavbarMobile() {
   const classes = useStyles()
   const loggedOn = false
