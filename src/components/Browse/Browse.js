@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import ProductTable from './BrowseTable/ProductTable'
 import Sidebar from './BrowseSidebar/Sidebar'
 import { capitalize, lowercase } from '../../utilities/stringUtils'
+import { getLowestNumber, getLowestPrice } from '../../utilities/priceUtil'
 
 async function fetchProducts(table) {
   let data = ''
@@ -55,9 +56,13 @@ function Browse() {
   //filter value state
   const [activeFilters, setCheckActive] = useState([])
   const [activeRadio, setRadioActive] = useState([])
+  const [minPrice, setMinPrice] = useState('')
+  const [maxPrice, setMaxPrice] = useState('')
 
   //product filters
   const [filters, setFilters] = useState([])
+
+  // price filters
 
   //table name and categories
   const tableName = location.pathname.split('/')[2]
@@ -74,7 +79,7 @@ function Browse() {
     getProducts()
   }, [tableName])
 
-  //create filter objects
+  //create initial filter objects
   useEffect(() => {
     function getFilters(products) {
       //array for filters to display on page
@@ -126,6 +131,7 @@ function Browse() {
         defaultFilters.push({ filterName: 'Coil Split', values: [true] })
         defaultFilters.push({ filterName: 'Coil Tap', values: [true] })
       }
+      defaultFilters.unshift({ filterName: 'Price', values: ['', ''] })
       defaultFilters.unshift({ filterName: 'In Stock', values: [true] })
       setFilters(defaultFilters)
     }
@@ -147,7 +153,9 @@ function Browse() {
         (filter) => filter.values.length > 0
       )
 
-      //filter method to filter products
+      // TODO: filter max and min prices
+
+      //filter selections from products
       let filtered = products.filter((product) => {
         for (let filter of useCheckFilters) {
           let index = filter.values.indexOf(product[filter.name])
@@ -156,6 +164,7 @@ function Browse() {
         return true
       })
 
+      //filter radio selections from products
       if (useRadioFilters) {
         filtered = filtered.filter((product) => {
           for (let filter of useRadioFilters) {
@@ -165,15 +174,23 @@ function Browse() {
         })
       }
 
+      //filter prices if set
+      if (maxPrice) {
+        filtered = filtered.filter(
+          (product) => getLowestNumber(product.prices) <= maxPrice
+        )
+      }
+      if (minPrice) {
+        filtered = filtered.filter(
+          (product) => getLowestNumber(product.prices) >= minPrice
+        )
+      }
+
       setFilterProducts(filtered)
       setPage(0)
     }
     filterProducts()
-  }, [activeFilters, activeRadio, products])
-
-  function handleFilterProducts(newProducts) {
-    setFilterProducts(newProducts)
-  }
+  }, [activeFilters, activeRadio, products, minPrice, maxPrice])
 
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10))
@@ -246,6 +263,11 @@ function Browse() {
     }
   }
 
+  function handlePriceChange(min, max) {
+    setMinPrice(min)
+    setMaxPrice(max)
+  }
+
   return (
     <Grid
       container
@@ -256,13 +278,14 @@ function Browse() {
       className={classes.root}
     >
       <Grow in={true}>
-        <Grid item sm={2} md={2} lg={2} xl={2}>
+        <Grid item sm={3} md={3} lg={2} xl={2}>
           <Sidebar
             filters={filters}
             activeFilters={activeFilters}
             activeRadio={activeRadio}
             handleActiveChecked={handleActiveChecked}
             handleRadioSelect={handleRadioSelect}
+            handlePriceChange={handlePriceChange}
             rowsPerPage={rowsPerPage}
           />
         </Grid>
@@ -272,7 +295,7 @@ function Browse() {
         style={{ transformOrigin: '0 0 0' }}
         {...{ timeout: 1000 }}
       >
-        <Grid item xs={12} sm={10} md={10} lg={10} xl={10}>
+        <Grid item xs={12} sm={9} md={9} lg={10} xl={10}>
           <ProductTable
             products={
               filterProducts.length > 0 ||

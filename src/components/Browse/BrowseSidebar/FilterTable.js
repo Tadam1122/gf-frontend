@@ -10,6 +10,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import FilterSelect from './FilterSelect'
 import FilterRadio from './FilterRadio'
+import FilterPrice from './FilterPrice'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -34,6 +35,7 @@ function FilterTable({
   activeRadio,
   handleActiveChecked,
   handleRadioSelect,
+  handlePriceChange,
 }) {
   const [more, toggleMore] = useState(false)
   const displayNum = 3
@@ -48,7 +50,7 @@ function FilterTable({
       <Table size='small'>
         <TableBody>
           <TableRow>
-            <TableCell component='th' scope='column'>
+            <TableCell component='th'>
               <Typography variant='subtitle1' className={classes.title}>
                 {prodFilter.filterName}
               </Typography>
@@ -65,9 +67,20 @@ function FilterTable({
                 key={value}
               />
             ))}
+          {prodFilter.filterName === 'Price' && (
+            <FilterPrice
+              values={prodFilter.values}
+              key={prodFilter.filterName}
+              handlePriceChange={handlePriceChange}
+            />
+          )}
           {more
             ? prodFilter.values
-                .filter((value) => typeof value !== 'boolean')
+                .filter(
+                  (value) =>
+                    typeof value !== 'boolean' &&
+                    prodFilter.filterName !== 'Price'
+                )
                 .map((value) => (
                   <FilterSelect
                     value={value}
@@ -79,7 +92,11 @@ function FilterTable({
                 ))
             : prodFilter.values
                 .slice(0, displayNum)
-                .filter((value) => typeof value !== 'boolean')
+                .filter(
+                  (value) =>
+                    typeof value !== 'boolean' &&
+                    prodFilter.filterName !== 'Price'
+                )
                 .map((value) => (
                   <FilterSelect
                     value={value}

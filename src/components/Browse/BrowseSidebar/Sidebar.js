@@ -21,6 +21,7 @@ function Sidebar({
   activeRadio,
   handleActiveChecked,
   handleRadioSelect,
+  handlePriceChange,
   rowsPerPage,
 }) {
   const [sidebarHeight, setSidebarHeight] = useState('84vh')
@@ -67,6 +68,7 @@ function Sidebar({
           activeRadio={activeRadio}
           handleActiveChecked={handleActiveChecked}
           handleRadioSelect={handleRadioSelect}
+          handlePriceChange={handlePriceChange}
         />
       ))}
     </div>
