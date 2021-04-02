@@ -38,8 +38,14 @@ function Home({ modalOpen, handleClose, handleOpen }) {
   const classes = useStyles()
 
   return (
-    <Container justify='center'>
-      <Grid container direction='row' spacing={1} className={classes.root}>
+    <Container>
+      <Grid
+        container
+        direction='row'
+        justify='center'
+        spacing={1}
+        className={classes.root}
+      >
         <Grow in={true}>
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
             <Typography variant='h6' className={classes.subText}>

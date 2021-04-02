@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 function Search({ location }) {
   const classes = useStyles()
   const searchText = location.state.searchText
+  const username = location.state.username
 
   //product state
   const [products, setProducts] = useState([])
@@ -295,6 +296,7 @@ function Search({ location }) {
                 ? filterProducts
                 : products
             }
+            username={username}
             category={`Search Results for '${capitalize(searchText)}'`}
             rowsPerPage={rowsPerPage}
             page={page}

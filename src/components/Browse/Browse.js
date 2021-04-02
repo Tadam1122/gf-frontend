@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Browse() {
+function Browse({ username }) {
   const classes = useStyles()
   const location = useLocation()
 
@@ -321,6 +321,7 @@ function Browse() {
                 ? filterProducts
                 : products
             }
+            username={username}
             category={category}
             rowsPerPage={rowsPerPage}
             page={page}

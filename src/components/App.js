@@ -77,12 +77,12 @@ function App(props) {
   }
 
   //search text changed
-  function handleSearchChange(e, history) {
+  function handleSearchChange(e, history, username) {
     if (e.key === 'Enter') {
       // send searchText state to search component
       history.push({
         pathname: '/search',
-        state: { searchText: e.target.value },
+        state: { searchText: e.target.value, username: username },
       })
       e.target.value = ''
     }
@@ -158,7 +158,10 @@ function App(props) {
               />
             )}
           />
-          <Route path='/browse' component={Browse} />
+          <Route
+            path='/browse'
+            render={(_) => <Browse username={username} />}
+          />
           <Route
             path='/login'
             render={(_) => <Login handleLogin={handleLogin} errors={errors} />}
