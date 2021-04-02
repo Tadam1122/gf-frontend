@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { Grid, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ProductTable from './BrowseTable/ProductTable'
@@ -7,29 +6,10 @@ import Sidebar from './BrowseSidebar/Sidebar'
 import { capitalize, lowercase } from '../../utilities/stringUtils'
 import { getLowestNumber } from '../../utilities/priceUtil'
 
-// TODO: api url will need to be changed for production
-async function fetchProducts(table) {
-  let data = ''
-  if (table === 'electric-guitars') {
-    const res = await fetch('http://localhost:8000/api/electric-guitars')
-    data = await res.json()
-  }
-  if (table === 'acoustic-guitars') {
-    const res = await fetch('http://localhost:8000/api/acoustic-guitars')
-    data = await res.json()
-  }
-  if (table === 'acoustic-amps') {
-    const res = await fetch('http://localhost:8000/api/acoustic-amps')
-    data = await res.json()
-  }
-  if (table === 'electric-amps') {
-    const res = await fetch('http://localhost:8000/api/electric-amps')
-    data = await res.json()
-  }
-  if (table === 'effect-pedals') {
-    const res = await fetch('http://localhost:8000/api/effect-pedals')
-    data = await res.json()
-  }
+// TODO: url will have to change when fetching to atlas
+async function searchProducts(searchText) {
+  const res = await fetch(`http://localhost:8000/api/search/${searchText}`)
+  const data = await res.json()
   return data
 }
 
@@ -42,9 +22,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Browse() {
+// TODO: search component similar to browse component only with search query data
+function Search({ location }) {
   const classes = useStyles()
-  const location = useLocation()
+  const searchText = location.state.searchText
 
   //product state
   const [products, setProducts] = useState([])
@@ -66,20 +47,14 @@ function Browse() {
   //product filters
   const [filters, setFilters] = useState([])
 
-  //table name and categories
-  const tableName = location.pathname.split('/')[2]
-  const category = `${capitalize(tableName.split('-')[0])} ${capitalize(
-    tableName.split('-')[1]
-  )}`
-
-  //fetch new products when table name changes
+  //update found products
   useEffect(() => {
-    async function getProducts() {
-      const resProducts = await fetchProducts(tableName)
-      setProducts(resProducts)
+    async function updateFoundProducts() {
+      const productsFound = await searchProducts(searchText)
+      setProducts(productsFound)
     }
-    getProducts()
-  }, [tableName])
+    updateFoundProducts()
+  }, [searchText])
 
   //create initial filter objects
   useEffect(() => {
@@ -132,16 +107,15 @@ function Browse() {
 
       // TODO:default filters of other categories need to be manually added
       //manually set boolean filters depending on tablename
-      if (tableName === 'electric-guitars') {
-        defaultFilters.push({ filterName: 'Coil Split', values: [true] })
-        defaultFilters.push({ filterName: 'Coil Tap', values: [true] })
-      }
+      defaultFilters.push({ filterName: 'Coil Split', values: [true] })
+      defaultFilters.push({ filterName: 'Coil Tap', values: [true] })
+
       defaultFilters.unshift({ filterName: 'Price', values: ['', ''] })
       defaultFilters.unshift({ filterName: 'In Stock', values: [true] })
       setFilters(defaultFilters)
     }
     getFilters(products)
-  }, [products, tableName])
+  }, [products])
 
   //update products with filters
   useEffect(() => {
@@ -321,7 +295,7 @@ function Browse() {
                 ? filterProducts
                 : products
             }
-            category={category}
+            category={`Search Results for '${capitalize(searchText)}'`}
             rowsPerPage={rowsPerPage}
             page={page}
             activeFilters={activeFilters}
@@ -339,4 +313,4 @@ function Browse() {
   )
 }
 
-export default Browse
+export default Search

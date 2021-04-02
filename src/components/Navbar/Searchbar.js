@@ -56,7 +56,7 @@ function Searchbar({ handleSearchChange }) {
           input: classes.inputInput,
         }}
         inputProps={{ 'aria-label': 'search' }}
-        onChange={(e) => handleSearchChange(e.target.value)}
+        onKeyUp={handleSearchChange}
       />
     </div>
   )

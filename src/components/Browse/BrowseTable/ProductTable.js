@@ -94,9 +94,9 @@ function ProductTable({
               Price:{' '}
               {activePrice[0] &&
                 activePrice[1] &&
-                `\$${activePrice[0]}-\$${activePrice[1]}`}
-              {!activePrice[0] && `Under \$${activePrice[1]}`}
-              {!activePrice[1] && `Over \$${activePrice[0]}`}
+                `$${activePrice[0]}-$${activePrice[1]}`}
+              {!activePrice[0] && `Under $${activePrice[1]}`}
+              {!activePrice[1] && `Over $${activePrice[0]}`}
               <HighlightOffIcon fontSize='small' className={classes.icon} />
             </Button>
           )}

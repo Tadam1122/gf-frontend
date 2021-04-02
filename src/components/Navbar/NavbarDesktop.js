@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Toolbar, AppBar, MenuItem } from '@material-ui/core'
 import MenuLink from './MenuLink'
@@ -34,6 +34,7 @@ function NavbarDesktop({
   username,
   handleLogout,
 }) {
+  const history = useHistory()
   const classes = useStyles()
 
   return (
@@ -56,7 +57,9 @@ function NavbarDesktop({
           </MenuItem>
           <BrowseModal modalOpen={modalOpen} handleClose={handleClose} />
           {/* <MenuLink name='Browse Gear' address='/browse' /> */}
-          <Searchbar handleSearchChange={handleSearchChange} />
+          <Searchbar
+            handleSearchChange={(e) => handleSearchChange(e, history)}
+          />
           <div className={classes.padding} />
           {!isLoggedIn ? (
             <>

@@ -5,6 +5,7 @@ import NavbarDesktop from './Navbar/NavbarDesktop'
 import Home from './Home'
 import Browse from './Browse/Browse'
 import Product from './Product/Product'
+import Search from './Browse/Search'
 import Login from './Auth/Login'
 import Register from './Auth/Register'
 import {
@@ -49,9 +50,6 @@ function App(props) {
   //state for modal
   const [modalOpen, toggleModal] = useState(false)
 
-  //searchbar component state
-  const [searchText, changeSearchText] = useState('')
-
   //login state
   const [isLoggedIn, setLogin] = useState(false)
   // eslint-disable-next-line
@@ -79,9 +77,15 @@ function App(props) {
   }
 
   //search text changed
-  function handleSearchChange(text) {
-    changeSearchText(text)
-    // console.log(searchText)
+  function handleSearchChange(e, history) {
+    if (e.key === 'Enter') {
+      // send searchText state to search component
+      history.push({
+        pathname: '/search',
+        state: { searchText: e.target.value },
+      })
+      e.target.value = ''
+    }
   }
 
   //login user
@@ -160,6 +164,7 @@ function App(props) {
             render={(_) => <Login handleLogin={handleLogin} errors={errors} />}
           />
           <Route path='/product' component={Product} />
+          <Route path='/search' component={Search} />
           <Route
             path='/register'
             render={(_) => (

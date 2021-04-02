@@ -198,6 +198,30 @@ const effectPedalCells = [
   },
 ]
 
+const defaultCells = [
+  {
+    id: 'image',
+    numeric: false,
+    disablePadding: true,
+    label: '',
+  },
+  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+  { id: '1' },
+  { id: '2' },
+  { id: '3' },
+  { id: '4' },
+  { id: '5' },
+  { id: '6' },
+  { id: '7' },
+  { id: '8' },
+  {
+    id: 'price',
+    numeric: false,
+    disablePadding: false,
+    label: 'Price',
+  },
+]
+
 //return one of the header cells for table
 export function getHeaderCells(category) {
   switch (category) {
@@ -212,6 +236,6 @@ export function getHeaderCells(category) {
     case 'Effect Pedals':
       return effectPedalCells
     default:
-      return []
+      return defaultCells
   }
 }
