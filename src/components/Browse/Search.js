@@ -3,14 +3,18 @@ import { Grid, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ProductTable from './BrowseTable/ProductTable'
 import Sidebar from './BrowseSidebar/Sidebar'
-import { capitalize, lowercase } from '../../utilities/stringUtils'
+import { findProducts } from '../../services/productServices'
+import {
+  capitalize,
+  lowercase,
+  formatFilters,
+} from '../../utilities/stringUtils'
 import { getLowestNumber } from '../../utilities/priceUtil'
 
 // TODO: url will have to change when fetching to atlas
 async function searchProducts(searchText) {
-  const res = await fetch(`http://localhost:8000/api/search/${searchText}`)
-  const data = await res.json()
-  return data
+  const res = findProducts(searchText)
+  return res.data
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// TODO: search component similar to browse component only with search query data
 function Search({ location }) {
   const classes = useStyles()
   const searchText = location.state.searchText
@@ -99,12 +102,7 @@ function Search({ location }) {
           }
         }
       }
-      defaultFilters.map(
-        (item) =>
-          (item.filterName = capitalize(
-            item.filterName.replace(/([A-Z])/g, ' $1')
-          ))
-      )
+      defaultFilters = formatFilters(defaultFilters)
 
       // TODO:default filters of other categories need to be manually added
       //manually set boolean filters depending on tablename

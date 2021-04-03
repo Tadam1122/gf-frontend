@@ -7,7 +7,7 @@ const electricGuitarCells = [
   },
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   {
-    id: 'bridgeConfig',
+    id: 'bridge',
     numeric: false,
     disablePadding: false,
     label: 'Bridge',

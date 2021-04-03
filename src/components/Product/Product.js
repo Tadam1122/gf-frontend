@@ -8,10 +8,12 @@ import {
   Table,
   TableBody,
   TableContainer,
+  Grow,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import PriceTableHead from './PriceTableHead'
 import PriceTableRow from './PriceTableRow'
+import SpecsTable from './SpecsTable'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,16 +48,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// TODO: Style product page, attributes will need to be rendered depending on category
-// TODO: render attributes similar to how you did with header cells
 function Product({ location }) {
   const product = location.state.product
-  const category = location.state.category
   const username = location.state.username
+  const category = location.state.category
 
   const classes = useStyles()
 
-  // TODO: specs need to be loaded dynamically for each category
   return (
     <Container justify='center'>
       <Grid
@@ -65,45 +64,61 @@ function Product({ location }) {
         justify='center'
         className={classes.root}
       >
-        <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-          <ButtonBase className={classes.imageContainer} disabled>
-            <img
-              src={`data:image/png;base64, ${product.image}`}
-              alt={`${product.brand} ${product.model}`}
-              draggable={false}
-              className={classes.image}
-            />
-          </ButtonBase>
-          {username && (
-            <Button
-              className={classes.button}
-              variant='contained'
-              color='primary'
-              disableElevation
-            >
-              Add to Wishlist
-            </Button>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={12} md={9} lg={9} xl={9}>
-          <TableContainer className={classes.table}>
-            <Toolbar className={classes.toolbar}>
-              <Typography variant='h4'>
-                {product.brand} {product.model}
-              </Typography>
-            </Toolbar>
-            <Table>
-              <PriceTableHead />
-              <TableBody>
-                {product.prices.map((store) => {
-                  return <PriceTableRow store={store} key={store.url} />
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Grid>
+        <Grow in={true}>
+          <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
+            <ButtonBase className={classes.imageContainer} disabled>
+              <img
+                src={`data:image/png;base64, ${product.image}`}
+                alt={`${product.brand} ${product.model}`}
+                draggable={false}
+                className={classes.image}
+              />
+            </ButtonBase>
+            {username && (
+              <Button
+                className={classes.button}
+                variant='contained'
+                color='primary'
+                disableElevation
+              >
+                Add to Wishlist
+              </Button>
+            )}
+          </Grid>
+        </Grow>
+        <Grow
+          in={true}
+          style={{ transformOrigin: '0 0 0' }}
+          {...{ timeout: 1000 }}
+        >
+          <Grid item xs={12} sm={12} md={9} lg={9} xl={9}>
+            <TableContainer className={classes.table}>
+              <Toolbar className={classes.toolbar}>
+                <Typography variant='h4'>
+                  {product.brand} {product.model}
+                </Typography>
+              </Toolbar>
+              <Table>
+                <PriceTableHead />
+                <TableBody>
+                  {product.prices.map((store) => {
+                    return <PriceTableRow store={store} key={store.url} />
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+        </Grow>
+        <Grow
+          in={true}
+          style={{ transformOrigin: '0 0 0' }}
+          {...{ timeout: 1500 }}
+        >
+          <Grid item sm={12} sm={12} md={12} lg={12} xl={12}>
+            <SpecsTable product={product} />
+          </Grid>
+        </Grow>
       </Grid>
-      <Grid container></Grid>
     </Container>
   )
 }

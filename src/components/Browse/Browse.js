@@ -4,32 +4,28 @@ import { Grid, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ProductTable from './BrowseTable/ProductTable'
 import Sidebar from './BrowseSidebar/Sidebar'
-import { capitalize, lowercase } from '../../utilities/stringUtils'
+import { getProducts } from '../../services/productServices'
+import {
+  capitalize,
+  lowercase,
+  formatFilters,
+} from '../../utilities/stringUtils'
 import { getLowestNumber } from '../../utilities/priceUtil'
 
 // TODO: api url will need to be changed for production
 async function fetchProducts(table) {
   let data = ''
-  if (table === 'electric-guitars') {
-    const res = await fetch('http://localhost:8000/api/electric-guitars')
-    data = await res.json()
+  if (
+    table === 'electric-guitars' ||
+    table === 'acoustic-guitars' ||
+    table === 'acoustic-amps' ||
+    table === 'electric-amps' ||
+    table === 'effect-pedals'
+  ) {
+    const res = await getProducts(table)
+    data = await res.data
   }
-  if (table === 'acoustic-guitars') {
-    const res = await fetch('http://localhost:8000/api/acoustic-guitars')
-    data = await res.json()
-  }
-  if (table === 'acoustic-amps') {
-    const res = await fetch('http://localhost:8000/api/acoustic-amps')
-    data = await res.json()
-  }
-  if (table === 'electric-amps') {
-    const res = await fetch('http://localhost:8000/api/electric-amps')
-    data = await res.json()
-  }
-  if (table === 'effect-pedals') {
-    const res = await fetch('http://localhost:8000/api/effect-pedals')
-    data = await res.json()
-  }
+
   return data
 }
 
@@ -123,12 +119,8 @@ function Browse({ username }) {
           }
         }
       }
-      defaultFilters.map(
-        (item) =>
-          (item.filterName = capitalize(
-            item.filterName.replace(/([A-Z])/g, ' $1')
-          ))
-      )
+      // Format filters
+      defaultFilters = formatFilters(defaultFilters)
 
       // TODO:default filters of other categories need to be manually added
       //manually set boolean filters depending on tablename
