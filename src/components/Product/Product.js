@@ -1,18 +1,6 @@
-import {
-  Button,
-  ButtonBase,
-  Typography,
-  Grid,
-  Container,
-  Toolbar,
-  Table,
-  TableBody,
-  TableContainer,
-  Grow,
-} from '@material-ui/core'
+import { Button, ButtonBase, Grid, Container, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import PriceTableHead from './PriceTableHead'
-import PriceTableRow from './PriceTableRow'
+import PriceTable from './PriceTable'
 import SpecsTable from './SpecsTable'
 
 const useStyles = makeStyles((theme) => ({
@@ -26,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#fff',
     borderRadius: '15px',
     paddingBottom: '20%',
+    height: '80%',
   },
   image: {
     width: 'auto',
@@ -35,22 +24,18 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    marginTop: '30%',
+    marginTop: '2.5rem',
   },
-  table: {
-    background: 'white',
-    flexGrow: 1,
-    height: '100%',
-  },
-  toolbar: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
+  spec: {
+    marginBottom: '2rem',
   },
 }))
 
 function Product({ location }) {
   const product = location.state.product
   const username = location.state.username
+  // TODO: update wishlists when user adds item to wishlist
+  const wishlists = location.state.wishlists
 
   const classes = useStyles()
 
@@ -64,7 +49,7 @@ function Product({ location }) {
         className={classes.root}
       >
         <Grow in={true}>
-          <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
+          <Grid item xs={12} sm={12} md={5} lg={3} xl={3}>
             <ButtonBase className={classes.imageContainer} disabled>
               <img
                 src={`data:image/png;base64, ${product.image}`}
@@ -90,22 +75,8 @@ function Product({ location }) {
           style={{ transformOrigin: '0 0 0' }}
           {...{ timeout: 1000 }}
         >
-          <Grid item xs={12} sm={12} md={9} lg={9} xl={9}>
-            <TableContainer className={classes.table}>
-              <Toolbar className={classes.toolbar}>
-                <Typography variant='h4'>
-                  {product.brand} {product.model}
-                </Typography>
-              </Toolbar>
-              <Table>
-                <PriceTableHead />
-                <TableBody>
-                  {product.prices.map((store) => {
-                    return <PriceTableRow store={store} key={store.url} />
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
+          <Grid item xs={12} sm={12} md={7} lg={9} xl={9}>
+            <PriceTable product={product} />
           </Grid>
         </Grow>
         <Grow
@@ -113,7 +84,15 @@ function Product({ location }) {
           style={{ transformOrigin: '0 0 0' }}
           {...{ timeout: 1500 }}
         >
-          <Grid item sm={12} sm={12} md={12} lg={12} xl={12}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+            xl={12}
+            className={classes.spec}
+          >
             <SpecsTable product={product} />
           </Grid>
         </Grow>

@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 function ProductTable({
   products,
   username,
+  wishlists,
   category,
   rowsPerPage,
   page,
@@ -151,7 +152,7 @@ function ProductTable({
               return (
                 <ProductRow
                   product={product}
-                  category={category}
+                  wishlists={wishlists}
                   key={product._id}
                   headerCells={headerCells}
                   username={username}

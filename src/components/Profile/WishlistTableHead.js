@@ -3,6 +3,7 @@ import {
   TableRow,
   TableCell,
   TableSortLabel,
+  Button,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ProductTableHead({ order, orderBy, headerCells, handleSort }) {
+function WishlistTableHead({ order, orderBy, headerCells, handleSort }) {
   const classes = useStyles()
 
   return (
@@ -53,9 +54,14 @@ function ProductTableHead({ order, orderBy, headerCells, handleSort }) {
             )}
           </TableCell>
         ))}
+        <TableCell align='right'>
+          <Button variant='contained' color='primary' disableElevation>
+            Create New Wishlist
+          </Button>
+        </TableCell>
       </TableRow>
     </TableHead>
   )
 }
 
-export default ProductTableHead
+export default WishlistTableHead

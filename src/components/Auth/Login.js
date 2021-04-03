@@ -1,7 +1,5 @@
-import { useState } from 'react'
-// eslint-disable-next-line
+import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-
 import {
   TextField,
   Typography,
@@ -20,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '15px',
     marginTop: '35%',
   },
-  TextField: {
+  textfield: {
     margin: 8,
     width: '95%',
   },
 }))
 
-function Login({ handleLogin, errors }) {
+function Login({ handleLogin, errors, setErrors }) {
   const classes = useStyles()
   // eslint-disable-next-line
   const history = useHistory()
@@ -35,6 +33,10 @@ function Login({ handleLogin, errors }) {
 
   const usernameError = username.length > 0 ? false : true
   const passwordError = password.length > 0 ? false : true
+
+  useEffect(() => {
+    setErrors([])
+  }, [setErrors])
 
   function handleUsernameChange(event) {
     changeUsername(event.target.value)
@@ -64,7 +66,7 @@ function Login({ handleLogin, errors }) {
               id='username'
               label='Username'
               fullWidth
-              className={classes.TextField}
+              className={classes.textfield}
               onChange={handleUsernameChange}
             />
           </Grid>
@@ -73,7 +75,7 @@ function Login({ handleLogin, errors }) {
               id='password'
               label='Password'
               type='password'
-              className={classes.TextField}
+              className={classes.textfield}
               onChange={handlePasswordChange}
               fullWidth
             />

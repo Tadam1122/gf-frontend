@@ -15,7 +15,11 @@ import {
   checkLogin,
   getUsername,
   logout,
+  getUserWishlists,
+  getUserId,
 } from '../services/authServices'
+import { updateUser } from '../services/userServices'
+import { getWishlistCells } from './Profile/wishlistCells'
 
 const theme = createMuiTheme({
   palette: {
@@ -56,15 +60,18 @@ function App(props) {
   const [isLoggedIn, setLogin] = useState(false)
   // eslint-disable-next-line
   const [username, setUsername] = useState('')
+  const [wishlists, setWishlists] = useState([])
 
   //error state for registration and login
   const [errors, setErrors] = useState([])
+  const [successMessage, setSuccessMessage] = useState('')
 
   //check local storage for login token
   useEffect(() => {
     if (checkLogin()) {
       setLogin(checkLogin())
       setUsername(getUsername())
+      setWishlists(getUserWishlists())
     }
   }, [])
 
@@ -78,13 +85,22 @@ function App(props) {
     toggleModal(false)
   }
 
+  function clearMessages() {
+    setErrors([])
+    setSuccessMessage('')
+  }
+
   //search text changed
-  function handleSearchChange(e, history, username) {
+  function handleSearchChange(e, history, username, wishlists) {
     if (e.key === 'Enter') {
       // send searchText state to search component
       history.push({
         pathname: '/search',
-        state: { searchText: e.target.value, username: username },
+        state: {
+          searchText: e.target.value,
+          username: username,
+          wishlists: wishlists,
+        },
       })
       e.target.value = ''
     }
@@ -105,6 +121,7 @@ function App(props) {
     } else {
       setLogin(true)
       setUsername(username)
+      setWishlists(getUserWishlists())
       history.push('/')
     }
   }
@@ -114,6 +131,7 @@ function App(props) {
     logout()
     setLogin(false)
     setUsername('')
+    setWishlists([])
   }
 
   //register user
@@ -134,6 +152,39 @@ function App(props) {
     }
   }
 
+  // TODO: create handler for updating user
+  async function handleUserUpdate(usernameText, password, email, wishlists) {
+    setErrors([])
+    setSuccessMessage('')
+    let user = {}
+    user.id = getUserId()
+    user.wishlists = wishlists
+    if (usernameText !== '') {
+      user.username = usernameText
+    }
+    if (password !== '') {
+      user.password = password
+    }
+    if (email !== '') {
+      user.email = email
+    }
+    const update = await updateUser(user)
+    console.log(update)
+    if (update) {
+      let newErrors = []
+      for (let error of update.data.message.split('/')) {
+        if (error.length > 1) newErrors.push({ message: `${error}` })
+      }
+      setErrors(newErrors)
+    } else {
+      if (usernameText !== '') {
+        setUsername(usernameText)
+        setWishlists(wishlists)
+      }
+      setSuccessMessage('Successfully updated account.')
+    }
+  }
+
   //TODO: implement mobile navbar if time permits
   return (
     <MuiThemeProvider theme={theme}>
@@ -146,6 +197,7 @@ function App(props) {
           handleSearchChange={handleSearchChange}
           isLoggedIn={isLoggedIn}
           username={username}
+          wishlists={wishlists}
           handleLogout={handleLogout}
         />
         <Switch>
@@ -162,23 +214,43 @@ function App(props) {
           />
           <Route
             path='/browse'
-            render={(_) => <Browse username={username} />}
+            render={(_) => <Browse username={username} wishlists={wishlists} />}
           />
           <Route
             path='/login'
-            render={(_) => <Login handleLogin={handleLogin} errors={errors} />}
+            render={(_) => (
+              <Login
+                handleLogin={handleLogin}
+                errors={errors}
+                setErrors={setErrors}
+              />
+            )}
           />
           <Route path='/product' component={Product} />
           <Route path='/search' component={Search} />
           <Route
             path='/register'
             render={(_) => (
-              <Register handleRegister={handleRegister} errors={errors} />
+              <Register
+                handleRegister={handleRegister}
+                errors={errors}
+                setErrors={setErrors}
+              />
             )}
           />
           <Route
             path='/profile'
-            render={(_) => <Profile username={username} />}
+            render={(_) => (
+              <Profile
+                username={username}
+                wishlists={wishlists}
+                handleUserUpdate={handleUserUpdate}
+                errors={errors}
+                successMessage={successMessage}
+                setErrors={setErrors}
+                setSuccessMessage={setSuccessMessage}
+              />
+            )}
           />
         </Switch>
       </BrowserRouter>

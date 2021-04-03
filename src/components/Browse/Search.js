@@ -29,6 +29,7 @@ function Search({ location }) {
   const classes = useStyles()
   const searchText = location.state.searchText
   const username = location.state.username
+  const wishlists = location.state.wishlists
 
   //product state
   const [products, setProducts] = useState([])
@@ -294,6 +295,7 @@ function Search({ location }) {
                 : products
             }
             username={username}
+            wishlists={wishlists}
             category={`Search Results for '${capitalize(searchText)}'`}
             rowsPerPage={rowsPerPage}
             page={page}

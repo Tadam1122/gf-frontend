@@ -1,5 +1,4 @@
-import { useState } from 'react'
-// eslint-disable-next-line
+import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   TextField,
@@ -19,14 +18,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '15px',
     marginTop: '35%',
   },
-  TextField: {
+  textfield: {
     margin: 8,
     width: '95%',
   },
 }))
 
 // TODO: look into cognito for email verification
-function Register({ handleRegister, errors }) {
+function Register({ handleRegister, errors, setErrors }) {
   const classes = useStyles()
   // eslint-disable-next-line
   const history = useHistory()
@@ -39,6 +38,10 @@ function Register({ handleRegister, errors }) {
 
   const repeatPasswordError = repeatPassword !== password
   const emailError = !emailReg.test(email) && email.length > 0
+
+  useEffect(() => {
+    setErrors([])
+  }, [setErrors])
 
   function handleUsernameChange(event) {
     changeUsername(event.target.value)
@@ -76,7 +79,7 @@ function Register({ handleRegister, errors }) {
               id='username'
               label='Username'
               fullWidth
-              className={classes.TextField}
+              className={classes.textfield}
               onChange={handleUsernameChange}
             />
           </Grid>
@@ -85,7 +88,7 @@ function Register({ handleRegister, errors }) {
               id='email'
               label='Email Address'
               type='email'
-              className={classes.TextField}
+              className={classes.textfield}
               onChange={handleEmailChange}
               fullWidth
             />
@@ -95,7 +98,7 @@ function Register({ handleRegister, errors }) {
               id='password'
               label='Password'
               type='password'
-              className={classes.TextField}
+              className={classes.textfield}
               onChange={handlePasswordChange}
               fullWidth
             />
@@ -105,7 +108,7 @@ function Register({ handleRegister, errors }) {
               id='retypePassword'
               label='Retype Password'
               type='password'
-              className={classes.TextField}
+              className={classes.textfield}
               error={repeatPasswordError}
               helperText={repeatPasswordError && 'Passwords must match.'}
               onChange={handleRepeatPasswordChange}
@@ -120,10 +123,9 @@ function Register({ handleRegister, errors }) {
               disableElevation
               fullWidth
               disabled={repeatPasswordError || emailError}
-              // eslint-disable-next-line
               onClick={() => handleRegister(username, password, email, history)}
             >
-              Login
+              Register
             </Button>
           </Grid>
         </Grid>

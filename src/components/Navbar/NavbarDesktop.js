@@ -32,6 +32,7 @@ function NavbarDesktop({
   handleSearchChange,
   isLoggedIn,
   username,
+  wishlists,
   handleLogout,
 }) {
   const history = useHistory()
@@ -58,7 +59,9 @@ function NavbarDesktop({
           <BrowseModal modalOpen={modalOpen} handleClose={handleClose} />
           {/* <MenuLink name='Browse Gear' address='/browse' /> */}
           <Searchbar
-            handleSearchChange={(e) => handleSearchChange(e, history, username)}
+            handleSearchChange={(e) =>
+              handleSearchChange(e, history, username, wishlists)
+            }
           />
           <div className={classes.padding} />
           {!isLoggedIn ? (

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ProductRow({ product, category, headerCells, username }) {
+function ProductRow({ product, wishlists, headerCells, username }) {
   const classes = useStyles()
   const history = useHistory()
   // dynamic cells for a category
@@ -34,7 +34,7 @@ function ProductRow({ product, category, headerCells, username }) {
   function handleProductClick() {
     history.push({
       pathname: '/product',
-      state: { product: product, username: username },
+      state: { product: product, username: username, wishlists: wishlists },
     })
   }
   return (

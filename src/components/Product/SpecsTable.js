@@ -45,6 +45,7 @@ function SpecsTable({ product }) {
                 />
               )
             }
+            return null
           })}
         </TableBody>
       </Table>
