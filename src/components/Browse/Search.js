@@ -11,10 +11,9 @@ import {
 } from '../../utilities/stringUtils'
 import { getLowestNumber } from '../../utilities/priceUtil'
 
-// TODO: url will have to change when fetching to atlas
 async function searchProducts(searchText) {
-  const res = findProducts(searchText)
-  return res.data
+  const res = await findProducts(searchText)
+  return await res.data
 }
 
 const useStyles = makeStyles((theme) => ({

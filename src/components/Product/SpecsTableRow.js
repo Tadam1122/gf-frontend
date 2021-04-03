@@ -5,7 +5,11 @@ function SpecsTableRow({ filterName, product }) {
   return (
     <TableRow>
       <TableCell>{formatFilter(filterName)}</TableCell>
-      <TableCell>{product[filterName]}</TableCell>
+      {typeof product[filterName] === 'boolean' ? (
+        <TableCell>{product[filterName] === true ? 'Yes' : 'No'}</TableCell>
+      ) : (
+        <TableCell>{product[filterName]}</TableCell>
+      )}
     </TableRow>
   )
 }

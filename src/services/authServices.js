@@ -22,9 +22,9 @@ export function loginUser(user) {
 }
 
 //set state of app on logout
-// export function logout() {
-//   localStorage.clear()
-// }
+export function logout() {
+  localStorage.clear()
+}
 
 export function setToken(token) {
   localStorage.setItem('token', token)
@@ -48,6 +48,14 @@ export function getUserId() {
     return null
   }
   return token.user.id
+}
+
+export function getUserWishlists() {
+  const token = decodeToken()
+  if (!token) {
+    return null
+  }
+  return token.user.wishlists
 }
 
 export function registerUser(user) {

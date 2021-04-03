@@ -8,11 +8,13 @@ import Product from './Product/Product'
 import Search from './Browse/Search'
 import Login from './Auth/Login'
 import Register from './Auth/Register'
+import Profile from './Profile/Profile'
 import {
   loginUser,
   registerUser,
   checkLogin,
   getUsername,
+  logout,
 } from '../services/authServices'
 
 const theme = createMuiTheme({
@@ -109,7 +111,7 @@ function App(props) {
 
   //logout user
   function handleLogout() {
-    localStorage.clear()
+    logout()
     setLogin(false)
     setUsername('')
   }
@@ -173,6 +175,10 @@ function App(props) {
             render={(_) => (
               <Register handleRegister={handleRegister} errors={errors} />
             )}
+          />
+          <Route
+            path='/profile'
+            render={(_) => <Profile username={username} />}
           />
         </Switch>
       </BrowserRouter>

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    marginTop: '15%',
+    marginTop: '30%',
   },
   table: {
     background: 'white',
