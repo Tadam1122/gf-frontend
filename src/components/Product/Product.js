@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 function Product({ location }) {
   const product = location.state.product
   const username = location.state.username
-  const category = location.state.category
 
   const classes = useStyles()
 
