@@ -2,7 +2,7 @@ const wishlistCells = [
   {
     id: 'name',
     numeric: false,
-    disablePadding: true,
+    disablePadding: false,
     label: 'Name',
   },
   {

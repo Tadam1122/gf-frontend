@@ -85,11 +85,6 @@ function App(props) {
     toggleModal(false)
   }
 
-  function clearMessages() {
-    setErrors([])
-    setSuccessMessage('')
-  }
-
   //search text changed
   function handleSearchChange(e, history, username, wishlists) {
     if (e.key === 'Enter') {

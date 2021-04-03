@@ -13,17 +13,8 @@ const useStyles = makeStyles((theme) => ({
     padding: '3rem',
     borderRadius: '15px',
   },
-  success: {
-    color: '#1c793e',
-  },
 }))
-function UserForm({
-  username,
-  wishlists,
-  handleUserUpdate,
-  errors,
-  successMessage,
-}) {
+function UserForm({ username, wishlists, handleUserUpdate, errors }) {
   const classes = useStyles()
   const [usernameText, changeUsername] = useState('')
   const [email, changeEmail] = useState('')
@@ -53,11 +44,6 @@ function UserForm({
   return (
     <form className={classes.form}>
       <Typography variant='h2'>{username}</Typography>
-      {successMessage && (
-        <Typography variant='subtitle2' className={classes.success}>
-          {successMessage}
-        </Typography>
-      )}
       <Errors errors={errors} />
       <TextField
         id='username'

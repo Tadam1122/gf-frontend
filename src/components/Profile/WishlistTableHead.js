@@ -21,7 +21,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function WishlistTableHead({ order, orderBy, headerCells, handleSort }) {
+function WishlistTableHead({
+  order,
+  orderBy,
+  headerCells,
+  handleSort,
+  handleCreateClick,
+}) {
   const classes = useStyles()
 
   return (
@@ -30,7 +36,7 @@ function WishlistTableHead({ order, orderBy, headerCells, handleSort }) {
         {headerCells.map((headerCell) => (
           <TableCell
             key={headerCell.id}
-            align='center'
+            align='left'
             padding={headerCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headerCell.id ? order : false}
           >
@@ -55,7 +61,12 @@ function WishlistTableHead({ order, orderBy, headerCells, handleSort }) {
           </TableCell>
         ))}
         <TableCell align='right'>
-          <Button variant='contained' color='primary' disableElevation>
+          <Button
+            variant='contained'
+            color='primary'
+            disableElevation
+            onClick={handleCreateClick}
+          >
             Create New Wishlist
           </Button>
         </TableCell>
