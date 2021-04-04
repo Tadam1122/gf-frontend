@@ -198,7 +198,26 @@ const effectPedalCells = [
   },
 ]
 
-const defaultCells = [
+const productCells = [
+  {
+    id: 'website',
+    numeric: false,
+    disablePadding: true,
+    label: 'Merchant',
+  },
+  { id: 'price', numeric: false, disablePadding: false, label: 'Price' },
+  {
+    id: 'inStock',
+    numeric: false,
+    disablePadding: false,
+    label: 'In Stock',
+  },
+  {
+    id: '1',
+  },
+]
+
+const wishlistCells = [
   {
     id: 'image',
     numeric: false,
@@ -206,14 +225,7 @@ const defaultCells = [
     label: '',
   },
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-  { id: '1' },
-  { id: '2' },
-  { id: '3' },
-  { id: '4' },
-  { id: '5' },
-  { id: '6' },
-  { id: '7' },
-  { id: '8' },
+  { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
   {
     id: 'price',
     numeric: false,
@@ -235,7 +247,9 @@ export function getHeaderCells(category) {
       return acousticAmpCells
     case 'Effect Pedals':
       return effectPedalCells
+    case 'Product':
+      return productCells
     default:
-      return defaultCells
+      return wishlistCells
   }
 }

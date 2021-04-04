@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Grid, Container, Grow, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import UserForm from './UserForm'
@@ -18,15 +19,23 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function Profile({
+  isLoggedIn,
   username,
   wishlists,
-  handleUserUpdate,
   errors,
   successMessage,
   setErrors,
+  handleUserUpdate,
   setSuccessMessage,
 }) {
   const classes = useStyles()
+  const history = useHistory()
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push('/')
+    }
+  }, [isLoggedIn, history])
 
   useEffect(() => {
     setErrors([])
@@ -64,6 +73,9 @@ function Profile({
         >
           <Grid item xs={12} sm={12} md={7} lg={7} xl={7}>
             <WishlistTable
+              isLoggedIn={isLoggedIn}
+              username={username}
+              history={history}
               wishlists={wishlists}
               handleUserUpdate={handleUserUpdate}
             />

@@ -1,8 +1,8 @@
 import { TableHead, TableCell, TableRow } from '@material-ui/core'
-import { getHeaderCells } from './productHeaderCells'
+import { getHeaderCells } from '../Browse/BrowseTable/headerCells'
 
 function PriceTableHead() {
-  const headerCells = getHeaderCells()
+  const headerCells = getHeaderCells('Product')
 
   return (
     <TableHead>

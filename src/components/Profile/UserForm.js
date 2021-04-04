@@ -8,9 +8,13 @@ const useStyles = makeStyles((theme) => ({
     margin: 8,
     width: '95%',
   },
+  title: {
+    fontWeight: '370',
+  },
   form: {
     background: '#fff',
-    padding: '3rem',
+    padding: '1rem',
+    paddingBottom: '3.5rem',
     borderRadius: '15px',
   },
 }))
@@ -43,7 +47,9 @@ function UserForm({ username, wishlists, handleUserUpdate, errors }) {
 
   return (
     <form className={classes.form}>
-      <Typography variant='h2'>{username}</Typography>
+      <Typography variant='h2' className={classes.title}>
+        {username}
+      </Typography>
       <Errors errors={errors} />
       <TextField
         id='username'

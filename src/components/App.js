@@ -9,6 +9,7 @@ import Search from './Browse/Search'
 import Login from './Auth/Login'
 import Register from './Auth/Register'
 import Profile from './Profile/Profile'
+import Wishlist from './Wishlist/Wishlist'
 import {
   loginUser,
   registerUser,
@@ -19,7 +20,6 @@ import {
   getUserId,
 } from '../services/authServices'
 import { updateUser } from '../services/userServices'
-import { getWishlistCells } from './Profile/wishlistCells'
 
 const theme = createMuiTheme({
   palette: {
@@ -147,7 +147,7 @@ function App(props) {
     }
   }
 
-  // TODO: create handler for updating user
+  // handler for updating user
   async function handleUserUpdate(usernameText, password, email, wishlists) {
     setErrors([])
     setSuccessMessage('')
@@ -164,7 +164,6 @@ function App(props) {
       user.email = email
     }
     const update = await updateUser(user)
-    console.log(update)
     if (update) {
       let newErrors = []
       for (let error of update.data.message.split('/')) {
@@ -174,9 +173,22 @@ function App(props) {
     } else {
       if (usernameText !== '') {
         setUsername(usernameText)
-        setWishlists(wishlists)
       }
+      setWishlists(wishlists)
       setSuccessMessage('Successfully updated account.')
+    }
+  }
+
+  // handler for updating user
+  async function handleWishlistUpdate(wishlists) {
+    setErrors([])
+    setSuccessMessage('')
+    let user = {}
+    user.id = getUserId()
+    user.wishlists = wishlists
+    const update = await updateUser(user)
+    if (!update) {
+      setWishlists(wishlists)
     }
   }
 
@@ -237,16 +249,18 @@ function App(props) {
             path='/profile'
             render={(_) => (
               <Profile
+                isLoggedIn={isLoggedIn}
                 username={username}
                 wishlists={wishlists}
-                handleUserUpdate={handleUserUpdate}
                 errors={errors}
                 successMessage={successMessage}
+                handleUserUpdate={handleUserUpdate}
                 setErrors={setErrors}
                 setSuccessMessage={setSuccessMessage}
               />
             )}
           />
+          <Route path='/wishlist' component={Wishlist} />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>

@@ -34,7 +34,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function WishlistTable({ wishlists, handleUserUpdate }) {
+function WishlistTable({
+  wishlists,
+  username,
+  handleUserUpdate,
+  history,
+  isLoggedIn,
+  handleWishlistUpdate,
+}) {
   const classes = useStyles()
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
@@ -88,7 +95,14 @@ function WishlistTable({ wishlists, handleUserUpdate }) {
         <TableBody>
           {wishlists.length > 0 &&
             sortWishlistData(wishlists, order, orderBy).map((wishlist) => (
-              <WishlistTableRow wishlist={wishlist} key={wishlist.name} />
+              <WishlistTableRow
+                wishlist={wishlist}
+                key={wishlist.name}
+                history={history}
+                isLoggedIn={isLoggedIn}
+                wishlists={wishlists}
+                username={username}
+              />
             ))}
           {createWishlist && (
             <TableRow hover tabIndex={-1}>
