@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 import {
   Container,
   Grow,
+  Grid,
   Typography,
   TableContainer,
   Toolbar,
   Table,
   TableBody,
+  Button,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ItemTableRow from './ItemTableRow'
@@ -17,8 +19,10 @@ import { getProductById } from '../../services/productServices'
 import { capitalize } from '../../utilities/stringUtils'
 
 const useStyles = makeStyles((theme) => ({
-  textfield: {
-    width: '50%',
+  root: {
+    flexGrow: 1,
+    height: '90%',
+    paddingTop: '3rem',
   },
   table: {
     background: 'white',
@@ -27,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '1rem',
     width: '94%',
     borderRadius: '15px',
+    marginBottom: '2rem',
   },
   toolbar: {
     paddingLeft: theme.spacing(2),
@@ -54,7 +59,7 @@ function Wishlists({ location }) {
   const wishlists = location.state.wishlists
   const username = location.state.username
 
-  console.log(location.state)
+  // TODO: need to find a way to pass functions to this component
 
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
@@ -91,7 +96,7 @@ function Wishlists({ location }) {
   }
 
   return (
-    <Container>
+    <Container className={classes.root}>
       <Grow in={true}>
         <TableContainer className={classes.table}>
           <Toolbar className={classes.toolbar}>
@@ -120,6 +125,22 @@ function Wishlists({ location }) {
               ))}
             </TableBody>
           </Table>
+          <Grid container align='right' direction='column'>
+            <Grid item>
+              <Typography className={classes.footer} variant='h4'>
+                {wishlist.totalPrice}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Button
+                className={classes.footer}
+                variant='contained'
+                color='secondary'
+              >
+                Delete Wishlist
+              </Button>
+            </Grid>
+          </Grid>
         </TableContainer>
       </Grow>
     </Container>
