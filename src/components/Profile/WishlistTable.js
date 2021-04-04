@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import WishlistTableRow from './WishlistTableRow'
 import WishlistTableHead from './WishlistTableHead'
 import { sortWishlistData } from './sortWishlistData'
-import { getWishlistCells } from './wishlistCells'
+import { getHeaderCells } from '../Browse/BrowseTable/headerCells'
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+// TODO: replace handleUserUpdate with handleWishlistUpdate handler
 function WishlistTable({
   wishlists,
   username,
@@ -47,7 +48,7 @@ function WishlistTable({
   const [orderBy, setOrderBy] = useState('name')
   const [createWishlist, setCreateWishlist] = useState(false)
   const [newWishlistName, setNewWishlistName] = useState('')
-  const headerCells = getWishlistCells()
+  const headerCells = getHeaderCells()
 
   // sort
   function handleSort(property) {

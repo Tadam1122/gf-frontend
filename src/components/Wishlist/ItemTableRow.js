@@ -23,13 +23,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ItemTableRow({
-  product,
-  wishlists,
-  headerCells,
-  username,
-  handleDeleteItem,
-}) {
+// TODO: component needs handleDeleteWishlistItem handler
+function ItemTableRow({ product, wishlists, headerCells, username }) {
   const classes = useStyles()
   const history = useHistory()
   // dynamic cells for a category
@@ -84,7 +79,6 @@ function ItemTableRow({
           color='secondary'
           size='large'
           disableElevation
-          onClick={(_) => handleDeleteItem(product._id)}
         >
           <HighlightOffIcon />
         </Button>

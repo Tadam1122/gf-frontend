@@ -192,6 +192,34 @@ function App(props) {
     }
   }
 
+  // TODO: this handler needs to somehow be passed to wishlist component
+  async function handleDeleteWishlistItem(prodId, wishlist) {
+    let updatedWishlist = wishlist.items.filter((item) => item.id !== prodId)
+    let updatedWishlists = wishlists.filter(
+      (wishlist) => wishlist.name !== updatedWishlist.name
+    )
+    handleWishlistUpdate(updatedWishlists)
+  }
+
+  // TODO: this handler needs to somehow be passed to wishlist component
+  async function handleDeleteWishlist(wishlistDel) {
+    let updatedWishlists = wishlists.filter(
+      (wishlist) => wishlist.name !== wishlistDel.name
+    )
+    handleWishlistUpdate(updatedWishlists)
+  }
+
+  //TODO: this handlre needs to somehow be passed to product component
+  async function handleAddItem(product, wishlistAdd) {
+    let updatedWishlists = wishlists.map((wishlist) => {
+      if (wishlist.name === wishlistAdd.name) {
+        wishlist.items.push(product)
+      }
+      return wishlist
+    })
+    handleWishlistUpdate(updatedWishlists)
+  }
+
   //TODO: implement mobile navbar if time permits
   return (
     <MuiThemeProvider theme={theme}>

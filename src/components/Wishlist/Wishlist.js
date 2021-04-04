@@ -52,14 +52,13 @@ async function fetchProducts(products) {
   return foundProducts
 }
 
+// TODO: component needs handleDeleteWishlistItem and handleDeleteWishlist handlers
 function Wishlists({ location }) {
   const classes = useStyles()
 
   const wishlist = location.state.wishlist
   const wishlists = location.state.wishlists
   const username = location.state.username
-
-  // TODO: need to find a way to pass functions to this component
 
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
@@ -68,7 +67,7 @@ function Wishlists({ location }) {
 
   // get new header cells for different categories
   useEffect(() => {
-    const newHeaderCells = getHeaderCells()
+    const newHeaderCells = getHeaderCells('Products')
     setHeaderCells(newHeaderCells)
   }, [])
 
@@ -89,10 +88,6 @@ function Wishlists({ location }) {
 
   function handleAddClick() {
     console.log('ouch!')
-  }
-
-  async function handleDeleteItem(prodId) {
-    let filteredWishlist = wishlist.items.filter((item) => item.id !== prodId)
   }
 
   return (
@@ -120,7 +115,6 @@ function Wishlists({ location }) {
                   headerCells={headerCells}
                   wishlists={wishlists}
                   username={username}
-                  handleDeleteItem={handleDeleteItem}
                 />
               ))}
             </TableBody>

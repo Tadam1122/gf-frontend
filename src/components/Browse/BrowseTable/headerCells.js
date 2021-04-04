@@ -200,6 +200,38 @@ const effectPedalCells = [
 
 const productCells = [
   {
+    id: 'image',
+    numeric: false,
+    disablePadding: true,
+    label: '',
+  },
+  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+  { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
+  {
+    id: 'price',
+    numeric: false,
+    disablePadding: false,
+    label: 'Price',
+  },
+]
+
+const wishlistCells = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Name',
+  },
+  {
+    id: 'totalPrice',
+    numeric: false,
+    disablePadding: false,
+    label: 'Total Price',
+  },
+]
+
+const defaultCells = [
+  {
     id: 'website',
     numeric: false,
     disablePadding: true,
@@ -217,23 +249,6 @@ const productCells = [
   },
 ]
 
-const wishlistCells = [
-  {
-    id: 'image',
-    numeric: false,
-    disablePadding: true,
-    label: '',
-  },
-  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-  { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
-  {
-    id: 'price',
-    numeric: false,
-    disablePadding: false,
-    label: 'Price',
-  },
-]
-
 //return one of the header cells for table
 export function getHeaderCells(category) {
   switch (category) {
@@ -247,7 +262,7 @@ export function getHeaderCells(category) {
       return acousticAmpCells
     case 'Effect Pedals':
       return effectPedalCells
-    case 'Product':
+    case 'Products':
       return productCells
     default:
       return wishlistCells

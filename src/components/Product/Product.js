@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+// TODO: component needs handleAddItem handler
 function Product({ location }) {
   const product = location.state.product
   const username = location.state.username

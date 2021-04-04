@@ -14,8 +14,11 @@ const useStyles = makeStyles((theme) => ({
   form: {
     background: '#fff',
     padding: '1rem',
-    paddingBottom: '3.5rem',
+    paddingBottom: '1.5rem',
     borderRadius: '15px',
+  },
+  button: {
+    marginTop: '3rem',
   },
 }))
 function UserForm({ username, wishlists, handleUserUpdate, errors }) {
@@ -90,6 +93,7 @@ function UserForm({ username, wishlists, handleUserUpdate, errors }) {
         size='large'
         disableElevation
         fullWidth
+        className={classes.button}
         disabled={repeatPasswordError || emailError}
         onClick={(_) =>
           handleUserUpdate(usernameText, password, email, wishlists)
