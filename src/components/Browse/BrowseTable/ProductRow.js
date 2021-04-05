@@ -34,7 +34,11 @@ function ProductRow({ product, wishlists, headerCells, username }) {
   function handleProductClick() {
     history.push({
       pathname: '/product',
-      state: { product: product, username: username, wishlists: wishlists },
+      state: {
+        product: product,
+        username: username,
+        wishlists: wishlists,
+      },
     })
   }
   return (

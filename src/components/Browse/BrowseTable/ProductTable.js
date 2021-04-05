@@ -93,7 +93,7 @@ function ProductTable({
                 handleClearPrice()
               }}
             >
-              Price:{' '}
+              Price:
               {activePrice[0] &&
                 activePrice[1] &&
                 `$${activePrice[0]}-$${activePrice[1]}`}
@@ -146,19 +146,20 @@ function ProductTable({
           headerCells={headerCells}
         />
         <TableBody>
-          {sortData(products, order, orderBy)
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((product) => {
-              return (
-                <ProductRow
-                  product={product}
-                  wishlists={wishlists}
-                  key={product._id}
-                  headerCells={headerCells}
-                  username={username}
-                />
-              )
-            })}
+          {products.length > 0 &&
+            sortData(products, order, orderBy)
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((product) => {
+                return (
+                  <ProductRow
+                    product={product}
+                    wishlists={wishlists}
+                    key={product._id}
+                    headerCells={headerCells}
+                    username={username}
+                  />
+                )
+              })}
           {emptyRows > 0 && (
             <TableRow style={{ height: 50 * emptyRows }}>
               <TableCell colSpan={10} />

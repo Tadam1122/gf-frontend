@@ -1,0 +1,11 @@
+export const FETCH_PRODUCTS = 'FETCH_PRODUCTS'
+export const FETCH_WISHLIST_PRODUCTS = 'FETCH_WISHLIST_PRODUCTS'
+export const FIND_PRODUCTS = 'FIND_PRODUCTS'
+
+export const AUTH_USER = 'AUTH_USER'
+export const LOGOUT_USER = 'LOGOUT_USER'
+export const REGISTER_USER = 'REGISTER_USER'
+export const UPDATE_USER = 'UPDATE_USER'
+
+export const SET_ERROR = 'SET_ERROR'
+export const CLEAR_ERROR = 'CLEAR_ERROR'

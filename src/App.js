@@ -1,25 +1,27 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import NavbarDesktop from './Navbar/NavbarDesktop'
-import Home from './Home'
-import Browse from './Browse/Browse'
-import Product from './Product/Product'
-import Search from './Browse/Search'
-import Login from './Auth/Login'
-import Register from './Auth/Register'
-import Profile from './Profile/Profile'
-import Wishlist from './Wishlist/Wishlist'
+import store from './store'
+import NavbarDesktop from './components/Navbar/NavbarDesktop'
+import Home from './components/Home'
+import Browse from './components/Browse/Browse'
+import Product from './components/Product/Product'
+import Search from './components/Browse/Search'
+import Login from './components/Auth/Login'
+import Register from './components/Auth/Register'
+import Profile from './components/Profile/Profile'
+import Wishlist from './components/Wishlist/Wishlist'
 import {
-  loginUser,
-  registerUser,
+  login,
+  register,
   checkLogin,
   getUsername,
   logout,
   getUserWishlists,
   getUserId,
-} from '../services/authServices'
-import { updateUser } from '../services/userServices'
+} from './services/authServices'
+import { updateUser } from './services/userServices'
 
 const theme = createMuiTheme({
   palette: {
@@ -51,6 +53,11 @@ const theme = createMuiTheme({
     },
   },
 })
+
+// TODO: Turn relevant react states (user data or product data) into redux
+// TODO: make navbar and other relevant components read user data from redux state
+// TODO: ensure that userUpdate action works
+// TODO:
 
 function App(props) {
   //state for modal
@@ -101,50 +108,12 @@ function App(props) {
     }
   }
 
-  //login user
-  async function handleLogin(username, password, history) {
-    setErrors([])
-    const user = { username: username, password: password }
-    const login = await loginUser(user)
-    //check for error message
-    if (login) {
-      let newErrors = []
-      for (let error of login.data.message.split('/')) {
-        if (error.length > 1) newErrors.push({ message: `${error}` })
-      }
-      setErrors(newErrors)
-    } else {
-      setLogin(true)
-      setUsername(username)
-      setWishlists(getUserWishlists())
-      history.push('/')
-    }
-  }
-
   //logout user
   function handleLogout() {
     logout()
     setLogin(false)
     setUsername('')
     setWishlists([])
-  }
-
-  //register user
-  async function handleRegister(username, password, email, history) {
-    setErrors([])
-    const user = { username: username, password: password, email: email }
-
-    const register = await registerUser(user)
-    if (register.status < 200 || register.status > 300) {
-      let newErrors = []
-      for (let error of register.data.message.split('/')) {
-        if (error.length > 1) newErrors.push({ message: `${error}` })
-      }
-
-      setErrors(newErrors)
-    } else {
-      await handleLogin(username, password, history)
-    }
   }
 
   // handler for updating user
@@ -222,76 +191,68 @@ function App(props) {
 
   //TODO: implement mobile navbar if time permits
   return (
-    <MuiThemeProvider theme={theme}>
-      <BrowserRouter>
-        {/* <NavbarMobile /> */}
-        <NavbarDesktop
-          modalOpen={modalOpen}
-          handleClose={handleModalClose}
-          handleOpen={handleModalOpen}
-          handleSearchChange={handleSearchChange}
-          isLoggedIn={isLoggedIn}
-          username={username}
-          wishlists={wishlists}
-          handleLogout={handleLogout}
-        />
-        <Switch>
-          <Route
-            path='/'
-            exact
-            render={(_) => (
-              <Home
-                modalOpen={modalOpen}
-                handleClose={handleModalClose}
-                handleOpen={handleModalOpen}
-              />
-            )}
+    <Provider store={store}>
+      <MuiThemeProvider theme={theme}>
+        <BrowserRouter>
+          {/* <NavbarMobile /> */}
+          <NavbarDesktop
+            modalOpen={modalOpen}
+            handleClose={handleModalClose}
+            handleOpen={handleModalOpen}
+            handleSearchChange={handleSearchChange}
+            isLoggedIn={isLoggedIn}
+            username={username}
+            wishlists={wishlists}
+            handleLogout={handleLogout}
           />
-          <Route
-            path='/browse'
-            render={(_) => <Browse username={username} wishlists={wishlists} />}
-          />
-          <Route
-            path='/login'
-            render={(_) => (
-              <Login
-                handleLogin={handleLogin}
-                errors={errors}
-                setErrors={setErrors}
-              />
-            )}
-          />
-          <Route path='/product' component={Product} />
-          <Route path='/search' component={Search} />
-          <Route
-            path='/register'
-            render={(_) => (
-              <Register
-                handleRegister={handleRegister}
-                errors={errors}
-                setErrors={setErrors}
-              />
-            )}
-          />
-          <Route
-            path='/profile'
-            render={(_) => (
-              <Profile
-                isLoggedIn={isLoggedIn}
-                username={username}
-                wishlists={wishlists}
-                errors={errors}
-                successMessage={successMessage}
-                handleUserUpdate={handleUserUpdate}
-                setErrors={setErrors}
-                setSuccessMessage={setSuccessMessage}
-              />
-            )}
-          />
-          <Route path='/wishlist' component={Wishlist} />
-        </Switch>
-      </BrowserRouter>
-    </MuiThemeProvider>
+          <Switch>
+            <Route
+              path='/'
+              exact
+              render={(_) => (
+                <Home
+                  modalOpen={modalOpen}
+                  handleClose={handleModalClose}
+                  handleOpen={handleModalOpen}
+                />
+              )}
+            />
+            <Route
+              path='/browse'
+              render={(_) => (
+                <Browse username={username} wishlists={wishlists} />
+              )}
+            />
+            <Route
+              path='/login'
+              render={(_) => <Login errors={errors} setErrors={setErrors} />}
+            />
+            <Route path='/product' component={Product} />
+            <Route path='/search' component={Search} />
+            <Route
+              path='/register'
+              render={(_) => <Register errors={errors} setErrors={setErrors} />}
+            />
+            <Route
+              path='/profile'
+              render={(_) => (
+                <Profile
+                  isLoggedIn={isLoggedIn}
+                  username={username}
+                  wishlists={wishlists}
+                  errors={errors}
+                  successMessage={successMessage}
+                  handleUserUpdate={handleUserUpdate}
+                  setErrors={setErrors}
+                  setSuccessMessage={setSuccessMessage}
+                />
+              )}
+            />
+            <Route path='/wishlist' component={Wishlist} />
+          </Switch>
+        </BrowserRouter>
+      </MuiThemeProvider>
+    </Provider>
   )
 }
 

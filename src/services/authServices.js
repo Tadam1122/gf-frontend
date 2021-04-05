@@ -6,7 +6,7 @@ export function checkLogin() {
   return token != null
 }
 
-export function loginUser(user) {
+export async function login(user) {
   return http()
     .post('/auth', user)
     .then((res) => {
@@ -14,6 +14,16 @@ export function loginUser(user) {
         setToken(res.data.token)
       }
     })
+    .catch(function (error) {
+      if (error.response) {
+        return error.response
+      }
+    })
+}
+
+export function register(user) {
+  return http()
+    .post('/register', user)
     .catch(function (error) {
       if (error.response) {
         return error.response
@@ -58,14 +68,12 @@ export function getUserWishlists() {
   return token.user.wishlists
 }
 
-export function registerUser(user) {
-  return http()
-    .post('/register', user)
-    .catch(function (error) {
-      if (error.response) {
-        return error.response
-      }
-    })
+export function getUser() {
+  const token = decodeToken()
+  if (!token) {
+    return null
+  }
+  return token.user
 }
 
 function decodeToken() {

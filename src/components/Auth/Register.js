@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import {
   TextField,
@@ -10,6 +11,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Errors from './Errors'
+import { registerUser } from '../../actions/userActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,10 +27,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 // TODO: look into cognito for email verification
-function Register({ handleRegister, errors, setErrors }) {
+function Register({ errors, setErrors }) {
   const classes = useStyles()
-  // eslint-disable-next-line
   const history = useHistory()
+  const dispatch = useDispatch()
   const [username, changeUsername] = useState('')
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
@@ -123,7 +125,14 @@ function Register({ handleRegister, errors, setErrors }) {
               disableElevation
               fullWidth
               disabled={repeatPasswordError || emailError}
-              onClick={() => handleRegister(username, password, email, history)}
+              onClick={() =>
+                dispatch(
+                  registerUser(
+                    { username: username, password: password, email: email },
+                    history
+                  )
+                )
+              }
             >
               Register
             </Button>

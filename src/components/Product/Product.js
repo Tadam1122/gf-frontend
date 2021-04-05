@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     background: '#fff',
     borderRadius: '15px',
-    paddingBottom: '20%',
-    height: '80%',
+    paddingBottom: '3rem',
+    height: '14rem',
   },
   image: {
     width: 'auto',

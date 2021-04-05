@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Container,
   Grow,
@@ -15,8 +16,7 @@ import ItemTableRow from './ItemTableRow'
 import ItemTableHead from './ItemTableHead'
 import { sortData } from '../Browse/BrowseTable/sortData'
 import { getHeaderCells } from '../Browse/BrowseTable/headerCells'
-import { getProductById } from '../../services/productServices'
-import { capitalize } from '../../utilities/stringUtils'
+import { fetchWishlistProducts } from '../../actions/productActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,19 +39,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-async function fetchProducts(products) {
-  let foundProducts = []
-  for (let product of products) {
-    let res = await getProductById(product.category, product.id)
-    let data = await res.data
-    data.category = `${capitalize(product.category.split('-')[0])} ${capitalize(
-      product.category.split('-')[1]
-    )}`
-    foundProducts.push(data)
-  }
-  return foundProducts
-}
-
 // TODO: component needs handleDeleteWishlistItem and handleDeleteWishlist handlers
 function Wishlists({ location }) {
   const classes = useStyles()
@@ -60,10 +47,13 @@ function Wishlists({ location }) {
   const wishlists = location.state.wishlists
   const username = location.state.username
 
+  const products = useSelector((state) => state.products.products)
+  const dispatch = useDispatch()
+
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
   const [headerCells, setHeaderCells] = useState([])
-  const [products, setProducts] = useState([])
+  // const [products, setProducts] = useState([])
 
   // get new header cells for different categories
   useEffect(() => {
@@ -73,11 +63,10 @@ function Wishlists({ location }) {
 
   useEffect(() => {
     async function getProducts() {
-      const resProducts = await fetchProducts(wishlist.items)
-      setProducts(resProducts)
+      dispatch(fetchWishlistProducts(wishlist.items))
     }
     getProducts()
-  }, [wishlist])
+  }, [wishlist, dispatch])
 
   // sort
   function handleSort(property) {

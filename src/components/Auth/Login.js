@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import {
   TextField,
@@ -10,6 +11,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Errors from './Errors'
+import { loginUser } from '../../actions/userActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,10 +26,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Login({ handleLogin, errors, setErrors }) {
+function Login({ errors, setErrors }) {
   const classes = useStyles()
-  // eslint-disable-next-line
   const history = useHistory()
+  const dispatch = useDispatch()
+
   const [username, changeUsername] = useState(' ')
   const [password, changePassword] = useState(' ')
 
@@ -89,7 +92,11 @@ function Login({ handleLogin, errors, setErrors }) {
               fullWidth
               disabled={usernameError || passwordError}
               // eslint-disable-next-line
-              onClick={() => handleLogin(username, password, history)}
+              onClick={() =>
+                dispatch(
+                  loginUser({ username: username, password: password }, history)
+                )
+              }
             >
               Login
             </Button>

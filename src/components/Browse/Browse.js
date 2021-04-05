@@ -1,33 +1,17 @@
 import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchProducts } from '../../actions/productActions'
 import { useLocation } from 'react-router-dom'
 import { Grid, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ProductTable from './BrowseTable/ProductTable'
 import Sidebar from './BrowseSidebar/Sidebar'
-import { getProducts } from '../../services/productServices'
 import {
   capitalize,
   lowercase,
   formatFilters,
 } from '../../utilities/stringUtils'
 import { getLowestNumber } from '../../utilities/priceUtil'
-
-// TODO: api url will need to be changed for production
-async function fetchProducts(table) {
-  let data = ''
-  if (
-    table === 'electric-guitars' ||
-    table === 'acoustic-guitars' ||
-    table === 'acoustic-amps' ||
-    table === 'electric-amps' ||
-    table === 'effect-pedals'
-  ) {
-    const res = await getProducts(table)
-    data = await res.data
-  }
-
-  return data
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,8 +26,16 @@ function Browse({ username, wishlists }) {
   const classes = useStyles()
   const location = useLocation()
 
+  const products = useSelector((state) => state.products.products)
+  const dispatch = useDispatch()
+
+  //table name and categories
+  const tableName = location.pathname.split('/')[2]
+  const category = `${capitalize(tableName.split('-')[0])} ${capitalize(
+    tableName.split('-')[1]
+  )}`
+
   //product state
-  const [products, setProducts] = useState([])
   const [filterProducts, setFilterProducts] = useState([])
 
   //sorting and rows per page state
@@ -62,20 +54,13 @@ function Browse({ username, wishlists }) {
   //product filters
   const [filters, setFilters] = useState([])
 
-  //table name and categories
-  const tableName = location.pathname.split('/')[2]
-  const category = `${capitalize(tableName.split('-')[0])} ${capitalize(
-    tableName.split('-')[1]
-  )}`
-
   //fetch new products when table name changes
   useEffect(() => {
-    async function getProducts() {
-      const resProducts = await fetchProducts(tableName)
-      setProducts(resProducts)
+    function getProducts() {
+      dispatch(fetchProducts(tableName))
     }
     getProducts()
-  }, [tableName])
+  }, [tableName, dispatch])
 
   //create initial filter objects
   useEffect(() => {
@@ -307,11 +292,13 @@ function Browse({ username, wishlists }) {
         <Grid item xs={12} sm={9} md={9} lg={10} xl={10}>
           <ProductTable
             products={
-              filterProducts.length > 0 ||
-              activeFilters.length > 0 ||
-              activeRadio.length > 0
-                ? filterProducts
-                : products
+              products.length > 0
+                ? filterProducts.length > 0 ||
+                  activeFilters.length > 0 ||
+                  activeRadio.length > 0
+                  ? filterProducts
+                  : products
+                : []
             }
             username={username}
             wishlists={wishlists}

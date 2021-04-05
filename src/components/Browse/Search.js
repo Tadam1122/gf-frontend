@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Grid, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ProductTable from './BrowseTable/ProductTable'
 import Sidebar from './BrowseSidebar/Sidebar'
-import { findProducts } from '../../services/productServices'
+import { searchProducts } from '../../actions/productActions'
 import {
   capitalize,
   lowercase,
   formatFilters,
 } from '../../utilities/stringUtils'
 import { getLowestNumber } from '../../utilities/priceUtil'
-
-async function searchProducts(searchText) {
-  const res = await findProducts(searchText)
-  return await res.data
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,8 +27,11 @@ function Search({ location }) {
   const username = location.state.username
   const wishlists = location.state.wishlists
 
+  const products = useSelector((state) => state.products.products)
+  const dispatch = useDispatch()
+
   //product state
-  const [products, setProducts] = useState([])
+  // const [products, setProducts] = useState([])
   const [filterProducts, setFilterProducts] = useState([])
 
   //sorting and rows per page state
@@ -54,11 +53,10 @@ function Search({ location }) {
   //update found products
   useEffect(() => {
     async function updateFoundProducts() {
-      const productsFound = await searchProducts(searchText)
-      setProducts(productsFound)
+      dispatch(searchProducts(searchText))
     }
     updateFoundProducts()
-  }, [searchText])
+  }, [searchText, dispatch])
 
   //create initial filter objects
   useEffect(() => {
