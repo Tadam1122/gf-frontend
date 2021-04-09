@@ -119,10 +119,25 @@ function Wishlists({ location }) {
   }
 
   function handleDeleteItem(id) {
-    wishlist.items = wishlist.items.filter((product) => product.id !== id)
+    let found = false
+    wishlist.items = wishlist.items.filter((product) => {
+      if (product.id === id && !found) {
+        found = true
+      } else {
+        return product
+      }
+    })
+
     //get updated wishlist price
     let updatedProducts = [...products]
-    updatedProducts = updatedProducts.filter((product) => product._id !== id)
+    found = false
+    updatedProducts = updatedProducts.filter((product) => {
+      if (product._id === id && !found) {
+        found = true
+      } else {
+        return product
+      }
+    })
 
     let numberPrice = updatedProducts.map((product) =>
       getLowestNumber(product.prices)
