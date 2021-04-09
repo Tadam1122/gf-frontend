@@ -1,13 +1,19 @@
+import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Button, ButtonBase, Grid, Container, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import PriceTable from './PriceTable'
-import SpecsTable from './SpecsTable'
+import PriceTable from './PriceTable/PriceTable'
+import SpecsTable from './SpecsTable/SpecsTable'
+import WishlistModal from './WishlistModal/WishlistModal'
+import { updateUser } from '../../actions/userActions'
+import { getLowestNumber, priceToNumber } from '../../utilities/priceUtils'
+import Success from '../Auth/Success'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     height: '90%',
-    paddingTop: '10%',
+    paddingTop: '2rem',
   },
   imageContainer: {
     width: '100%',
@@ -33,12 +39,37 @@ const useStyles = makeStyles((theme) => ({
 
 // TODO: component needs handleAddItem handler
 function Product({ location }) {
+  const [modalOpen, toggleModal] = useState(false)
+
+  const user = useSelector((state) => state.userRed.user)
+  const dispatch = useDispatch()
+
   const product = location.state.product
-  const username = location.state.username
-  // TODO: update wishlists when user adds item to wishlist
-  const wishlists = location.state.wishlists
+  const tableName = location.state.tableName
 
   const classes = useStyles()
+
+  //modal opened
+  function handleModalOpen() {
+    toggleModal(true)
+  }
+  //modal closed
+  function handleModalClose() {
+    toggleModal(false)
+  }
+
+  function handleAddProduct(wishlist) {
+    wishlist.items.push({ id: product._id, tablename: tableName })
+    wishlist.totalPrice = `$${
+      priceToNumber(wishlist.totalPrice) + getLowestNumber(product.prices)
+    }`
+    let updatedWishlists = [...user.wishlists]
+    updatedWishlists = updatedWishlists.filter(
+      (userWish) => wishlist.name !== userWish.name
+    )
+    updatedWishlists.push(wishlist)
+    dispatch(updateUser(updatedWishlists))
+  }
 
   return (
     <Container justify='center'>
@@ -49,6 +80,9 @@ function Product({ location }) {
         justify='center'
         className={classes.root}
       >
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Success />
+        </Grid>
         <Grow in={true}>
           <Grid item xs={12} sm={12} md={5} lg={3} xl={3}>
             <ButtonBase className={classes.imageContainer} disabled>
@@ -59,12 +93,13 @@ function Product({ location }) {
                 className={classes.image}
               />
             </ButtonBase>
-            {username && (
+            {user && (
               <Button
                 className={classes.button}
                 variant='contained'
                 color='primary'
                 disableElevation
+                onClick={handleModalOpen}
               >
                 Add to Wishlist
               </Button>
@@ -98,6 +133,11 @@ function Product({ location }) {
           </Grid>
         </Grow>
       </Grid>
+      <WishlistModal
+        modalOpen={modalOpen}
+        handleClose={handleModalClose}
+        handleAddProduct={handleAddProduct}
+      />
     </Container>
   )
 }

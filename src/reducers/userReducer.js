@@ -3,12 +3,7 @@ import { AUTH_USER, LOGOUT_USER, UPDATE_USER } from '../actions/types'
 import { getUser } from '../services/authServices'
 
 let user = getUser()
-const initialState = user
-  ? {
-      loggedIn: true,
-      user,
-    }
-  : {}
+const initialState = user ? user : {}
 
 export default function (state = initialState, action) {
   switch (action.type) {

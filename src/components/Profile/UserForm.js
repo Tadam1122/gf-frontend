@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Button, Typography, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Errors from '../Auth/Errors'
+import { updateUser } from '../../actions/userActions'
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -21,15 +23,20 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '3rem',
   },
 }))
-function UserForm({ username, wishlists, handleUserUpdate, errors }) {
+function UserForm() {
   const classes = useStyles()
-  const [usernameText, changeUsername] = useState('')
+  const user = useSelector((state) => state.userRed.user)
+  const dispatch = useDispatch()
+
+  //textfield state variables
+  const [username, changeUsername] = useState('')
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
   const [repeatPassword, changeRepeatPassword] = useState('')
 
   const emailReg = /^\S+@\S+[.]\S+[^@.,!@#$%^&*()_+<>/?|]$/ //basic regex for email syntax
 
+  //textField errors
   const repeatPasswordError = repeatPassword !== password
   const emailError = !emailReg.test(email) && email.length > 0
 
@@ -51,9 +58,9 @@ function UserForm({ username, wishlists, handleUserUpdate, errors }) {
   return (
     <form className={classes.form}>
       <Typography variant='h2' className={classes.title}>
-        {username}
+        {user.username}
       </Typography>
-      <Errors errors={errors} />
+      <Errors />
       <TextField
         id='username'
         label='Change Username'
@@ -96,7 +103,7 @@ function UserForm({ username, wishlists, handleUserUpdate, errors }) {
         className={classes.button}
         disabled={repeatPasswordError || emailError}
         onClick={(_) =>
-          handleUserUpdate(usernameText, password, email, wishlists)
+          dispatch(updateUser(user.wishlists, username, password, email))
         }
       >
         Submit Changes

@@ -6,6 +6,7 @@ export const setError = (errors) => (dispatch) => {
     payload: errors,
   })
 }
+
 export const clearError = () => (dispatch) => {
   dispatch({
     type: CLEAR_ERROR,

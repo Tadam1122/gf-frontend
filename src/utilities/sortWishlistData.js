@@ -1,4 +1,4 @@
-import { getLowestNumber } from '../../utilities/priceUtil'
+import { getLowestNumber } from './priceUtils'
 
 export function sortWishlistData(data, order, prop) {
   // price and name specific cases

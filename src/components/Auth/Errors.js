@@ -1,7 +1,9 @@
+import { useSelector } from 'react-redux'
 import { Grid, Typography } from '@material-ui/core'
 
-function Errors({ errors }) {
-  if (errors.length > 0) {
+function Errors() {
+  const errors = useSelector((state) => state.errorsRed.errors)
+  if (errors) {
     return (
       <Grid item>
         {errors.map((error) => (

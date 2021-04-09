@@ -7,7 +7,7 @@ import {
   Button,
   Typography,
 } from '@material-ui/core'
-import { getLowestPrice } from '../../../utilities/priceUtil'
+import { getLowestPrice } from '../../../utilities/priceUtils'
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ProductRow({ product, wishlists, headerCells, username }) {
+function ProductRow({ product, headerCells, tableName }) {
   const classes = useStyles()
   const history = useHistory()
   // dynamic cells for a category
@@ -36,8 +36,7 @@ function ProductRow({ product, wishlists, headerCells, username }) {
       pathname: '/product',
       state: {
         product: product,
-        username: username,
-        wishlists: wishlists,
+        tableName: tableName,
       },
     })
   }

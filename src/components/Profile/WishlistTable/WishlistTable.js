@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Typography,
   Toolbar,
@@ -13,12 +14,13 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import WishlistTableRow from './WishlistTableRow'
 import WishlistTableHead from './WishlistTableHead'
-import { sortWishlistData } from './sortWishlistData'
-import { getHeaderCells } from '../Browse/BrowseTable/headerCells'
+import { sortWishlistData } from '../../../utilities/sortWishlistData'
+import { getHeaderCells } from '../../../utilities/headerCells'
+import { updateUser } from '../../../actions/userActions'
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
-    width: '50%',
+    width: '7rem',
   },
   table: {
     background: 'white',
@@ -34,21 +36,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+// TODO: ensure component works with redux
 // TODO: replace handleUserUpdate with handleWishlistUpdate handler
-function WishlistTable({
-  wishlists,
-  username,
-  handleUserUpdate,
-  history,
-  isLoggedIn,
-  handleWishlistUpdate,
-}) {
+function WishlistTable({ history }) {
   const classes = useStyles()
+  const user = useSelector((state) => state.userRed.user)
+  const dispatch = useDispatch()
+
+  //ui state vars
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
   const [createWishlist, setCreateWishlist] = useState(false)
   const [newWishlistName, setNewWishlistName] = useState('')
-  const headerCells = getHeaderCells()
+  const [headerCells, setHeaderCells] = useState([])
+  const [duplicateFound, setDuplicateFound] = useState(false)
+
+  // get new header cells for different categories
+  useEffect(() => {
+    const newHeaderCells = getHeaderCells()
+    setHeaderCells(newHeaderCells)
+  }, [])
 
   // sort
   function handleSort(property) {
@@ -58,11 +65,20 @@ function WishlistTable({
   }
 
   function handleCreateClick() {
-    setCreateWishlist(true)
+    setCreateWishlist(!createWishlist)
   }
 
+  // check for duplicates when text changes
   function handleNewNameChange(e) {
     setNewWishlistName(e.target.value)
+    const found = user.wishlists.filter(
+      (wishlist) => wishlist.name === e.target.value
+    )
+    if (found.length > 0) {
+      setDuplicateFound(true)
+    } else {
+      setDuplicateFound(false)
+    }
   }
 
   function createNewWishlist() {
@@ -71,9 +87,9 @@ function WishlistTable({
       totalPrice: '$0',
       items: [],
     }
-    let updatedWishlists = wishlists
+    let updatedWishlists = user.wishlists
     updatedWishlists.push(newWishlist)
-    handleUserUpdate('', '', '', updatedWishlists)
+    dispatch(updateUser(updatedWishlists))
     setCreateWishlist(false)
     setNewWishlistName('')
   }
@@ -92,27 +108,24 @@ function WishlistTable({
           handleSort={handleSort}
           headerCells={headerCells}
           handleCreateClick={handleCreateClick}
+          createWishlist={createWishlist}
         />
         <TableBody>
-          {wishlists.length > 0 &&
-            sortWishlistData(wishlists, order, orderBy).map((wishlist) => (
+          {user.wishlists.length > 0 &&
+            sortWishlistData(user.wishlists, order, orderBy).map((wishlist) => (
               <WishlistTableRow
                 wishlist={wishlist}
-                key={wishlist.name}
                 history={history}
-                isLoggedIn={isLoggedIn}
-                wishlists={wishlists}
-                username={username}
+                key={wishlist.name}
               />
             ))}
           {createWishlist && (
             <TableRow hover tabIndex={-1}>
-              <TableCell align='left'>
+              <TableCell align='left' className={classes.textfield}>
                 <TextField
                   id='newName'
                   label='New Name'
                   onChange={handleNewNameChange}
-                  className={classes.textfield}
                 />
               </TableCell>
               <TableCell align='left'>$0</TableCell>
@@ -121,6 +134,8 @@ function WishlistTable({
                   variant='outlined'
                   color='primary'
                   onClick={createNewWishlist}
+                  disabled={duplicateFound}
+                  disableElevation
                 >
                   Create Wishlist
                 </Button>

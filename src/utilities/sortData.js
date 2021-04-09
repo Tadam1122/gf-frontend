@@ -1,4 +1,4 @@
-import { getLowestNumber } from '../../../utilities/priceUtil'
+import { getLowestNumber } from './priceUtils'
 
 // TODO: string count not sorting properly
 export function sortData(data, order, prop) {

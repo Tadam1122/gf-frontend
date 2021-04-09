@@ -15,3 +15,7 @@ export function getLowestNumber(stores) {
     )
   )
 }
+
+export function priceToNumber(price) {
+  return Number(price.split('$')[1])
+}

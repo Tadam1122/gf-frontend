@@ -26,7 +26,7 @@ function ItemTableHead({
   orderBy,
   headerCells,
   handleSort,
-  handleAddClick,
+  handleModalOpen,
 }) {
   const classes = useStyles()
 
@@ -65,7 +65,7 @@ function ItemTableHead({
             variant='contained'
             color='primary'
             disableElevation
-            onClick={handleAddClick}
+            onClick={handleModalOpen}
           >
             Add New Item
           </Button>

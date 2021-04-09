@@ -11,7 +11,7 @@ import {
   lowercase,
   formatFilters,
 } from '../../utilities/stringUtils'
-import { getLowestNumber } from '../../utilities/priceUtil'
+import { getLowestNumber } from '../../utilities/priceUtils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,11 +22,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Browse({ username, wishlists }) {
+function Browse() {
   const classes = useStyles()
   const location = useLocation()
 
-  const products = useSelector((state) => state.products.products)
+  const products = useSelector((state) => state.productsRed.products)
   const dispatch = useDispatch()
 
   //table name and categories
@@ -300,9 +300,8 @@ function Browse({ username, wishlists }) {
                   : products
                 : []
             }
-            username={username}
-            wishlists={wishlists}
             category={category}
+            tableName={tableName}
             rowsPerPage={rowsPerPage}
             page={page}
             activeFilters={activeFilters}

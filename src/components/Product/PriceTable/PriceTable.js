@@ -34,7 +34,7 @@ function PriceTable({ product }) {
         <PriceTableHead />
         <TableBody>
           {product.prices.map((store) => {
-            return <PriceTableRow store={store} key={store.url} />
+            return <PriceTableRow store={store} key={store.website} />
           })}
         </TableBody>
       </Table>

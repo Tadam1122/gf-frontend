@@ -27,6 +27,7 @@ function WishlistTableHead({
   headerCells,
   handleSort,
   handleCreateClick,
+  createWishlist,
 }) {
   const classes = useStyles()
 
@@ -67,7 +68,9 @@ function WishlistTableHead({
             disableElevation
             onClick={handleCreateClick}
           >
-            Create New Wishlist
+            {!createWishlist
+              ? 'Create New Wishlist'
+              : 'Cancel Creating Wishlist'}
           </Button>
         </TableCell>
       </TableRow>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import store from './store'
+import store, { persistor } from './store'
 import NavbarDesktop from './components/Navbar/NavbarDesktop'
 import Home from './components/Home'
 import Browse from './components/Browse/Browse'
@@ -12,16 +13,8 @@ import Login from './components/Auth/Login'
 import Register from './components/Auth/Register'
 import Profile from './components/Profile/Profile'
 import Wishlist from './components/Wishlist/Wishlist'
-import {
-  login,
-  register,
-  checkLogin,
-  getUsername,
-  logout,
-  getUserWishlists,
-  getUserId,
-} from './services/authServices'
-import { updateUser } from './services/userServices'
+import { getUserId } from './services/authServices'
+import { update } from './services/userServices'
 
 const theme = createMuiTheme({
   palette: {
@@ -29,9 +22,23 @@ const theme = createMuiTheme({
       main: '#3F98D8',
       light: '#d3dedf',
     },
+    secondary: {
+      main: '#DB7748',
+    },
   },
   typography: {
-    fontFamily: 'roboto, sans-serif',
+    fontFamily: [
+      'BlinkMacSystemFont',
+      '-apple-system',
+      '"Helvetica Neue"',
+      'Roboto',
+      '"Segoe UI"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
   },
   overrides: {
     MuiTableRow: {
@@ -57,30 +64,13 @@ const theme = createMuiTheme({
 // TODO: Turn relevant react states (user data or product data) into redux
 // TODO: make navbar and other relevant components read user data from redux state
 // TODO: ensure that userUpdate action works
-// TODO:
-
+// TODO: set up error component to use error selectors from redux, ensure parent components also read from error selector if need be
+// TODO: set up success message action and reducer when updating user in profile succeeds
 function App(props) {
   //state for modal
   const [modalOpen, toggleModal] = useState(false)
 
-  //login state
-  const [isLoggedIn, setLogin] = useState(false)
-  // eslint-disable-next-line
-  const [username, setUsername] = useState('')
   const [wishlists, setWishlists] = useState([])
-
-  //error state for registration and login
-  const [errors, setErrors] = useState([])
-  const [successMessage, setSuccessMessage] = useState('')
-
-  //check local storage for login token
-  useEffect(() => {
-    if (checkLogin()) {
-      setLogin(checkLogin())
-      setUsername(getUsername())
-      setWishlists(getUserWishlists())
-    }
-  }, [])
 
   //modal opened
   function handleModalOpen() {
@@ -93,70 +83,26 @@ function App(props) {
   }
 
   //search text changed
-  function handleSearchChange(e, history, username, wishlists) {
+  function handleSearchChange(e, history) {
     if (e.key === 'Enter') {
       // send searchText state to search component
       history.push({
         pathname: '/search',
         state: {
           searchText: e.target.value,
-          username: username,
-          wishlists: wishlists,
         },
       })
       e.target.value = ''
     }
   }
 
-  //logout user
-  function handleLogout() {
-    logout()
-    setLogin(false)
-    setUsername('')
-    setWishlists([])
-  }
-
-  // handler for updating user
-  async function handleUserUpdate(usernameText, password, email, wishlists) {
-    setErrors([])
-    setSuccessMessage('')
-    let user = {}
-    user.id = getUserId()
-    user.wishlists = wishlists
-    if (usernameText !== '') {
-      user.username = usernameText
-    }
-    if (password !== '') {
-      user.password = password
-    }
-    if (email !== '') {
-      user.email = email
-    }
-    const update = await updateUser(user)
-    if (update) {
-      let newErrors = []
-      for (let error of update.data.message.split('/')) {
-        if (error.length > 1) newErrors.push({ message: `${error}` })
-      }
-      setErrors(newErrors)
-    } else {
-      if (usernameText !== '') {
-        setUsername(usernameText)
-      }
-      setWishlists(wishlists)
-      setSuccessMessage('Successfully updated account.')
-    }
-  }
-
   // handler for updating user
   async function handleWishlistUpdate(wishlists) {
-    setErrors([])
-    setSuccessMessage('')
     let user = {}
     user.id = getUserId()
     user.wishlists = wishlists
-    const update = await updateUser(user)
-    if (!update) {
+    const updateErr = await update(user)
+    if (!updateErr) {
       setWishlists(wishlists)
     }
   }
@@ -192,66 +138,39 @@ function App(props) {
   //TODO: implement mobile navbar if time permits
   return (
     <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
-        <BrowserRouter>
-          {/* <NavbarMobile /> */}
-          <NavbarDesktop
-            modalOpen={modalOpen}
-            handleClose={handleModalClose}
-            handleOpen={handleModalOpen}
-            handleSearchChange={handleSearchChange}
-            isLoggedIn={isLoggedIn}
-            username={username}
-            wishlists={wishlists}
-            handleLogout={handleLogout}
-          />
-          <Switch>
-            <Route
-              path='/'
-              exact
-              render={(_) => (
-                <Home
-                  modalOpen={modalOpen}
-                  handleClose={handleModalClose}
-                  handleOpen={handleModalOpen}
-                />
-              )}
+      <PersistGate loading={null} persistor={persistor}>
+        <MuiThemeProvider theme={theme}>
+          <BrowserRouter>
+            {/* <NavbarMobile /> */}
+            <NavbarDesktop
+              modalOpen={modalOpen}
+              handleClose={handleModalClose}
+              handleOpen={handleModalOpen}
+              handleSearchChange={handleSearchChange}
             />
-            <Route
-              path='/browse'
-              render={(_) => (
-                <Browse username={username} wishlists={wishlists} />
-              )}
-            />
-            <Route
-              path='/login'
-              render={(_) => <Login errors={errors} setErrors={setErrors} />}
-            />
-            <Route path='/product' component={Product} />
-            <Route path='/search' component={Search} />
-            <Route
-              path='/register'
-              render={(_) => <Register errors={errors} setErrors={setErrors} />}
-            />
-            <Route
-              path='/profile'
-              render={(_) => (
-                <Profile
-                  isLoggedIn={isLoggedIn}
-                  username={username}
-                  wishlists={wishlists}
-                  errors={errors}
-                  successMessage={successMessage}
-                  handleUserUpdate={handleUserUpdate}
-                  setErrors={setErrors}
-                  setSuccessMessage={setSuccessMessage}
-                />
-              )}
-            />
-            <Route path='/wishlist' component={Wishlist} />
-          </Switch>
-        </BrowserRouter>
-      </MuiThemeProvider>
+            <Switch>
+              <Route
+                path='/'
+                exact
+                render={(_) => (
+                  <Home
+                    modalOpen={modalOpen}
+                    handleClose={handleModalClose}
+                    handleOpen={handleModalOpen}
+                  />
+                )}
+              />
+              <Route path='/browse' component={Browse} />
+              <Route path='/login' component={Login} />
+              <Route path='/product' component={Product} />
+              <Route path='/search' component={Search} />
+              <Route path='/register' component={Register} />
+              <Route path='/profile' component={Profile} />
+              <Route path='/wishlist' component={Wishlist} />
+            </Switch>
+          </BrowserRouter>
+        </MuiThemeProvider>
+      </PersistGate>
     </Provider>
   )
 }

@@ -12,6 +12,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import Errors from './Errors'
 import { registerUser } from '../../actions/userActions'
+import { clearError } from '../../actions/errorActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,10 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 // TODO: look into cognito for email verification
-function Register({ errors, setErrors }) {
+function Register() {
   const classes = useStyles()
   const history = useHistory()
+
   const dispatch = useDispatch()
+
+  //textfield state vars
   const [username, changeUsername] = useState('')
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
@@ -38,12 +42,13 @@ function Register({ errors, setErrors }) {
 
   const emailReg = /^\S+@\S+[.]\S+[^@.,!@#$%^&*()_+<>/?|]$/ //basic regex for email syntax
 
+  //error values for textfields
   const repeatPasswordError = repeatPassword !== password
   const emailError = !emailReg.test(email) && email.length > 0
 
   useEffect(() => {
-    setErrors([])
-  }, [setErrors])
+    dispatch(clearError())
+  }, [dispatch])
 
   function handleUsernameChange(event) {
     changeUsername(event.target.value)
@@ -74,7 +79,7 @@ function Register({ errors, setErrors }) {
           <Grid>
             <Typography variant='h3'>Register</Typography>
           </Grid>
-          <Errors errors={errors} />
+          <Errors />
 
           <Grid item>
             <TextField

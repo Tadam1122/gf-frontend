@@ -15,8 +15,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import ProductTableHead from './ProductTableHead'
 import ProductRow from './ProductRow'
-import { getHeaderCells } from './headerCells'
-import { sortData } from './sortData'
+import { getHeaderCells } from '../../../utilities/headerCells'
+import { sortData } from '../../../utilities/sortData'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -40,8 +40,6 @@ const useStyles = makeStyles((theme) => ({
 
 function ProductTable({
   products,
-  username,
-  wishlists,
   category,
   rowsPerPage,
   page,
@@ -53,6 +51,7 @@ function ProductTable({
   handleClearPrice,
   handleChangeRowsPerPage,
   handleChangePage,
+  tableName,
 }) {
   const classes = useStyles()
   const [order, setOrder] = useState('asc')
@@ -153,10 +152,9 @@ function ProductTable({
                 return (
                   <ProductRow
                     product={product}
-                    wishlists={wishlists}
-                    key={product._id}
                     headerCells={headerCells}
-                    username={username}
+                    key={product._id}
+                    tableName={tableName}
                   />
                 )
               })}

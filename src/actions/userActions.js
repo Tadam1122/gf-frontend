@@ -4,7 +4,9 @@ import {
   UPDATE_USER,
   SET_ERROR,
   CLEAR_ERROR,
+  CLEAR_SUCCESS,
 } from './types'
+import { setSuccess } from './successActions'
 import {
   login,
   logout,
@@ -12,12 +14,12 @@ import {
   register,
   getUserId,
 } from '../services/authServices'
-import { useHistory } from 'react-router'
+import { update } from '../services/userServices'
 
 export const loginUser = (user, history) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR })
-  const auth = await login(user)
-  if (!auth) {
+  const authErr = await login(user)
+  if (!authErr) {
     let user = getUser()
     dispatch({
       type: AUTH_USER,
@@ -26,7 +28,7 @@ export const loginUser = (user, history) => async (dispatch) => {
     history.push('/')
   } else {
     let newErrors = []
-    for (let error of auth.data.message.split('/')) {
+    for (let error of authErr.data.message.split('/')) {
       if (error.length > 1) newErrors.push({ message: `${error}` })
     }
     dispatch({
@@ -60,11 +62,14 @@ export const registerUser = (user, history) => async (dispatch) => {
   }
 }
 
-export const updateUser = (username, password, email, wishlists) => async (
-  dispatch
-) => {
+export const updateUser = (
+  wishlists,
+  username = '',
+  password = '',
+  email = ''
+) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR })
-
+  dispatch({ type: CLEAR_SUCCESS })
   // get parameters to update
   let user = {
     id: getUserId(),
@@ -80,11 +85,11 @@ export const updateUser = (username, password, email, wishlists) => async (
     user.email = email
   }
 
-  const update = await updateUser(user)
+  const updatedErr = await update(user)
 
-  if (update) {
+  if (updatedErr) {
     let newErrors = []
-    for (let error of update.data.message.split('/')) {
+    for (let error of updatedErr.data.message.split('/')) {
       if (error.length > 1) newErrors.push({ message: `${error}` })
     }
     dispatch({
@@ -97,5 +102,6 @@ export const updateUser = (username, password, email, wishlists) => async (
       type: UPDATE_USER,
       payload: updatedUser,
     })
+    dispatch(setSuccess('User update successful'))
   }
 }

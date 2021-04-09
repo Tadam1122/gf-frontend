@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
-import { getLowestPrice } from '../../utilities/priceUtil'
+import { getLowestPrice } from '../../../utilities/priceUtils'
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
@@ -24,19 +24,18 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 // TODO: component needs handleDeleteWishlistItem handler
-function ItemTableRow({ product, wishlists, headerCells, username }) {
+function ItemTableRow({ product, headerCells, handleDeleteItem }) {
   const classes = useStyles()
   const history = useHistory()
   // dynamic cells for a category
   const cells = headerCells.filter(
     (cell) => cell.id !== 'image' && cell.id !== 'name' && cell.id !== 'price'
   )
-
   // reroute product to product page
   function handleProductClick() {
     history.push({
       pathname: '/product',
-      state: { product: product, username: username, wishlists: wishlists },
+      state: { product: product },
     })
   }
   return (
@@ -75,10 +74,13 @@ function ItemTableRow({ product, wishlists, headerCells, username }) {
       </TableCell>
       <TableCell align='right'>
         <Button
-          variant='contained'
+          variant='outlined'
           color='secondary'
           size='large'
           disableElevation
+          onClick={(_) => {
+            handleDeleteItem(product._id)
+          }}
         >
           <HighlightOffIcon />
         </Button>

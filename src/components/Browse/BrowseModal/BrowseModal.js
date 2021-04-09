@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     top: '10%',
     left: '10%',
-    overflow: 'scroll',
+    overflow: 'hidden',
   },
 
   image: {
@@ -80,7 +80,7 @@ function BrowseModal({ modalOpen, handleClose }) {
               >
                 <ClearIcon fontSize='large' />
               </IconButton>
-              {/* Grid container for buttones */}
+              {/* Grid container for buttons */}
               <Grid
                 container
                 direction='row'

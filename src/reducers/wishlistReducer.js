@@ -1,19 +1,21 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { FETCH_PRODUCTS, FIND_PRODUCTS } from '../actions/types'
+import {
+  FETCH_WISHLIST_PRODUCTS,
+  UPDATE_WISHLIST_PRODUCTS,
+} from '../actions/types'
 
 const initialState = {
-  products: [],
-  product: {},
+  products: {},
 }
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case FETCH_PRODUCTS:
+    case FETCH_WISHLIST_PRODUCTS:
       return {
         ...state,
         products: action.payload,
       }
-    case FIND_PRODUCTS:
+    case UPDATE_WISHLIST_PRODUCTS:
       return {
         ...state,
         products: action.payload,

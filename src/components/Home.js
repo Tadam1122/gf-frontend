@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Grid,
@@ -9,6 +11,8 @@ import {
 } from '@material-ui/core'
 import guitarHome from '../guitarDesign.svg'
 import BrowseModal from './Browse/BrowseModal/BrowseModal'
+import { clearError } from '../actions/errorActions'
+import { clearSuccess } from '../actions/successActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,10 +20,12 @@ const useStyles = makeStyles((theme) => ({
     height: '90%',
     paddingTop: '10%',
   },
-
+  title: {
+    fontWeight: 350,
+  },
   subText: {
     fontWeight: 'lighter',
-    color: '#979797',
+    color: '#757575',
   },
   image: {
     display: 'block',
@@ -36,6 +42,13 @@ const useStyles = makeStyles((theme) => ({
 
 function Home({ modalOpen, handleClose, handleOpen }) {
   const classes = useStyles()
+  const dispatch = useDispatch()
+
+  // clear any errors or success messages
+  useEffect(() => {
+    dispatch(clearSuccess())
+    dispatch(clearError())
+  }, [dispatch])
 
   return (
     <Container>
@@ -51,7 +64,7 @@ function Home({ modalOpen, handleClose, handleOpen }) {
             <Typography variant='h6' className={classes.subText}>
               Search, Compare, Own!
             </Typography>
-            <Typography variant='h2'>
+            <Typography variant='h2' className={classes.title}>
               Find Your Guitar Gear Quick And Easy.
             </Typography>
             <Button
@@ -67,8 +80,6 @@ function Home({ modalOpen, handleClose, handleOpen }) {
             <BrowseModal modalOpen={modalOpen} handleClose={handleClose} />
           </Grid>
         </Grow>
-
-        {/* let first grid load before this one */}
         <Grow
           in={true}
           style={{ transformOrigin: '0 0 0' }}

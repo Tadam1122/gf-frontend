@@ -90,6 +90,7 @@ function FilterPrice({ values, activePrice, handlePriceChange }) {
             variant='contained'
             color='primary'
             size='small'
+            disableElevation
             onClick={(_) => handlePriceChange(minText, maxText)}
           >
             Go

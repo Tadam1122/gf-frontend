@@ -12,6 +12,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import Errors from './Errors'
 import { loginUser } from '../../actions/userActions'
+import { clearError } from '../../actions/errorActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,20 +27,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Login({ errors, setErrors }) {
+function Login() {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useDispatch()
 
+  //textfield state vars
   const [username, changeUsername] = useState(' ')
   const [password, changePassword] = useState(' ')
 
+  //error values for textfields
   const usernameError = username.length > 0 ? false : true
   const passwordError = password.length > 0 ? false : true
 
   useEffect(() => {
-    setErrors([])
-  }, [setErrors])
+    dispatch(clearError())
+  }, [dispatch])
 
   function handleUsernameChange(event) {
     changeUsername(event.target.value)
@@ -63,7 +66,7 @@ function Login({ errors, setErrors }) {
           <Grid item>
             <Typography variant='h3'>Login</Typography>
           </Grid>
-          <Errors errors={errors} />
+          <Errors />
           <Grid item>
             <TextField
               id='username'

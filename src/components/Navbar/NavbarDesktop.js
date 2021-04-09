@@ -1,9 +1,11 @@
+import { useSelector, useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Toolbar, AppBar, MenuItem } from '@material-ui/core'
 import MenuLink from './MenuLink'
 import Searchbar from './Searchbar'
 import BrowseModal from '../Browse/BrowseModal/BrowseModal'
+import { logoutUser } from '../../actions/userActions'
 import { capitalize } from '../../utilities/stringUtils'
 
 const useStyles = makeStyles((theme) => ({
@@ -30,13 +32,19 @@ function NavbarDesktop({
   handleClose,
   handleOpen,
   handleSearchChange,
-  isLoggedIn,
   username,
   wishlists,
-  handleLogout,
 }) {
-  const history = useHistory()
   const classes = useStyles()
+  const history = useHistory()
+
+  const user = useSelector((state) => state.userRed.user)
+  const dispatch = useDispatch()
+
+  //logout user
+  function handleLogout() {
+    dispatch(logoutUser())
+  }
 
   return (
     <div className={classes.root}>
@@ -64,14 +72,14 @@ function NavbarDesktop({
             }
           />
           <div className={classes.padding} />
-          {!isLoggedIn ? (
+          {!user ? (
             <>
               <MenuLink name='Login' address='/login' />
               <MenuLink name='Register' address='/register' />
             </>
           ) : (
             <>
-              <MenuLink name={capitalize(username)} address='/profile' />
+              <MenuLink name={capitalize(user.username)} address='/profile' />
               <MenuItem
                 component={Link}
                 to='/'

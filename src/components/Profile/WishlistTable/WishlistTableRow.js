@@ -1,20 +1,11 @@
 import { TableRow, TableCell, Button } from '@material-ui/core'
 
-function WishlistTableRow({
-  wishlist,
-  history,
-  isLoggedIn,
-  wishlists,
-  username,
-}) {
+function WishlistTableRow({ wishlist, history }) {
   function handleWishlistView() {
     history.push({
       pathname: '/wishlist',
       state: {
         wishlist: wishlist,
-        isLoggedIn: isLoggedIn,
-        wishlists: wishlists,
-        username: username,
       },
     })
   }
@@ -23,7 +14,12 @@ function WishlistTableRow({
       <TableCell align='left'>{wishlist.name}</TableCell>
       <TableCell align='left'>{wishlist.totalPrice}</TableCell>
       <TableCell align='right'>
-        <Button variant='outlined' color='primary' onClick={handleWishlistView}>
+        <Button
+          variant='outlined'
+          color='primary'
+          onClick={handleWishlistView}
+          disableElevation
+        >
           View Wishlist
         </Button>
       </TableCell>

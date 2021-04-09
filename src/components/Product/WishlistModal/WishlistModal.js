@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Modal,
   Fade,
@@ -18,9 +19,11 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ClearIcon from '@material-ui/icons/Clear'
-import WishlistTableHead from '../Profile/WishlistTableHead'
-import { sortWishlistData } from '../Profile/sortWishlistData'
-import { getHeaderCells } from '../Browse/BrowseTable/headerCells'
+import WishlistTableHead from '../../Profile/WishlistTable/WishlistTableHead'
+import WishlistModalTableRow from './WishlistModalTableRow'
+import { sortWishlistData } from '../../../utilities/sortWishlistData'
+import { getHeaderCells } from '../../../utilities/headerCells'
+import { updateUser } from '../../../actions/userActions'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,20 +42,8 @@ const useStyles = makeStyles((theme) => ({
     left: '10%',
     overflow: 'scroll',
   },
-
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-  button: {
-    width: '100%',
-    padding: '.2rem',
-    border: '1px solid #979797',
-    borderRadius: '15px',
-    display: 'block',
-  },
-  text: {
-    marginRight: '40%',
+  textfield: {
+    width: '7rem',
   },
   exitBtn: {
     marginLeft: '95%',
@@ -60,13 +51,24 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 // TODO: components to create, modalTableRow
-function WishlistsModal({ modalOpen, handleClose, wishlists, product }) {
+function WishlistsModal({ modalOpen, handleClose, handleAddProduct }) {
   const classes = useStyles()
+
+  const user = useSelector((state) => state.userRed.user)
+  const dispatch = useDispatch()
+
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
   const [createWishlist, setCreateWishlist] = useState(false)
   const [newWishlistName, setNewWishlistName] = useState('')
-  const headerCells = getHeaderCells()
+  const [headerCells, setHeaderCells] = useState([])
+  const [duplicateFound, setDuplicateFound] = useState(false)
+
+  // get new header cells for different categories
+  useEffect(() => {
+    const newHeaderCells = getHeaderCells()
+    setHeaderCells(newHeaderCells)
+  }, [])
 
   // sort
   function handleSort(property) {
@@ -76,11 +78,19 @@ function WishlistsModal({ modalOpen, handleClose, wishlists, product }) {
   }
 
   function handleCreateClick() {
-    setCreateWishlist(true)
+    setCreateWishlist(!createWishlist)
   }
 
   function handleNewNameChange(e) {
     setNewWishlistName(e.target.value)
+    const found = user.wishlists.filter(
+      (wishlist) => wishlist.name === e.target.value
+    )
+    if (found.length > 0) {
+      setDuplicateFound(true)
+    } else {
+      setDuplicateFound(false)
+    }
   }
 
   function createNewWishlist() {
@@ -89,9 +99,9 @@ function WishlistsModal({ modalOpen, handleClose, wishlists, product }) {
       totalPrice: '$0',
       items: [],
     }
-    let updatedWishlists = wishlists
+    let updatedWishlists = user.wishlists
     updatedWishlists.push(newWishlist)
-    handleUserUpdate('', '', '', updatedWishlists)
+    dispatch(updateUser(updatedWishlists))
     setCreateWishlist(false)
     setNewWishlistName('')
   }
@@ -131,14 +141,22 @@ function WishlistsModal({ modalOpen, handleClose, wishlists, product }) {
                     orderBy={orderBy}
                     handleSort={handleSort}
                     headerCells={headerCells}
+                    handleCreateClick={handleCreateClick}
+                    createWishlist={createWishlist}
                   />
                   <TableBody>
-                    {wishlists.length > 0 &&
+                    {user &&
                       sortWishlistData(
-                        wishlists,
+                        user.wishlists,
                         order,
                         orderBy
-                      ).map((wishlist) => <WishlistModalTableRow />)}
+                      ).map((wishlist) => (
+                        <WishlistModalTableRow
+                          wishlist={wishlist}
+                          handleAddProduct={handleAddProduct}
+                          key={wishlist.name}
+                        />
+                      ))}
                     {createWishlist && (
                       <TableRow hover tabIndex={-1}>
                         <TableCell align='left'>
@@ -155,6 +173,8 @@ function WishlistsModal({ modalOpen, handleClose, wishlists, product }) {
                             variant='outlined'
                             color='primary'
                             onClick={createNewWishlist}
+                            disableElevation
+                            disabled={duplicateFound}
                           >
                             Create Wishlist
                           </Button>

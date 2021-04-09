@@ -1,5 +1,5 @@
 import { TableRow, TableCell } from '@material-ui/core'
-import { formatFilter } from '../../utilities/stringUtils'
+import { formatFilter } from '../../../utilities/stringUtils'
 
 function SpecsTableRow({ filterName, product }) {
   return (

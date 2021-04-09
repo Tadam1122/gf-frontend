@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import {
   Container,
   Grow,
@@ -12,11 +13,20 @@ import {
   Button,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import ItemTableRow from './ItemTableRow'
-import ItemTableHead from './ItemTableHead'
-import { sortData } from '../Browse/BrowseTable/sortData'
-import { getHeaderCells } from '../Browse/BrowseTable/headerCells'
-import { fetchWishlistProducts } from '../../actions/productActions'
+import ItemTableRow from './ItemTable/ItemTableRow'
+import ItemTableHead from './ItemTable/ItemTableHead'
+import BrowseModal from '../Browse/BrowseModal/BrowseModal'
+import DeleteModal from './DeleteModal'
+import { sortData } from '../../utilities/sortData'
+import { getHeaderCells } from '../../utilities/headerCells'
+import {
+  fetchWishlistProducts,
+  updateWishlistProducts,
+} from '../../actions/wishlistActions'
+import { updateUser } from '../../actions/userActions'
+import { clearError } from '../../actions/errorActions'
+import { clearSuccess } from '../../actions/successActions'
+import { getLowestNumber } from '../../utilities/priceUtils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,18 +34,27 @@ const useStyles = makeStyles((theme) => ({
     height: '90%',
     paddingTop: '3rem',
   },
-  table: {
+  tableContainer: {
     background: 'white',
     flexGrow: 1,
-    height: '93%',
+    maxHeight: '40rem',
     padding: '1rem',
     width: '94%',
     borderRadius: '15px',
     marginBottom: '2rem',
   },
+  table: {
+    height: '60%',
+  },
   toolbar: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
+  },
+  footer: {
+    marginBottom: '1.5rem',
+  },
+  footerContainer: {
+    width: '95%',
   },
 }))
 
@@ -43,23 +62,20 @@ const useStyles = makeStyles((theme) => ({
 function Wishlists({ location }) {
   const classes = useStyles()
 
-  const wishlist = location.state.wishlist
-  const wishlists = location.state.wishlists
-  const username = location.state.username
+  const history = useHistory()
 
-  const products = useSelector((state) => state.products.products)
+  const user = useSelector((state) => state.userRed.user)
+  const products = useSelector((state) => state.wishlistRed.products)
   const dispatch = useDispatch()
 
+  const wishlist = location.state.wishlist
+
+  // ui state variables
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
   const [headerCells, setHeaderCells] = useState([])
-  // const [products, setProducts] = useState([])
-
-  // get new header cells for different categories
-  useEffect(() => {
-    const newHeaderCells = getHeaderCells('Products')
-    setHeaderCells(newHeaderCells)
-  }, [])
+  const [modalOpen, toggleModal] = useState(false)
+  const [delModalOpen, toggleDelModal] = useState(false)
 
   useEffect(() => {
     async function getProducts() {
@@ -68,6 +84,17 @@ function Wishlists({ location }) {
     getProducts()
   }, [wishlist, dispatch])
 
+  // get new header cells for different categories
+  useEffect(() => {
+    const newHeaderCells = getHeaderCells('Products')
+    setHeaderCells(newHeaderCells)
+  }, [])
+
+  useEffect(() => {
+    dispatch(clearSuccess())
+    dispatch(clearError())
+  }, [dispatch])
+
   // sort
   function handleSort(property) {
     const isAsc = orderBy === property && order === 'asc'
@@ -75,40 +102,94 @@ function Wishlists({ location }) {
     setOrderBy(property)
   }
 
-  function handleAddClick() {
-    console.log('ouch!')
+  //modal opened
+  function handleModalOpen() {
+    toggleModal(true)
+  }
+  //modal closed
+  function handleModalClose() {
+    toggleModal(false)
+  }
+  //modal opened
+  function handleDelModalOpen() {
+    toggleDelModal(true)
+  }
+  //modal closed
+  function handleDelModalClose() {
+    toggleDelModal(false)
+  }
+
+  function handleDeleteItem(id) {
+    wishlist.items = wishlist.items.filter((product) => product.id !== id)
+    //get updated wishlist price
+    let updatedProducts = [...products]
+    updatedProducts = updatedProducts.filter((product) => product._id !== id)
+
+    let numberPrice = updatedProducts.map((product) =>
+      getLowestNumber(product.prices)
+    )
+    let updatedPrice = numberPrice.reduce((a, b) => a + b, 0)
+    wishlist.totalPrice = `$${updatedPrice}`
+
+    // update wishlists for user
+    let updatedWishlists = [...user.wishlists]
+    updatedWishlists = updatedWishlists.filter(
+      (userWish) => wishlist.name !== userWish.name
+    )
+    updatedWishlists.push(wishlist)
+
+    dispatch(updateWishlistProducts(updatedProducts))
+    dispatch(updateUser(updatedWishlists))
+  }
+
+  function handleDeleteWishlist() {
+    // update wishlists for user
+    let updatedWishlists = [...user.wishlists]
+    updatedWishlists = updatedWishlists.filter(
+      (userWish) => wishlist.name !== userWish.name
+    )
+    dispatch(updateUser(updatedWishlists))
+
+    history.push('/profile')
   }
 
   return (
     <Container className={classes.root}>
       <Grow in={true}>
-        <TableContainer className={classes.table}>
-          <Toolbar className={classes.toolbar}>
-            <Typography component='div' variant='h3'>
-              {wishlist.name}
-            </Typography>
-          </Toolbar>
-          <Table>
-            <ItemTableHead
-              order={order}
-              orderBy={orderBy}
-              handleSort={handleSort}
-              headerCells={headerCells}
-              handleAddClick={handleAddClick}
-            />
-            <TableBody>
-              {sortData(products, order, orderBy).map((product) => (
-                <ItemTableRow
-                  product={product}
-                  key={product.model}
-                  headerCells={headerCells}
-                  wishlists={wishlists}
-                  username={username}
-                />
-              ))}
-            </TableBody>
-          </Table>
-          <Grid container align='right' direction='column'>
+        <div>
+          <TableContainer className={classes.tableContainer}>
+            <Toolbar className={classes.toolbar}>
+              <Typography component='div' variant='h3'>
+                {wishlist.name}
+              </Typography>
+            </Toolbar>
+            <Table stickyHeader>
+              <ItemTableHead
+                order={order}
+                orderBy={orderBy}
+                handleSort={handleSort}
+                headerCells={headerCells}
+                handleModalOpen={handleModalOpen}
+              />
+              <TableBody>
+                {products.length > 0 &&
+                  sortData(products, order, orderBy).map((product) => (
+                    <ItemTableRow
+                      product={product}
+                      key={product.model}
+                      headerCells={headerCells}
+                      handleDeleteItem={handleDeleteItem}
+                    />
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Grid
+            container
+            align='right'
+            direction='column'
+            className={classes.footerContainer}
+          >
             <Grid item>
               <Typography className={classes.footer} variant='h4'>
                 {wishlist.totalPrice}
@@ -119,12 +200,21 @@ function Wishlists({ location }) {
                 className={classes.footer}
                 variant='contained'
                 color='secondary'
+                onClick={handleDelModalOpen}
+                disableElevation
               >
                 Delete Wishlist
               </Button>
             </Grid>
           </Grid>
-        </TableContainer>
+          <BrowseModal modalOpen={modalOpen} handleClose={handleModalClose} />
+          <DeleteModal
+            modalOpen={delModalOpen}
+            handleClose={handleDelModalClose}
+            wishlist={wishlist}
+            handleDeleteWishlist={handleDeleteWishlist}
+          />
+        </div>
       </Grow>
     </Container>
   )

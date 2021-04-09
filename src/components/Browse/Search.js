@@ -10,7 +10,7 @@ import {
   lowercase,
   formatFilters,
 } from '../../utilities/stringUtils'
-import { getLowestNumber } from '../../utilities/priceUtil'
+import { getLowestNumber } from '../../utilities/priceUtils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,14 +24,11 @@ const useStyles = makeStyles((theme) => ({
 function Search({ location }) {
   const classes = useStyles()
   const searchText = location.state.searchText
-  const username = location.state.username
-  const wishlists = location.state.wishlists
 
-  const products = useSelector((state) => state.products.products)
+  const products = useSelector((state) => state.productsRed.products)
   const dispatch = useDispatch()
 
   //product state
-  // const [products, setProducts] = useState([])
   const [filterProducts, setFilterProducts] = useState([])
 
   //sorting and rows per page state
@@ -292,8 +289,6 @@ function Search({ location }) {
                 ? filterProducts
                 : products
             }
-            username={username}
-            wishlists={wishlists}
             category={`Search Results for '${capitalize(searchText)}'`}
             rowsPerPage={rowsPerPage}
             page={page}
