@@ -205,14 +205,14 @@ const productCells = [
     disablePadding: true,
     label: '',
   },
-  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-  { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
   {
     id: 'price',
     numeric: false,
     disablePadding: false,
     label: 'Price',
   },
+  { id: 'inStock', numeric: false, disablePadding: false, label: 'In Stock' },
+  { id: '1', numeric: false, disablePadding: false, label: '' },
 ]
 
 const wishlistCells = [

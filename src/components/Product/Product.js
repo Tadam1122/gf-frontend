@@ -68,6 +68,7 @@ function Product({ location }) {
     )
     updatedWishlists.push(wishlist)
     dispatch(updateUser(updatedWishlists))
+    handleModalClose()
   }
 
   return (
