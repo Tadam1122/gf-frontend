@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// TODO: components to create, modalTableRow
 function WishlistsModal({ modalOpen, handleClose, handleAddProduct }) {
   const classes = useStyles()
 

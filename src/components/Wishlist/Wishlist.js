@@ -58,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// TODO: component needs handleDeleteWishlistItem and handleDeleteWishlist handlers
 function Wishlists({ location }) {
   const classes = useStyles()
 

@@ -36,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// TODO: ensure component works with redux
-// TODO: replace handleUserUpdate with handleWishlistUpdate handler
 function WishlistTable({ history }) {
   const classes = useStyles()
   const user = useSelector((state) => state.userRed.user)

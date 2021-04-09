@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// TODO: component needs handleAddItem handler
 function Product({ location }) {
   const [modalOpen, toggleModal] = useState(false)
 

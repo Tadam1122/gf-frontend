@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// TODO: component needs handleDeleteWishlistItem handler
 function ItemTableRow({ product, headerCells, handleDeleteItem }) {
   const classes = useStyles()
   const history = useHistory()

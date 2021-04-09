@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, Route, Redirect } from 'react-router-dom'
-import { Grid, Container, Grow, Typography } from '@material-ui/core'
+import { Grid, Container, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import UserForm from './UserForm'
 import WishlistTable from './WishlistTable/WishlistTable'
@@ -28,8 +28,6 @@ function Profile() {
     dispatch(clearError())
   }, [dispatch])
 
-  // TODO: create component viewing individual items for a single wishlist, user can delete the whole wishlist or items in wishlist from page
-  // TODO: wishlist rows will also need to get items from db since only id is being stored in wishlists, unless I choose to store the whole product
   return (
     <Route
       render={() =>

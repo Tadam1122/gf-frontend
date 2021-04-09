@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -13,8 +13,6 @@ import Login from './components/Auth/Login'
 import Register from './components/Auth/Register'
 import Profile from './components/Profile/Profile'
 import Wishlist from './components/Wishlist/Wishlist'
-import { getUserId } from './services/authServices'
-import { update } from './services/userServices'
 
 const theme = createMuiTheme({
   palette: {
@@ -61,16 +59,9 @@ const theme = createMuiTheme({
   },
 })
 
-// TODO: Turn relevant react states (user data or product data) into redux
-// TODO: make navbar and other relevant components read user data from redux state
-// TODO: ensure that userUpdate action works
-// TODO: set up error component to use error selectors from redux, ensure parent components also read from error selector if need be
-// TODO: set up success message action and reducer when updating user in profile succeeds
 function App(props) {
   //state for modal
   const [modalOpen, toggleModal] = useState(false)
-
-  const [wishlists, setWishlists] = useState([])
 
   //modal opened
   function handleModalOpen() {
@@ -94,45 +85,6 @@ function App(props) {
       })
       e.target.value = ''
     }
-  }
-
-  // handler for updating user
-  async function handleWishlistUpdate(wishlists) {
-    let user = {}
-    user.id = getUserId()
-    user.wishlists = wishlists
-    const updateErr = await update(user)
-    if (!updateErr) {
-      setWishlists(wishlists)
-    }
-  }
-
-  // TODO: this handler needs to somehow be passed to wishlist component
-  async function handleDeleteWishlistItem(prodId, wishlist) {
-    let updatedWishlist = wishlist.items.filter((item) => item.id !== prodId)
-    let updatedWishlists = wishlists.filter(
-      (wishlist) => wishlist.name !== updatedWishlist.name
-    )
-    handleWishlistUpdate(updatedWishlists)
-  }
-
-  // TODO: this handler needs to somehow be passed to wishlist component
-  async function handleDeleteWishlist(wishlistDel) {
-    let updatedWishlists = wishlists.filter(
-      (wishlist) => wishlist.name !== wishlistDel.name
-    )
-    handleWishlistUpdate(updatedWishlists)
-  }
-
-  //TODO: this handlre needs to somehow be passed to product component
-  async function handleAddItem(product, wishlistAdd) {
-    let updatedWishlists = wishlists.map((wishlist) => {
-      if (wishlist.name === wishlistAdd.name) {
-        wishlist.items.push(product)
-      }
-      return wishlist
-    })
-    handleWishlistUpdate(updatedWishlists)
   }
 
   //TODO: implement mobile navbar if time permits
