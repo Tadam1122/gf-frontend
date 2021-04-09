@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import { Hidden } from '@material-ui/core'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import store, { persistor } from './store'
 import NavbarDesktop from './components/Navbar/NavbarDesktop'
+import NavbarMobile from './components/Navbar/Mobile/NavbarMobile'
 import Home from './components/Home'
 import Browse from './components/Browse/Browse'
 import Product from './components/Product/Product'
@@ -59,7 +61,7 @@ const theme = createMuiTheme({
   },
 })
 
-function App(props) {
+function App() {
   //state for modal
   const [modalOpen, toggleModal] = useState(false)
 
@@ -87,19 +89,27 @@ function App(props) {
     }
   }
 
-  //TODO: implement mobile navbar if time permits
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <MuiThemeProvider theme={theme}>
           <BrowserRouter>
-            {/* <NavbarMobile /> */}
-            <NavbarDesktop
-              modalOpen={modalOpen}
-              handleClose={handleModalClose}
-              handleOpen={handleModalOpen}
-              handleSearchChange={handleSearchChange}
-            />
+            <Hidden mdUp>
+              <NavbarMobile
+                modalOpen={modalOpen}
+                handleClose={handleModalClose}
+                handleOpen={handleModalOpen}
+                handleSearchChange={handleSearchChange}
+              />
+            </Hidden>
+            <Hidden smDown>
+              <NavbarDesktop
+                modalOpen={modalOpen}
+                handleClose={handleModalClose}
+                handleOpen={handleModalOpen}
+                handleSearchChange={handleSearchChange}
+              />
+            </Hidden>
             <Switch>
               <Route
                 path='/'

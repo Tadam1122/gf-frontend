@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     fontSize: '1.6em',
     fontWeight: 'bolder',
-    // width: 'fit-content',
   },
 }))
 

@@ -32,8 +32,6 @@ function NavbarDesktop({
   handleClose,
   handleOpen,
   handleSearchChange,
-  username,
-  wishlists,
 }) {
   const classes = useStyles()
   const history = useHistory()
@@ -67,9 +65,7 @@ function NavbarDesktop({
           <BrowseModal modalOpen={modalOpen} handleClose={handleClose} />
           {/* <MenuLink name='Browse Gear' address='/browse' /> */}
           <Searchbar
-            handleSearchChange={(e) =>
-              handleSearchChange(e, history, username, wishlists)
-            }
+            handleSearchChange={(e) => handleSearchChange(e, history)}
           />
           <div className={classes.padding} />
           {!user ? (

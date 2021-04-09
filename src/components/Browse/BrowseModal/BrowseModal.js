@@ -55,8 +55,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function BrowseModal({ modalOpen, handleClose }) {
+function BrowseModal({ modalOpen, handleClose, handleDrawerClose }) {
   const classes = useStyles()
+
+  function closeDialogs() {
+    handleClose()
+    if (handleDrawerClose) handleDrawerClose()
+  }
   return (
     <Modal
       open={modalOpen}
@@ -92,7 +97,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                   <ButtonBase
                     component={Link}
                     to='/browse/acoustic-guitars'
-                    onClick={handleClose}
+                    onClick={closeDialogs}
                     className={classes.button}
                   >
                     {/* Grid for image and text in button */}
@@ -124,7 +129,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                     className={classes.button}
                     component={Link}
                     to='/browse/electric-guitars'
-                    onClick={handleClose}
+                    onClick={closeDialogs}
                   >
                     {/* Grid for image and text in button */}
                     <Grid
@@ -155,7 +160,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                     className={classes.button}
                     component={Link}
                     to='/browse/acoustic-amps'
-                    onClick={handleClose}
+                    onClick={closeDialogs}
                   >
                     {/* Grid for image and text in button */}
                     <Grid
@@ -186,7 +191,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                     className={classes.button}
                     component={Link}
                     to='/browse/electric-amps'
-                    onClick={handleClose}
+                    onClick={closeDialogs}
                   >
                     {/* Grid for image and text in button */}
                     <Grid
@@ -234,7 +239,7 @@ function BrowseModal({ modalOpen, handleClose }) {
                     className={classes.button}
                     component={Link}
                     to='/browse/effect-pedals'
-                    onClick={handleClose}
+                    onClick={closeDialogs}
                   >
                     {/* Grid for image and text in button */}
                     <Grid
