@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import {
   Button,
-  Hidden,
   Toolbar,
   Typography,
   Table,
@@ -80,8 +79,44 @@ function ProductTable({
         <Typography component='div' variant='h6'>
           {category}
         </Typography>
-        <Hidden smDown>
-          {activePrice.length > 0 && (
+        {activePrice.length > 0 && (
+          <Button
+            className={classes.filterButton}
+            color='primary'
+            variant='contained'
+            size='small'
+            disableElevation
+            onClick={(_) => {
+              handleClearPrice()
+            }}
+          >
+            Price:
+            {activePrice[0] &&
+              activePrice[1] &&
+              `$${activePrice[0]}-$${activePrice[1]}`}
+            {!activePrice[0] && `Under $${activePrice[1]}`}
+            {!activePrice[1] && `Over $${activePrice[0]}`}
+            <HighlightOffIcon fontSize='small' className={classes.icon} />
+          </Button>
+        )}
+        {activeRadio.map((radio) => (
+          <Button
+            className={classes.filterButton}
+            color='primary'
+            variant='contained'
+            size='small'
+            disableElevation
+            onClick={(_) => {
+              handleRadioSelect(radio.value, radio.name)
+            }}
+            key={radio.name}
+          >
+            {radio.name.replace(/([A-Z])/g, ' $1')}: {radio.value}
+            <HighlightOffIcon fontSize='small' className={classes.icon} />
+          </Button>
+        ))}
+        {activeFilters.map((filter) => {
+          return filter.values.map((value) => (
             <Button
               className={classes.filterButton}
               color='primary'
@@ -89,53 +124,15 @@ function ProductTable({
               size='small'
               disableElevation
               onClick={(_) => {
-                handleClearPrice()
+                handleActiveChecked(value, filter.name)
               }}
+              key={`${filter.name} ${value}`}
             >
-              Price:
-              {activePrice[0] &&
-                activePrice[1] &&
-                `$${activePrice[0]}-$${activePrice[1]}`}
-              {!activePrice[0] && `Under $${activePrice[1]}`}
-              {!activePrice[1] && `Over $${activePrice[0]}`}
+              {filter.name.replace(/([A-Z])/g, ' $1')}: {value}
               <HighlightOffIcon fontSize='small' className={classes.icon} />
             </Button>
-          )}
-          {activeRadio.map((radio) => (
-            <Button
-              className={classes.filterButton}
-              color='primary'
-              variant='contained'
-              size='small'
-              disableElevation
-              onClick={(_) => {
-                handleRadioSelect(radio.value, radio.name)
-              }}
-              key={radio.name}
-            >
-              {radio.name.replace(/([A-Z])/g, ' $1')}: {radio.value}
-              <HighlightOffIcon fontSize='small' className={classes.icon} />
-            </Button>
-          ))}
-          {activeFilters.map((filter) => {
-            return filter.values.map((value) => (
-              <Button
-                className={classes.filterButton}
-                color='primary'
-                variant='contained'
-                size='small'
-                disableElevation
-                onClick={(_) => {
-                  handleActiveChecked(value, filter.name)
-                }}
-                key={`${filter.name} ${value}`}
-              >
-                {filter.name.replace(/([A-Z])/g, ' $1')}: {value}
-                <HighlightOffIcon fontSize='small' className={classes.icon} />
-              </Button>
-            ))
-          })}
-        </Hidden>
+          ))
+        })}
       </Toolbar>
       <Table>
         <ProductTableHead

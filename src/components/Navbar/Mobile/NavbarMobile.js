@@ -1,15 +1,7 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
-import { makeStyles, fade } from '@material-ui/core/styles'
-import {
-  InputBase,
-  Toolbar,
-  AppBar,
-  Typography,
-  IconButton,
-  Drawer,
-} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { Toolbar, AppBar, IconButton } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import MenuLink from '../MenuLink'
 import NavDrawer from './NavDrawer'
@@ -35,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-//TODO: implement side menu if time allows for mobile navbar
 function NavbarMobile({
   modalOpen,
   handleClose,

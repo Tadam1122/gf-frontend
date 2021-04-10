@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// TODO: components to create, modalTableRow
 function DeleteModal({
   modalOpen,
   handleClose,

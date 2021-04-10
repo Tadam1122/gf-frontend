@@ -271,7 +271,7 @@ function Browse() {
       className={classes.root}
     >
       <Grow in={true}>
-        <Grid item sm={3} md={3} lg={2} xl={2}>
+        <Grid item xs={12} sm={5} md={3} lg={2} xl={2}>
           <Sidebar
             filters={filters}
             activeFilters={activeFilters}
@@ -289,7 +289,7 @@ function Browse() {
         style={{ transformOrigin: '0 0 0' }}
         {...{ timeout: 1000 }}
       >
-        <Grid item xs={12} sm={9} md={9} lg={10} xl={10}>
+        <Grid item xs={12} sm={7} md={9} lg={10} xl={10}>
           <ProductTable
             products={
               products.length > 0

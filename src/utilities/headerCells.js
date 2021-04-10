@@ -205,14 +205,30 @@ const productCells = [
     disablePadding: true,
     label: '',
   },
+  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+
   {
     id: 'price',
     numeric: false,
     disablePadding: false,
     label: 'Price',
   },
-  { id: 'inStock', numeric: false, disablePadding: false, label: 'In Stock' },
-  { id: '1', numeric: false, disablePadding: false, label: '' },
+]
+
+const searchCells = [
+  {
+    id: 'image',
+    numeric: false,
+    disablePadding: true,
+    label: '',
+  },
+  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+  {
+    id: 'price',
+    numeric: false,
+    disablePadding: false,
+    label: 'Price',
+  },
 ]
 
 const wishlistCells = [
@@ -230,24 +246,24 @@ const wishlistCells = [
   },
 ]
 
-// const defaultCells = [
-//   {
-//     id: 'website',
-//     numeric: false,
-//     disablePadding: true,
-//     label: 'Merchant',
-//   },
-//   { id: 'price', numeric: false, disablePadding: false, label: 'Price' },
-//   {
-//     id: 'inStock',
-//     numeric: false,
-//     disablePadding: false,
-//     label: 'In Stock',
-//   },
-//   {
-//     id: '1',
-//   },
-// ]
+const priceCells = [
+  {
+    id: 'website',
+    numeric: false,
+    disablePadding: true,
+    label: 'Merchant',
+  },
+  { id: 'price', numeric: false, disablePadding: false, label: 'Price' },
+  {
+    id: 'inStock',
+    numeric: false,
+    disablePadding: false,
+    label: 'In Stock',
+  },
+  {
+    id: '1',
+  },
+]
 
 //return one of the header cells for table
 export function getHeaderCells(category) {
@@ -264,7 +280,11 @@ export function getHeaderCells(category) {
       return effectPedalCells
     case 'Products':
       return productCells
-    default:
+    case 'Wishlist':
       return wishlistCells
+    case 'Price':
+      return priceCells
+    default:
+      return searchCells
   }
 }

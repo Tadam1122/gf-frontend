@@ -2,7 +2,7 @@ import { TableHead, TableCell, TableRow } from '@material-ui/core'
 import { getHeaderCells } from '../../../utilities/headerCells'
 
 function PriceTableHead() {
-  const headerCells = getHeaderCells('Products')
+  const headerCells = getHeaderCells('Price')
 
   return (
     <TableHead>

@@ -1,15 +1,8 @@
-import { useState, Fragment } from 'react'
+import { Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  Drawer,
-  List,
-  Divider,
-  ListItem,
-  ListItemText,
-  MenuItem,
-} from '@material-ui/core'
+import { Drawer, List, Divider, MenuItem } from '@material-ui/core'
 import Searchbar from '../Searchbar'
 import MenuLink from '../MenuLink'
 import BrowseModal from '../../Browse/BrowseModal/BrowseModal'

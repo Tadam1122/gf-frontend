@@ -51,7 +51,7 @@ function WishlistTable({ history }) {
 
   // get new header cells for different categories
   useEffect(() => {
-    const newHeaderCells = getHeaderCells()
+    const newHeaderCells = getHeaderCells('Wishlist')
     setHeaderCells(newHeaderCells)
   }, [])
 
