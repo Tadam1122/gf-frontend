@@ -301,7 +301,6 @@ function Browse() {
                 : []
             }
             category={category}
-            tableName={tableName}
             rowsPerPage={rowsPerPage}
             page={page}
             activeFilters={activeFilters}

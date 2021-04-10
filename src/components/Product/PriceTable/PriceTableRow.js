@@ -9,15 +9,17 @@ function PriceTableRow({ store }) {
         {Number(store.price.split('$')[1]) > 0 ? 'Yes' : 'No'}
       </TableCell>
       <TableCell>
-        <Button
-          variant='contained'
-          color='primary'
-          disableElevation
-          href={store.url}
-          target='_blank'
-        >
-          Buy Now
-        </Button>
+        {store.price && (
+          <Button
+            variant='contained'
+            color='primary'
+            disableElevation
+            href={store.url}
+            target='_blank'
+          >
+            Buy Now
+          </Button>
+        )}
       </TableCell>
     </TableRow>
   )

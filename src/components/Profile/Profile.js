@@ -23,11 +23,6 @@ function Profile() {
   const user = useSelector((state) => state.userRed.user)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(clearSuccess())
-    dispatch(clearError())
-  }, [dispatch])
-
   return (
     <Route
       render={() =>

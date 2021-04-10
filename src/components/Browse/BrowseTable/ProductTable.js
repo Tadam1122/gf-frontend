@@ -50,7 +50,6 @@ function ProductTable({
   handleClearPrice,
   handleChangeRowsPerPage,
   handleChangePage,
-  tableName,
 }) {
   const classes = useStyles()
   const [order, setOrder] = useState('asc')
@@ -151,7 +150,6 @@ function ProductTable({
                     product={product}
                     headerCells={headerCells}
                     key={product._id}
-                    tableName={tableName}
                   />
                 )
               })}

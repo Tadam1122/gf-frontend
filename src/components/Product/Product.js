@@ -44,7 +44,6 @@ function Product({ location }) {
   const dispatch = useDispatch()
 
   const product = location.state.product
-  const tableName = location.state.tableName
 
   const classes = useStyles()
 
@@ -58,7 +57,7 @@ function Product({ location }) {
   }
 
   function handleAddProduct(wishlist) {
-    wishlist.items.push({ id: product._id, tablename: tableName })
+    wishlist.items.push({ id: product._id, tablename: product.category })
     wishlist.totalPrice = `$${
       priceToNumber(wishlist.totalPrice) + getLowestNumber(product.prices)
     }`

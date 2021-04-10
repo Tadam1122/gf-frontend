@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ProductRow({ product, headerCells, tableName }) {
+function ProductRow({ product, headerCells }) {
   const classes = useStyles()
   const history = useHistory()
   // dynamic cells for a category
@@ -36,7 +36,6 @@ function ProductRow({ product, headerCells, tableName }) {
       pathname: '/product',
       state: {
         product: product,
-        tableName: tableName,
       },
     })
   }

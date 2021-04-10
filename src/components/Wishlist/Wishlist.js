@@ -201,7 +201,9 @@ function Wishlists({ location }) {
                         sortData(products, order, orderBy).map((product) => (
                           <ItemTableRow
                             product={product}
-                            key={product.model}
+                            key={`${product._id}${Math.floor(
+                              Math.random() * 100
+                            )}`}
                             headerCells={headerCells}
                             handleDeleteItem={handleDeleteItem}
                           />

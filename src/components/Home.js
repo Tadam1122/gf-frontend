@@ -11,8 +11,6 @@ import {
 } from '@material-ui/core'
 import guitarHome from '../guitarDesign.svg'
 import BrowseModal from './Browse/BrowseModal/BrowseModal'
-import { clearError } from '../actions/errorActions'
-import { clearSuccess } from '../actions/successActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,13 +40,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Home({ modalOpen, handleClose, handleOpen }) {
   const classes = useStyles()
-  const dispatch = useDispatch()
-
-  // clear any errors or success messages
-  useEffect(() => {
-    dispatch(clearSuccess())
-    dispatch(clearError())
-  }, [dispatch])
 
   return (
     <Container>
