@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-// TODO: look into cognito for email verification
 function Register() {
   const classes = useStyles()
   const history = useHistory()
