@@ -76,6 +76,7 @@ function Browse() {
           if (
             attribute !== '_id' &&
             attribute !== 'prices' &&
+            attribute !== 'category' &&
             attribute !== 'image' &&
             attribute !== 'model' &&
             attribute !== 'inStock' &&
