@@ -9,8 +9,6 @@ import {
 } from './types'
 import { formatFilters, lowercase } from '../utilities/stringUtils'
 
-// TODO: sort filter values when loaded
-
 export const getBrowseFilters = (products, tableName) => (dispatch) => {
   //array for filters to display on page
   let defaultFilters = []
@@ -54,6 +52,7 @@ export const getBrowseFilters = (products, tableName) => (dispatch) => {
       }
     }
   }
+
   // Format filters
   defaultFilters = formatFilters(defaultFilters)
 
@@ -67,9 +66,15 @@ export const getBrowseFilters = (products, tableName) => (dispatch) => {
     defaultFilters.push({ filterName: 'Pickguard', values: [true] })
     defaultFilters.push({ filterName: 'Electronics', values: [true] })
   }
+
+  defaultFilters = defaultFilters.sort((a, b) =>
+    a.filterName > b.filterName ? 1 : -1
+  )
+
   // add default radio filters
   defaultFilters.unshift({ filterName: 'Price', values: ['', ''] })
   defaultFilters.unshift({ filterName: 'In Stock', values: [true] })
+
   dispatch({
     type: SET_FILTERS,
     payload: defaultFilters,
@@ -123,10 +128,10 @@ export const getSearchFilters = (products) => (dispatch) => {
         if (
           defaultFilters
             .map((filter) => filter.filterName)
-            .indexOf('Coil Split') === -1
+            .indexOf('coilSplit') === -1
         ) {
-          defaultFilters.push({ filterName: 'Coil Split', values: [true] })
-          defaultFilters.push({ filterName: 'Coil Tap', values: [true] })
+          defaultFilters.push({ filterName: 'coilSplit', values: [true] })
+          defaultFilters.push({ filterName: 'coilTap', values: [true] })
         }
       }
       if (product.category === 'acoustic-guitars') {
@@ -141,11 +146,16 @@ export const getSearchFilters = (products) => (dispatch) => {
       }
     }
   }
+  defaultFilters = defaultFilters.sort((a, b) =>
+    a.filterName > b.filterName ? 1 : -1
+  )
+
   defaultFilters = formatFilters(defaultFilters)
 
   //manually set default radio filters
   defaultFilters.unshift({ filterName: 'Price', values: ['', ''] })
   defaultFilters.unshift({ filterName: 'In Stock', values: [true] })
+
   dispatch({
     type: SET_FILTERS,
     payload: defaultFilters,

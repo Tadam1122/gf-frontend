@@ -6,6 +6,7 @@ export function lowercase(str) {
   return str.charAt(0).toLowerCase() + str.slice(1)
 }
 
+//format filter names and sort filter values
 export function formatFilters(filters) {
   return filters.map((item) => {
     item.filterName = capitalize(item.filterName.replace(/([A-Z])/g, ' $1'))
@@ -20,6 +21,7 @@ export function formatFilters(filters) {
       item.filterName[1] = 'Number'
     }
     item.filterName = item.filterName.join(' ')
+    item.values = item.values.sort((a, b) => (a > b ? 1 : -1))
     return item
   })
 }
