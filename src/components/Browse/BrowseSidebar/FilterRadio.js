@@ -26,8 +26,6 @@ function FilterRadio({ value, filterName, handleRadioSelect }) {
   //deselect radio values removed from active radio
   useEffect(() => {
     function updateRadio() {
-      console.log(filterName)
-      console.log(activeRadio)
       const found = activeRadio.filter(
         (radio) =>
           capitalize(radio.name.replace(/([A-Z])/g, ' $1')) === filterName
@@ -40,8 +38,6 @@ function FilterRadio({ value, filterName, handleRadioSelect }) {
   }, [activeRadio, filterName])
 
   function handleClick(eventVal) {
-    console.log(eventVal)
-    console.log(radioVal)
     if (eventVal === radioVal) {
       setRadioVal('')
     } else {
