@@ -74,6 +74,8 @@ function Search({ location }) {
             attribute !== 'model' &&
             attribute !== 'inStock' &&
             attribute !== 'coilTap' &&
+            attribute !== 'pickguard' &&
+            attribute !== 'electronics' &&
             attribute !== 'coilSplit'
           ) {
             let filterIndex = defaultFilters.findIndex(
@@ -96,15 +98,33 @@ function Search({ location }) {
               defaultFilters[filterIndex].values.push(product[attribute])
             }
           }
+          // TODO:default filters of other categories need to be manually added
+          //check category of product and include set of radio values depending on category
+          if (product.category === 'electric-guitars') {
+            if (
+              defaultFilters
+                .map((filter) => filter.filterName)
+                .indexOf('Coil Split') === -1
+            ) {
+              defaultFilters.push({ filterName: 'Coil Split', values: [true] })
+              defaultFilters.push({ filterName: 'Coil Tap', values: [true] })
+            }
+          }
+          if (product.category === 'acoustic-guitars') {
+            if (
+              defaultFilters
+                .map((filter) => filter.filterName)
+                .indexOf('Pickguard') === -1
+            ) {
+              defaultFilters.push({ filterName: 'Pickguard', values: [true] })
+              defaultFilters.push({ filterName: 'Electronics', values: [true] })
+            }
+          }
         }
       }
       defaultFilters = formatFilters(defaultFilters)
 
-      // TODO:default filters of other categories need to be manually added
-      //manually set boolean filters depending on tablename
-      defaultFilters.push({ filterName: 'Coil Split', values: [true] })
-      defaultFilters.push({ filterName: 'Coil Tap', values: [true] })
-
+      //manually set default radio filters
       defaultFilters.unshift({ filterName: 'Price', values: ['', ''] })
       defaultFilters.unshift({ filterName: 'In Stock', values: [true] })
       setFilters(defaultFilters)

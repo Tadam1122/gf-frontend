@@ -81,6 +81,8 @@ function Browse() {
             attribute !== 'model' &&
             attribute !== 'inStock' &&
             attribute !== 'coilTap' &&
+            attribute !== 'pickguard' &&
+            attribute !== 'electronics' &&
             attribute !== 'coilSplit'
           ) {
             let filterIndex = defaultFilters.findIndex(
@@ -109,11 +111,16 @@ function Browse() {
       defaultFilters = formatFilters(defaultFilters)
 
       // TODO:default filters of other categories need to be manually added
-      //manually set boolean filters depending on tablename
+      //manually set radio filters depending on tablename
       if (tableName === 'electric-guitars') {
         defaultFilters.push({ filterName: 'Coil Split', values: [true] })
         defaultFilters.push({ filterName: 'Coil Tap', values: [true] })
       }
+      if (tableName === 'acoustic-guitars') {
+        defaultFilters.push({ filterName: 'Pickguard', values: [true] })
+        defaultFilters.push({ filterName: 'Electronics', values: [true] })
+      }
+      // add default radio filters
       defaultFilters.unshift({ filterName: 'Price', values: ['', ''] })
       defaultFilters.unshift({ filterName: 'In Stock', values: [true] })
       setFilters(defaultFilters)
