@@ -7,6 +7,7 @@ import {
   Button,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   font: {
@@ -33,8 +34,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function FilterPrice({ values, activePrice, handlePriceChange }) {
+function FilterPrice({ values, handlePriceChange }) {
   const classes = useStyles()
+  const activePrice = useSelector((state) => state.filtersRed.activePrice)
   const [minText, setMinText] = useState('')
   const [maxText, setMaxText] = useState('')
 

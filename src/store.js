@@ -9,7 +9,7 @@ const initialState = {}
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['productsRed', 'wishlistRed'],
+  blacklist: ['productsRed', 'wishlistRed', 'filtersRed'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

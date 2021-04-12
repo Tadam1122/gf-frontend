@@ -31,9 +31,6 @@ const useStyles = makeStyles((theme) => ({
 
 function FilterTable({
   prodFilter,
-  activeFilters,
-  activeRadio,
-  activePrice,
   handleActiveChecked,
   handleRadioSelect,
   handlePriceChange,
@@ -63,7 +60,6 @@ function FilterTable({
               <FilterRadio
                 value={value}
                 filterName={prodFilter.filterName}
-                activeRadio={activeRadio}
                 handleRadioSelect={handleRadioSelect}
                 key={value}
               />
@@ -71,7 +67,6 @@ function FilterTable({
           {prodFilter.filterName === 'Price' && (
             <FilterPrice
               values={prodFilter.values}
-              activePrice={activePrice}
               handlePriceChange={handlePriceChange}
             />
           )}
@@ -86,7 +81,6 @@ function FilterTable({
                   <FilterSelect
                     value={value}
                     filterName={prodFilter.filterName}
-                    activeFilters={activeFilters}
                     handleActiveChecked={handleActiveChecked}
                     key={value}
                   />
@@ -102,7 +96,6 @@ function FilterTable({
                   <FilterSelect
                     value={value}
                     filterName={prodFilter.filterName}
-                    activeFilters={activeFilters}
                     handleActiveChecked={handleActiveChecked}
                     key={value}
                   />

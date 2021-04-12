@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Typography,
   Collapse,
@@ -26,10 +27,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function Sidebar({
-  filters,
-  activeFilters,
-  activeRadio,
-  activePrice,
   handleActiveChecked,
   handleRadioSelect,
   handlePriceChange,
@@ -45,6 +42,8 @@ function Sidebar({
   //dynamically set sidebar height
   const classes = useStyles({ sidebarHeight, scrollbar })
   // const classes = useStyles()
+
+  const filters = useSelector((state) => state.filtersRed.filters)
 
   function handleClick() {
     setOpen(!collapseOpen)
@@ -107,9 +106,6 @@ function Sidebar({
           <FilterTable
             key={prodFilter.filterName}
             prodFilter={prodFilter}
-            activeFilters={activeFilters}
-            activeRadio={activeRadio}
-            activePrice={activePrice}
             handleActiveChecked={handleActiveChecked}
             handleRadioSelect={handleRadioSelect}
             handlePriceChange={handlePriceChange}

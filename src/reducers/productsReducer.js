@@ -1,9 +1,13 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { FETCH_PRODUCTS, FIND_PRODUCTS } from '../actions/types'
+import {
+  FETCH_PRODUCTS,
+  FILTER_PRODUCTS,
+  FIND_PRODUCTS,
+} from '../actions/types'
 
 const initialState = {
   products: [],
-  product: {},
+  filteredProducts: [],
 }
 
 export default function (state = initialState, action) {
@@ -17,6 +21,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         products: action.payload,
+      }
+    case FILTER_PRODUCTS:
+      return {
+        ...state,
+        filteredProducts: action.payload,
       }
     default:
       return state

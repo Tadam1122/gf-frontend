@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Typography,
   TableCell,
@@ -16,13 +17,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function FilterSelect({
-  value,
-  activeFilters,
-  filterName,
-  handleActiveChecked,
-}) {
+function FilterSelect({ value, filterName, handleActiveChecked }) {
   const classes = useStyles()
+  const activeFilters = useSelector((state) => state.filtersRed.activeFilters)
   const [checked, setChecked] = useState(false)
 
   //deselect checked values removed from activeCheck

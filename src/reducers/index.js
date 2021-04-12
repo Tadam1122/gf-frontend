@@ -4,6 +4,7 @@ import userReducer from './userReducer'
 import errorReducer from './errorReducer'
 import successReducer from './successReducer'
 import wishlistReducer from './wishlistReducer'
+import filtersReducer from './filtersReducer'
 
 export default combineReducers({
   productsRed: productsReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   errorsRed: errorReducer,
   successRed: successReducer,
   wishlistRed: wishlistReducer,
+  filtersRed: filtersReducer,
 })

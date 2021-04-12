@@ -1,5 +1,14 @@
 export const FETCH_PRODUCTS = 'FETCH_PRODUCTS'
 export const FIND_PRODUCTS = 'FIND_PRODUCTS'
+export const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
+
+export const SET_FILTERS = 'SET_FILTERS'
+export const SET_ACTIVE_FILTERS = 'SET_ACTIVE_FILTERS'
+export const SET_ACTIVE_RADIO = 'SET_ACTIVE_RADIO'
+export const SET_MAX = 'SET_MAX'
+export const SET_MIN = 'SET_MIN'
+export const SET_PRICE = 'SET_PRICE'
+export const CLEAR_PRICE = 'CLEAR_PRICE'
 
 export const AUTH_USER = 'AUTH_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'

@@ -31,22 +31,25 @@ function SpecsTable({ product }) {
       </Toolbar>
       <Table>
         <TableBody>
-          {Object.keys(product).map((filterName) => {
-            if (
-              filterName !== 'image' &&
-              filterName !== '_id' &&
-              filterName !== 'prices'
-            ) {
-              return (
-                <SpecsTableRow
-                  filterName={filterName}
-                  product={product}
-                  key={filterName}
-                />
-              )
-            }
-            return null
-          })}
+          {Object.keys(product)
+            .sort((a, b) => (a > b ? 1 : -1))
+            .map((filterName) => {
+              if (
+                filterName !== 'image' &&
+                filterName !== '_id' &&
+                filterName !== 'category' &&
+                filterName !== 'prices'
+              ) {
+                return (
+                  <SpecsTableRow
+                    filterName={filterName}
+                    product={product}
+                    key={filterName}
+                  />
+                )
+              }
+              return null
+            })}
         </TableBody>
       </Table>
     </TableContainer>

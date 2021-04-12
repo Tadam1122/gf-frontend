@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Typography,
   TableRow,
@@ -17,9 +18,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function FilterRadio({ value, activeRadio, filterName, handleRadioSelect }) {
+function FilterRadio({ value, filterName, handleRadioSelect }) {
   const classes = useStyles()
   const [radioVal, setRadioVal] = useState('')
+  const activeRadio = useSelector((state) => state.filtersRed.activeRadio)
 
   //deselect radio values removed from active radio
   useEffect(() => {

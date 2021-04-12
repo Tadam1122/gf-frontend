@@ -16,6 +16,7 @@ import ProductTableHead from './ProductTableHead'
 import ProductRow from './ProductRow'
 import { getHeaderCells } from '../../../utilities/headerCells'
 import { sortData } from '../../../utilities/sortData'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -42,9 +43,6 @@ function ProductTable({
   category,
   rowsPerPage,
   page,
-  activeFilters,
-  activeRadio,
-  activePrice,
   handleActiveChecked,
   handleRadioSelect,
   handleClearPrice,
@@ -55,6 +53,9 @@ function ProductTable({
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
   const [headerCells, setHeaderCells] = useState([])
+  const activeFilters = useSelector((state) => state.filtersRed.activeFilters)
+  const activeRadio = useSelector((state) => state.filtersRed.activeRadio)
+  const activePrice = useSelector((state) => state.filtersRed.activePrice)
 
   // get new header cells for different categories
   useEffect(() => {
