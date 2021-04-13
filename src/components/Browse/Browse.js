@@ -8,7 +8,12 @@ import {
   setActiveRadio,
   setPriceChange,
 } from '../../actions/filterActions'
-import { CLEAR_PRICE, SET_MAX, SET_MIN } from '../../actions/types'
+import {
+  CLEAR_PRICE,
+  SET_MAX,
+  SET_MIN,
+  CLEAR_FILTERS,
+} from '../../actions/types'
 import { Grid, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ProductTable from './BrowseTable/ProductTable'
@@ -57,6 +62,7 @@ function Browse() {
   //fetch new products when table name changes
   useEffect(() => {
     function getProducts() {
+      dispatch({ type: CLEAR_FILTERS })
       dispatch(fetchProducts(tableName))
     }
     getProducts()
@@ -65,6 +71,7 @@ function Browse() {
   //create initial filter objects
   useEffect(() => {
     function getFilters() {
+      dispatch({ type: CLEAR_FILTERS })
       dispatch(getBrowseFilters(products, tableName))
     }
     getFilters()

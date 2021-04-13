@@ -3,6 +3,7 @@ import {
   SET_FILTERS,
   SET_ACTIVE_FILTERS,
   SET_ACTIVE_RADIO,
+  CLEAR_FILTERS,
   SET_MAX,
   SET_MIN,
   SET_PRICE,
@@ -54,6 +55,15 @@ export default function (state = initialState, action) {
       return {
         ...state,
         activePrice: [],
+      }
+    case CLEAR_FILTERS:
+      return {
+        filters: [],
+        activeFilters: [],
+        activeRadio: [],
+        activePrice: [],
+        maxPrice: '',
+        minPrice: '',
       }
     default:
       return state

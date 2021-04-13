@@ -5,7 +5,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import ProductTable from './BrowseTable/ProductTable'
 import Sidebar from './BrowseSidebar/Sidebar'
 import { searchProducts, filterProducts } from '../../actions/productActions'
-import { CLEAR_PRICE, SET_MAX, SET_MIN } from '../../actions/types'
+import {
+  CLEAR_PRICE,
+  SET_MAX,
+  SET_MIN,
+  CLEAR_FILTERS,
+} from '../../actions/types'
 import {
   getSearchFilters,
   setActiveChecked,
@@ -50,6 +55,7 @@ function Search({ location }) {
   //update found products
   useEffect(() => {
     async function updateFoundProducts() {
+      dispatch({ type: CLEAR_FILTERS })
       dispatch(searchProducts(searchText))
     }
     updateFoundProducts()

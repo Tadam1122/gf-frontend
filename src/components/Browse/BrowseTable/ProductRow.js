@@ -57,9 +57,13 @@ function ProductRow({ product, headerCells }) {
       <TableCell component='th' scope='row'>
         {product.brand} {product.model}
       </TableCell>
-      {cells.map((cell) => (
-        <TableCell key={cell.id}>{product[cell.id]}</TableCell>
-      ))}
+      {cells.map((cell) => {
+        return typeof product[cell.id] === 'boolean' ? (
+          <TableCell key={cell.id}>{product[cell.id] ? 'Yes' : 'No'}</TableCell>
+        ) : (
+          <TableCell key={cell.id}>{product[cell.id]}</TableCell>
+        )
+      })}
       <TableCell>
         <Button
           variant='contained'

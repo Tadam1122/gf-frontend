@@ -5,6 +5,8 @@ export const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
 export const SET_FILTERS = 'SET_FILTERS'
 export const SET_ACTIVE_FILTERS = 'SET_ACTIVE_FILTERS'
 export const SET_ACTIVE_RADIO = 'SET_ACTIVE_RADIO'
+export const CLEAR_FILTERS = 'CLEAR_FILTERS'
+
 export const SET_MAX = 'SET_MAX'
 export const SET_MIN = 'SET_MIN'
 export const SET_PRICE = 'SET_PRICE'

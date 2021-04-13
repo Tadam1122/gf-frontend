@@ -34,7 +34,10 @@ export const getBrowseFilters = (products, tableName) => (dispatch) => {
           (item) => item.filterName === attribute
         )
         //create new filter from attribute name
-        if (!defaultFilters.some((item) => item.filterName === attribute)) {
+        if (
+          defaultFilters.map((item) => item.filterName).indexOf(attribute) ===
+          -1
+        ) {
           let filter = {}
           filter.filterName = attribute
           filter.values = [product[attribute]]
@@ -43,9 +46,9 @@ export const getBrowseFilters = (products, tableName) => (dispatch) => {
 
         //add new product value in filter
         else if (
-          !defaultFilters[filterIndex].values.some(
-            (item) => item === product[attribute]
-          )
+          defaultFilters[filterIndex].values
+            .map((item) => item)
+            .indexOf(product[attribute]) === -1
         ) {
           defaultFilters[filterIndex].values.push(product[attribute])
         }
@@ -75,6 +78,7 @@ export const getBrowseFilters = (products, tableName) => (dispatch) => {
   defaultFilters.unshift({ filterName: 'Price', values: ['', ''] })
   defaultFilters.unshift({ filterName: 'In Stock', values: [true] })
 
+  console.log(defaultFilters)
   dispatch({
     type: SET_FILTERS,
     payload: defaultFilters,
@@ -97,10 +101,10 @@ export const getSearchFilters = (products) => (dispatch) => {
         attribute !== 'image' &&
         attribute !== 'model' &&
         attribute !== 'inStock' &&
+        attribute !== 'coilSplit' &&
         attribute !== 'coilTap' &&
         attribute !== 'pickguard' &&
-        attribute !== 'electronics' &&
-        attribute !== 'coilSplit'
+        attribute !== 'electronics'
       ) {
         let filterIndex = defaultFilters.findIndex(
           (item) => item.filterName === attribute

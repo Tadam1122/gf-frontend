@@ -28,16 +28,5 @@ export function formatFilters(filters) {
 
 export function formatFilter(filter) {
   filter = capitalize(filter.replace(/([A-Z])/g, ' $1'))
-  filter = filter.split(' ')
-  if (filter[1] === 'Config') {
-    filter[1] = 'Configuration'
-  }
-  if (filter[1] === 'Len') {
-    filter[1] = 'Length'
-  }
-  if (filter[1] === 'Num') {
-    filter[1] = 'Number'
-  }
-  filter = filter.join(' ')
   return filter
 }
