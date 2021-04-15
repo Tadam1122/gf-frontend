@@ -129,6 +129,15 @@ function App() {
               <Route path='/register' component={Register} />
               <Route path='/profile' component={Profile} />
               <Route path='/wishlist' component={Wishlist} />
+              <Route
+                render={(_) => (
+                  <Home
+                    modalOpen={modalOpen}
+                    handleClose={handleModalClose}
+                    handleOpen={handleModalOpen}
+                  />
+                )}
+              />
             </Switch>
           </BrowserRouter>
         </MuiThemeProvider>

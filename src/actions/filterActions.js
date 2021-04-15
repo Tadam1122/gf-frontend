@@ -78,7 +78,6 @@ export const getBrowseFilters = (products, tableName) => (dispatch) => {
   defaultFilters.unshift({ filterName: 'Price', values: ['', ''] })
   defaultFilters.unshift({ filterName: 'In Stock', values: [true] })
 
-  console.log(defaultFilters)
   dispatch({
     type: SET_FILTERS,
     payload: defaultFilters,
