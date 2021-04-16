@@ -19,13 +19,13 @@ const electricGuitarCells = [
     label: 'Strings',
   },
   {
-    id: 'pickupConfig',
+    id: 'pickupConfiguration',
     numeric: false,
     disablePadding: false,
     label: 'Pickup Layout',
   },
   {
-    id: 'scaleLen',
+    id: 'scaleLength',
     numeric: false,
     disablePadding: false,
     label: 'Scale',
@@ -77,7 +77,7 @@ const acousticGuitarCells = [
     label: 'Strings',
   },
   {
-    id: 'scaleLen',
+    id: 'scaleLength',
     numeric: false,
     disablePadding: false,
     label: 'Scale',
@@ -111,7 +111,7 @@ const electricAmpCells = [
     label: 'Type',
   },
   {
-    id: 'tubeConf',
+    id: 'tubeConfiguration',
     numeric: true,
     disablePadding: false,
     label: 'Tubes',
@@ -151,7 +151,7 @@ const acousticAmpCells = [
     label: 'Type',
   },
   {
-    id: 'tubeConf',
+    id: 'tubeConfiguration',
     numeric: true,
     disablePadding: false,
     label: 'Tubes',
