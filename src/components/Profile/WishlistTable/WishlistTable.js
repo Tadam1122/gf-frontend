@@ -72,10 +72,13 @@ function WishlistTable({ history }) {
     const found = user.wishlists.filter(
       (wishlist) => wishlist.name === e.target.value
     )
-    if (found.length > 0) {
+    if (found.length) {
       setDuplicateFound(true)
     } else {
       setDuplicateFound(false)
+    }
+    if (!found.length && e.key === 'Enter' && e.target.value.length) {
+      createNewWishlist()
     }
   }
 
@@ -123,7 +126,7 @@ function WishlistTable({ history }) {
                 <TextField
                   id='newName'
                   label='New Name'
-                  onChange={handleNewNameChange}
+                  onKeyUp={handleNewNameChange}
                 />
               </TableCell>
               <TableCell align='left'>$0</TableCell>
