@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '1rem',
     background: '#fff',
     borderRadius: '15px',
-    marginTop: '35%',
+    marginTop: '15vh',
   },
   textfield: {
     margin: 8,
