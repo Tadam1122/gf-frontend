@@ -28,7 +28,9 @@ export const getBrowseFilters = (products, tableName) => (dispatch) => {
         attribute !== 'coilSplit' &&
         attribute !== 'coilTap' &&
         attribute !== 'pickguard' &&
-        attribute !== 'electronics'
+        attribute !== 'electronics' &&
+        attribute !== 'reverb' &&
+        attribute !== 'fxLoop'
       ) {
         let filterIndex = defaultFilters.findIndex(
           (item) => item.filterName === attribute
@@ -69,6 +71,10 @@ export const getBrowseFilters = (products, tableName) => (dispatch) => {
     defaultFilters.push({ filterName: 'Pickguard', values: [true] })
     defaultFilters.push({ filterName: 'Electronics', values: [true] })
   }
+  if (tableName === 'electric-amps' || tableName === 'acoustic-amps') {
+    defaultFilters.push({ filterName: 'Reverb', values: [true] })
+    defaultFilters.push({ filterName: 'Fx Loop', values: [true] })
+  }
 
   defaultFilters = defaultFilters.sort((a, b) =>
     a.filterName > b.filterName ? 1 : -1
@@ -103,7 +109,9 @@ export const getSearchFilters = (products) => (dispatch) => {
         attribute !== 'coilSplit' &&
         attribute !== 'coilTap' &&
         attribute !== 'pickguard' &&
-        attribute !== 'electronics'
+        attribute !== 'electronics' &&
+        attribute !== 'reverb' &&
+        attribute !== 'fxLoop'
       ) {
         let filterIndex = defaultFilters.findIndex(
           (item) => item.filterName === attribute
@@ -145,6 +153,19 @@ export const getSearchFilters = (products) => (dispatch) => {
         ) {
           defaultFilters.push({ filterName: 'Pickguard', values: [true] })
           defaultFilters.push({ filterName: 'Electronics', values: [true] })
+        }
+      }
+      if (
+        product.category === 'acoustic-amps' ||
+        product.category === 'electric-amps'
+      ) {
+        if (
+          defaultFilters
+            .map((filter) => filter.filterName)
+            .indexOf('Reverb') === -1
+        ) {
+          defaultFilters.push({ filterName: 'Reverb', values: [true] })
+          defaultFilters.push({ filterName: 'Fx Loop', values: [true] })
         }
       }
     }
