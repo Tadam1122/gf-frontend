@@ -149,10 +149,10 @@ export const getSearchFilters = (products) => (dispatch) => {
         if (
           defaultFilters
             .map((filter) => filter.filterName)
-            .indexOf('Pickguard') === -1
+            .indexOf('pickguard') === -1
         ) {
-          defaultFilters.push({ filterName: 'Pickguard', values: [true] })
-          defaultFilters.push({ filterName: 'Electronics', values: [true] })
+          defaultFilters.push({ filterName: 'pickguard', values: [true] })
+          defaultFilters.push({ filterName: 'electronics', values: [true] })
         }
       }
       if (
@@ -162,10 +162,10 @@ export const getSearchFilters = (products) => (dispatch) => {
         if (
           defaultFilters
             .map((filter) => filter.filterName)
-            .indexOf('Reverb') === -1
+            .indexOf('reverb') === -1
         ) {
-          defaultFilters.push({ filterName: 'Reverb', values: [true] })
-          defaultFilters.push({ filterName: 'Fx Loop', values: [true] })
+          defaultFilters.push({ filterName: 'reverb', values: [true] })
+          defaultFilters.push({ filterName: 'fxLoop', values: [true] })
         }
       }
     }
