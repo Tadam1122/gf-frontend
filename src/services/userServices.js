@@ -1,6 +1,7 @@
 import { http } from './httpServices'
 import { setToken } from './authServices'
 
+// update token with new user data
 export function update(user) {
   return http()
     .put(`/user`, user)

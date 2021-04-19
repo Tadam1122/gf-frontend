@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { fetchProducts, filterProducts } from '../../actions/productActions'
 import {
-  getBrowseFilters,
+  getFilters,
   setActiveChecked,
   setActiveRadio,
   setPriceChange,
@@ -70,11 +70,11 @@ function Browse() {
 
   //create initial filter objects
   useEffect(() => {
-    function getFilters() {
+    function updateFilters() {
       dispatch({ type: CLEAR_FILTERS })
-      dispatch(getBrowseFilters(products, tableName))
+      dispatch(getFilters(products, tableName))
     }
-    getFilters()
+    updateFilters()
   }, [products, tableName, dispatch])
 
   //update products with filters

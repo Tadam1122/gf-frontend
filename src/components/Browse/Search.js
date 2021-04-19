@@ -12,7 +12,7 @@ import {
   CLEAR_FILTERS,
 } from '../../actions/types'
 import {
-  getSearchFilters,
+  getFilters,
   setActiveChecked,
   setActiveRadio,
   setPriceChange,
@@ -63,7 +63,7 @@ function Search({ location }) {
 
   //create initial filter objects
   useEffect(() => {
-    dispatch(getSearchFilters(products))
+    dispatch(getFilters(products))
   }, [products, dispatch])
 
   //update products with filters

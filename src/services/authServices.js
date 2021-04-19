@@ -1,11 +1,7 @@
 import { http } from './httpServices'
 import jwt from 'jsonwebtoken'
 
-export function checkLogin() {
-  const token = localStorage.getItem('token')
-  return token != null
-}
-
+// set browser token
 export async function login(user) {
   return http()
     .post('/auth', user)
@@ -21,6 +17,7 @@ export async function login(user) {
     })
 }
 
+// create new user
 export function register(user) {
   return http()
     .post('/register', user)
@@ -44,28 +41,12 @@ export function getToken() {
   return localStorage.getItem('token')
 }
 
-export function getUsername() {
-  const token = decodeToken()
-  if (!token) {
-    return null
-  }
-  return token.user.username
-}
-
 export function getUserId() {
   const token = decodeToken()
   if (!token) {
     return null
   }
   return token.user.id
-}
-
-export function getUserWishlists() {
-  const token = decodeToken()
-  if (!token) {
-    return null
-  }
-  return token.user.wishlists
 }
 
 export function getUser() {

@@ -9,19 +9,16 @@ import {
 } from './types'
 import { formatFilters, lowercase } from '../utilities/stringUtils'
 
-export const getBrowseFilters = (products, tableName) => (dispatch) => {
+export const getFilters = (products, tableName) => (dispatch) => {
   //array for filters to display on page
   let defaultFilters = []
 
   for (let product of products) {
-    //get attributes to filter from
-    //don't select any attributes with boolean values
-    // TODO: boolean attributes for other product categories need to be manually added
     for (let attribute in product) {
+      // ignore attributes that wont contain checkboxes
       if (
         attribute !== '_id' &&
         attribute !== 'prices' &&
-        attribute !== 'category' &&
         attribute !== 'image' &&
         attribute !== 'model' &&
         attribute !== 'inStock' &&
@@ -36,88 +33,7 @@ export const getBrowseFilters = (products, tableName) => (dispatch) => {
           (item) => item.filterName === attribute
         )
         //create new filter from attribute name
-        if (
-          defaultFilters.map((item) => item.filterName).indexOf(attribute) ===
-          -1
-        ) {
-          let filter = {}
-          filter.filterName = attribute
-          filter.values = [product[attribute]]
-          defaultFilters.push(filter)
-        }
-
-        //add new product value in filter
-        else if (
-          defaultFilters[filterIndex].values
-            .map((item) => item)
-            .indexOf(product[attribute]) === -1
-        ) {
-          defaultFilters[filterIndex].values.push(product[attribute])
-        }
-      }
-    }
-  }
-
-  // Format filters
-  defaultFilters = formatFilters(defaultFilters)
-
-  // TODO:default filters of other categories need to be manually added
-  //manually set radio filters depending on tablename
-  if (tableName === 'electric-guitars') {
-    defaultFilters.push({ filterName: 'Coil Split', values: [true] })
-    defaultFilters.push({ filterName: 'Coil Tap', values: [true] })
-  }
-  if (tableName === 'acoustic-guitars') {
-    defaultFilters.push({ filterName: 'Pickguard', values: [true] })
-    defaultFilters.push({ filterName: 'Electronics', values: [true] })
-  }
-  if (tableName === 'electric-amps' || tableName === 'acoustic-amps') {
-    defaultFilters.push({ filterName: 'Reverb', values: [true] })
-    defaultFilters.push({ filterName: 'Fx Loop', values: [true] })
-  }
-
-  defaultFilters = defaultFilters.sort((a, b) =>
-    a.filterName > b.filterName ? 1 : -1
-  )
-
-  // add default radio filters
-  defaultFilters.unshift({ filterName: 'Price', values: ['', ''] })
-  defaultFilters.unshift({ filterName: 'In Stock', values: [true] })
-
-  dispatch({
-    type: SET_FILTERS,
-    payload: defaultFilters,
-  })
-}
-
-export const getSearchFilters = (products) => (dispatch) => {
-  //array for filters to display on page
-  let defaultFilters = []
-
-  for (let product of products) {
-    //get attributes to filter from
-    //don't select any attributes with boolean values
-    // TODO: boolean attributes for other product categories need to be manually added
-    for (let attribute in product) {
-      if (
-        attribute !== '_id' &&
-        attribute !== 'prices' &&
-        attribute !== 'category' &&
-        attribute !== 'image' &&
-        attribute !== 'model' &&
-        attribute !== 'inStock' &&
-        attribute !== 'coilSplit' &&
-        attribute !== 'coilTap' &&
-        attribute !== 'pickguard' &&
-        attribute !== 'electronics' &&
-        attribute !== 'reverb' &&
-        attribute !== 'fxLoop'
-      ) {
-        let filterIndex = defaultFilters.findIndex(
-          (item) => item.filterName === attribute
-        )
-        //create new filter from attribute name
-        if (!defaultFilters.some((item) => item.filterName === attribute)) {
+        if (filterIndex === -1) {
           let filter = {}
           filter.filterName = attribute
           filter.values = [product[attribute]]
@@ -133,50 +49,26 @@ export const getSearchFilters = (products) => (dispatch) => {
           defaultFilters[filterIndex].values.push(product[attribute])
         }
       }
-      // TODO:default filters of other categories need to be manually added
-      //check category of product and include set of radio values depending on category
-      if (product.category === 'electric-guitars') {
-        if (
-          defaultFilters
-            .map((filter) => filter.filterName)
-            .indexOf('coilSplit') === -1
-        ) {
-          defaultFilters.push({ filterName: 'coilSplit', values: [true] })
-          defaultFilters.push({ filterName: 'coilTap', values: [true] })
-        }
-      }
-      if (product.category === 'acoustic-guitars') {
-        if (
-          defaultFilters
-            .map((filter) => filter.filterName)
-            .indexOf('pickguard') === -1
-        ) {
-          defaultFilters.push({ filterName: 'pickguard', values: [true] })
-          defaultFilters.push({ filterName: 'electronics', values: [true] })
-        }
-      }
-      if (
-        product.category === 'acoustic-amps' ||
-        product.category === 'electric-amps'
-      ) {
-        if (
-          defaultFilters
-            .map((filter) => filter.filterName)
-            .indexOf('reverb') === -1
-        ) {
-          defaultFilters.push({ filterName: 'reverb', values: [true] })
-          defaultFilters.push({ filterName: 'fxLoop', values: [true] })
-        }
-      }
+    }
+
+    // set radio filters for each product if no tablename provided
+    if (!tableName) {
+      defaultFilters = setSearchRadios(product, defaultFilters)
     }
   }
+
+  // set radio filters for table
+  if (tableName) {
+    defaultFilters = setBrowseRadios(tableName, defaultFilters)
+  }
+
+  // sort and format filters
   defaultFilters = defaultFilters.sort((a, b) =>
     a.filterName > b.filterName ? 1 : -1
   )
-
   defaultFilters = formatFilters(defaultFilters)
 
-  //manually set default radio filters
+  //manually set default radio filters to top of filters
   defaultFilters.unshift({ filterName: 'Price', values: ['', ''] })
   defaultFilters.unshift({ filterName: 'In Stock', values: [true] })
 
@@ -286,4 +178,57 @@ export const setPriceChange = (min, max) => (dispatch) => {
       })
     }
   }
+}
+
+//return updated filters for a product
+function setSearchRadios(product, defaultFilters) {
+  //check the product's category and include needed radio filters
+  if (product.category === 'electric-guitars') {
+    // check to see if radio filters already inserted
+    if (
+      defaultFilters.map((filter) => filter.filterName).indexOf('coilSplit') ===
+      -1
+    ) {
+      defaultFilters.push({ filterName: 'coilSplit', values: [true] })
+      defaultFilters.push({ filterName: 'coilTap', values: [true] })
+    }
+  }
+  if (product.category === 'acoustic-guitars') {
+    if (
+      defaultFilters.map((filter) => filter.filterName).indexOf('pickguard') ===
+      -1
+    ) {
+      defaultFilters.push({ filterName: 'pickguard', values: [true] })
+      defaultFilters.push({ filterName: 'electronics', values: [true] })
+    }
+  }
+  if (
+    product.category === 'acoustic-amps' ||
+    product.category === 'electric-amps'
+  ) {
+    if (
+      defaultFilters.map((filter) => filter.filterName).indexOf('reverb') === -1
+    ) {
+      defaultFilters.push({ filterName: 'reverb', values: [true] })
+      defaultFilters.push({ filterName: 'fxLoop', values: [true] })
+    }
+  }
+  return defaultFilters
+}
+
+function setBrowseRadios(tableName, defaultFilters) {
+  //manually set radio filters depending on tablename
+  if (tableName === 'electric-guitars') {
+    defaultFilters.push({ filterName: 'coilSplit', values: [true] })
+    defaultFilters.push({ filterName: 'coilTap', values: [true] })
+  }
+  if (tableName === 'acoustic-guitars') {
+    defaultFilters.push({ filterName: 'pickguard', values: [true] })
+    defaultFilters.push({ filterName: 'electronics', values: [true] })
+  }
+  if (tableName === 'electric-amps' || tableName === 'acoustic-amps') {
+    defaultFilters.push({ filterName: 'reverb', values: [true] })
+    defaultFilters.push({ filterName: 'fxLoop', values: [true] })
+  }
+  return defaultFilters
 }
