@@ -5,7 +5,7 @@ function PriceTableRow({ store }) {
     <TableRow tabIndex={-1} hover key={store.website}>
       <TableCell>{store.website}</TableCell>
       <TableCell>{store.price}</TableCell>
-      <TableCell>{store.price.inStock ? 'Yes' : 'No'}</TableCell>
+      <TableCell>{store.inStock ? 'Yes' : 'No'}</TableCell>
       <TableCell>
         {store.price && (
           <Button
