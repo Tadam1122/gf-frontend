@@ -20,10 +20,12 @@ export const getFilters = (products, tableName) => (dispatch) => {
         attribute !== '_id' &&
         attribute !== 'prices' &&
         attribute !== 'image' &&
+        attribute !== 'category' &&
         attribute !== 'model' &&
         attribute !== 'inStock' &&
         attribute !== 'coilSplit' &&
         attribute !== 'coilTap' &&
+        attribute !== 'leftHanded' &&
         attribute !== 'pickguard' &&
         attribute !== 'electronics' &&
         attribute !== 'reverb' &&
@@ -191,6 +193,7 @@ function setSearchRadios(product, defaultFilters) {
     ) {
       defaultFilters.push({ filterName: 'coilSplit', values: [true] })
       defaultFilters.push({ filterName: 'coilTap', values: [true] })
+      defaultFilters.push({ filterName: 'leftHanded', values: [true] })
     }
   }
   if (product.category === 'acoustic-guitars') {
@@ -200,6 +203,7 @@ function setSearchRadios(product, defaultFilters) {
     ) {
       defaultFilters.push({ filterName: 'pickguard', values: [true] })
       defaultFilters.push({ filterName: 'electronics', values: [true] })
+      defaultFilters.push({ filterName: 'leftHanded', values: [true] })
     }
   }
   if (
@@ -221,10 +225,12 @@ function setBrowseRadios(tableName, defaultFilters) {
   if (tableName === 'electric-guitars') {
     defaultFilters.push({ filterName: 'coilSplit', values: [true] })
     defaultFilters.push({ filterName: 'coilTap', values: [true] })
+    defaultFilters.push({ filterName: 'leftHanded', values: [true] })
   }
   if (tableName === 'acoustic-guitars') {
     defaultFilters.push({ filterName: 'pickguard', values: [true] })
     defaultFilters.push({ filterName: 'electronics', values: [true] })
+    defaultFilters.push({ filterName: 'leftHanded', values: [true] })
   }
   if (tableName === 'electric-amps' || tableName === 'acoustic-amps') {
     defaultFilters.push({ filterName: 'reverb', values: [true] })
