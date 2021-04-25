@@ -193,9 +193,9 @@ function setSearchRadios(product, defaultFilters) {
     ) {
       defaultFilters.push({ filterName: 'coilSplit', values: [true] })
       defaultFilters.push({ filterName: 'coilTap', values: [true] })
-      defaultFilters.push({ filterName: 'leftHanded', values: [true] })
     }
   }
+
   if (product.category === 'acoustic-guitars') {
     if (
       defaultFilters.map((filter) => filter.filterName).indexOf('pickguard') ===
@@ -203,9 +203,22 @@ function setSearchRadios(product, defaultFilters) {
     ) {
       defaultFilters.push({ filterName: 'pickguard', values: [true] })
       defaultFilters.push({ filterName: 'electronics', values: [true] })
+    }
+  }
+
+  if (
+    product.category === 'electric-guitars' ||
+    product.category === 'acoustic-guitars'
+  ) {
+    if (
+      defaultFilters
+        .map((filter) => filter.filterName)
+        .indexOf('leftHanded') === -1
+    ) {
       defaultFilters.push({ filterName: 'leftHanded', values: [true] })
     }
   }
+
   if (
     product.category === 'acoustic-amps' ||
     product.category === 'electric-amps'
