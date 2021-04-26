@@ -198,10 +198,10 @@ function setSearchRadios(product, defaultFilters) {
 
   if (product.category === 'acoustic-guitars') {
     if (
-      defaultFilters.map((filter) => filter.filterName).indexOf('pickguard') ===
-      -1
+      defaultFilters
+        .map((filter) => filter.filterName)
+        .indexOf('electronics') === -1
     ) {
-      defaultFilters.push({ filterName: 'pickguard', values: [true] })
       defaultFilters.push({ filterName: 'electronics', values: [true] })
     }
   }
@@ -216,6 +216,13 @@ function setSearchRadios(product, defaultFilters) {
         .indexOf('leftHanded') === -1
     ) {
       defaultFilters.push({ filterName: 'leftHanded', values: [true] })
+    }
+
+    if (
+      defaultFilters.map((filter) => filter.filterName).indexOf('pickguard') ===
+      -1
+    ) {
+      defaultFilters.push({ filterName: 'pickguard', values: [true] })
     }
   }
 
@@ -239,6 +246,7 @@ function setBrowseRadios(tableName, defaultFilters) {
     defaultFilters.push({ filterName: 'coilSplit', values: [true] })
     defaultFilters.push({ filterName: 'coilTap', values: [true] })
     defaultFilters.push({ filterName: 'leftHanded', values: [true] })
+    defaultFilters.push({ filterName: 'pickguard', values: [true] })
   }
   if (tableName === 'acoustic-guitars') {
     defaultFilters.push({ filterName: 'pickguard', values: [true] })
