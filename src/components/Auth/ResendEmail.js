@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import {
   TextField,
   Typography,
@@ -11,7 +10,8 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Errors from './Errors'
-import { loginUser } from '../../actions/userActions'
+import Success from './Success'
+import { resendEmail } from '../../actions/userActions'
 import { clearError } from '../../actions/errorActions'
 import { clearSuccess } from '../../actions/successActions'
 
@@ -28,31 +28,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Login() {
+function ResendEmail() {
   const classes = useStyles()
-  const history = useHistory()
+
   const dispatch = useDispatch()
 
-  //textfield state vars
-  const [username, changeUsername] = useState(' ')
-  const [password, changePassword] = useState(' ')
+  const [email, changeEmail] = useState('')
+  const emailReg = /^\S+@\S+[.]\S+[^@.,!@#$%^&*()_+<>/?|]$/ //basic regex for email syntax
+  const emailError = !emailReg.test(email) && email.length > 0
 
-  //error values for textfields
-  const usernameError = username.length > 0 ? false : true
-  const passwordError = password.length > 0 ? false : true
+  function handleEmailChange(event) {
+    changeEmail(event.target.value)
+  }
 
   useEffect(() => {
     dispatch(clearError())
     dispatch(clearSuccess())
   }, [dispatch])
-
-  function handleUsernameChange(event) {
-    changeUsername(event.target.value)
-  }
-
-  function handlePasswordChange(event) {
-    changePassword(event.target.value)
-  }
 
   return (
     <Container maxWidth='sm'>
@@ -65,26 +57,18 @@ function Login() {
           spacing={3}
           className={classes.root}
         >
-          <Grid item>
-            <Typography variant='h3'>Login</Typography>
+          <Grid>
+            <Typography variant='h3'>Resend Email</Typography>
           </Grid>
           <Errors />
+          <Success />
           <Grid item>
             <TextField
-              id='username'
-              label='Username'
-              fullWidth
+              id='email'
+              label='Email Address'
+              type='email'
               className={classes.textfield}
-              onChange={handleUsernameChange}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              id='password'
-              label='Password'
-              type='password'
-              className={classes.textfield}
-              onChange={handlePasswordChange}
+              onChange={handleEmailChange}
               fullWidth
             />
           </Grid>
@@ -95,15 +79,10 @@ function Login() {
               size='large'
               disableElevation
               fullWidth
-              disabled={usernameError || passwordError}
-              // eslint-disable-next-line
-              onClick={() =>
-                dispatch(
-                  loginUser({ username: username, password: password }, history)
-                )
-              }
+              disabled={emailError}
+              onClick={() => dispatch(resendEmail(email))}
             >
-              Login
+              Resend Email
             </Button>
           </Grid>
         </Grid>
@@ -112,4 +91,4 @@ function Login() {
   )
 }
 
-export default Login
+export default ResendEmail

@@ -1,10 +1,13 @@
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, Route, Redirect } from 'react-router-dom'
 import { Grid, Container, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import UserForm from './UserForm'
 import WishlistTable from './WishlistTable/WishlistTable'
-import Success from '../Auth/Success'
+import SuccessAlert from '../Auth/Success'
+import { clearError } from '../../actions/errorActions'
+import { clearSuccess } from '../../actions/successActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +20,14 @@ const useStyles = makeStyles((theme) => ({
 function Profile() {
   const classes = useStyles()
   const history = useHistory()
+  const dispatch = useDispatch()
+
   const user = useSelector((state) => state.userRed.user)
+
+  useEffect(() => {
+    dispatch(clearError())
+    dispatch(clearSuccess())
+  }, [dispatch])
 
   return (
     <Route
@@ -26,7 +36,7 @@ function Profile() {
           <Container className={classes.root}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Success />
+                <SuccessAlert />
               </Grid>
               <Grow in={true}>
                 <Grid item xs={12} sm={12} md={5} lg={5} xl={5}>

@@ -8,11 +8,14 @@ import {
   Container,
   Grid,
   Grow,
+  Link,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Errors from './Errors'
+import Success from './Success'
 import { registerUser } from '../../actions/userActions'
 import { clearError } from '../../actions/errorActions'
+import { clearSuccess } from '../../actions/successActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +50,7 @@ function Register() {
 
   useEffect(() => {
     dispatch(clearError())
+    dispatch(clearSuccess())
   }, [dispatch])
 
   function handleUsernameChange(event) {
@@ -79,7 +83,7 @@ function Register() {
             <Typography variant='h3'>Register</Typography>
           </Grid>
           <Errors />
-
+          <Success />
           <Grid item>
             <TextField
               id='username'
@@ -120,6 +124,18 @@ function Register() {
               onChange={handleRepeatPasswordChange}
               fullWidth
             />
+          </Grid>
+          <Grid item>
+            <Link
+              href=''
+              onClick={(e) => {
+                e.preventDefault()
+                history.push('/resend-email')
+              }}
+              variant='body2'
+            >
+              Resend Confirmation Email
+            </Link>
           </Grid>
           <Grid item>
             <Button

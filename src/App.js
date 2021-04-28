@@ -15,6 +15,7 @@ import Login from './components/Auth/Login'
 import Register from './components/Auth/Register'
 import Profile from './components/Profile/Profile'
 import Wishlist from './components/Wishlist/Wishlist'
+import ResendEmail from './components/Auth/ResendEmail'
 
 const theme = createMuiTheme({
   palette: {
@@ -127,6 +128,7 @@ function App() {
               <Route path='/product' component={Product} />
               <Route path='/search' component={Search} />
               <Route path='/register' component={Register} />
+              <Route path='/resend-email' component={ResendEmail} />
               <Route path='/profile' component={Profile} />
               <Route path='/wishlist' component={Wishlist} />
               <Route

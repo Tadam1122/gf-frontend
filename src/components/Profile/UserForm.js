@@ -30,21 +30,14 @@ function UserForm() {
 
   //textfield state variables
   const [username, changeUsername] = useState('')
-  const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
   const [repeatPassword, changeRepeatPassword] = useState('')
 
-  const emailReg = /^\S+@\S+[.]\S+[^@.,!@#$%^&*()_+<>/?|]$/ //basic regex for email syntax
-
   //textField errors
   const repeatPasswordError = repeatPassword !== password
-  const emailError = !emailReg.test(email) && email.length > 0
 
   function handleUsernameChange(event) {
     changeUsername(event.target.value)
-  }
-  function handleEmailChange(event) {
-    changeEmail(event.target.value)
   }
 
   function handlePasswordChange(event) {
@@ -69,14 +62,7 @@ function UserForm() {
         onChange={handleUsernameChange}
         fullWidth
       />
-      <TextField
-        id='email'
-        label='Change Email Address'
-        type='email'
-        className={classes.textfield}
-        onChange={handleEmailChange}
-        fullWidth
-      />
+
       <TextField
         id='password'
         label='Change Password'
@@ -101,9 +87,9 @@ function UserForm() {
         disableElevation
         fullWidth
         className={classes.button}
-        disabled={repeatPasswordError || emailError}
+        disabled={repeatPasswordError}
         onClick={(_) =>
-          dispatch(updateUser(user.wishlists, username, password, email))
+          dispatch(updateUser(user.wishlists, username, password))
         }
       >
         Submit Changes

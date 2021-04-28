@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, ButtonBase, Grid, Container, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
@@ -7,7 +7,9 @@ import SpecsTable from './SpecsTable/SpecsTable'
 import WishlistModal from './WishlistModal/WishlistModal'
 import { updateUser } from '../../actions/userActions'
 import { getLowestNumber, priceToNumber } from '../../utilities/priceUtils'
-import Success from '../Auth/Success'
+import SuccessAlert from '../Auth/SuccessAlert'
+import { clearError } from '../../actions/errorActions'
+import { clearSuccess } from '../../actions/successActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +49,11 @@ function Product({ location }) {
 
   const classes = useStyles()
 
+  useEffect(() => {
+    dispatch(clearError())
+    dispatch(clearSuccess())
+  }, [dispatch])
+
   //modal opened
   function handleModalOpen() {
     toggleModal(true)
@@ -80,7 +87,7 @@ function Product({ location }) {
         className={classes.root}
       >
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Success />
+          <SuccessAlert />
         </Grid>
         <Grow in={true}>
           <Grid item xs={12} sm={12} md={5} lg={3} xl={3}>
