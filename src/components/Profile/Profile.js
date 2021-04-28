@@ -5,7 +5,7 @@ import { Grid, Container, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import UserForm from './UserForm'
 import WishlistTable from './WishlistTable/WishlistTable'
-import SuccessAlert from '../Auth/Success'
+import SuccessAlert from '../Auth/SuccessAlert'
 import { clearError } from '../../actions/errorActions'
 import { clearSuccess } from '../../actions/successActions'
 
