@@ -99,7 +99,7 @@ const electricAmpCells = [
   },
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   {
-    id: 'wattage',
+    id: 'watts',
     numeric: false,
     disablePadding: false,
     label: 'Watts',
@@ -109,12 +109,6 @@ const electricAmpCells = [
     numeric: true,
     disablePadding: false,
     label: 'Type',
-  },
-  {
-    id: 'tubeConfiguration',
-    numeric: true,
-    disablePadding: false,
-    label: 'Tubes',
   },
   {
     id: 'channels',
@@ -139,7 +133,7 @@ const acousticAmpCells = [
   },
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   {
-    id: 'wattage',
+    id: 'watts',
     numeric: false,
     disablePadding: false,
     label: 'Watts',
@@ -149,12 +143,6 @@ const acousticAmpCells = [
     numeric: true,
     disablePadding: false,
     label: 'Type',
-  },
-  {
-    id: 'tubeConfiguration',
-    numeric: true,
-    disablePadding: false,
-    label: 'Tubes',
   },
   {
     id: 'channels',
