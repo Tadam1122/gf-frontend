@@ -17,9 +17,10 @@ export function update(user) {
     })
 }
 
+// Resend email to verify user email
 export function resendConfirm(user) {
   return http()
-    .post('/confirm', user)
+    .put('/auth', user)
     .catch(function (error) {
       if (error.response) {
         return error.response
