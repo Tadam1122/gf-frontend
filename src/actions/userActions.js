@@ -50,7 +50,6 @@ export const registerUser = (user, history) => async (dispatch) => {
   dispatch({ type: CLEAR_SUCCESS })
 
   const reg = await register(user)
-  console.log(reg)
   if (reg.status < 200 || reg.status > 300) {
     let newErrors = []
     for (let error of reg.data.message.split('/')) {
@@ -75,7 +74,6 @@ export const resendEmail = (email) => async (dispatch) => {
   const user = { email: email }
 
   const resend = await resendConfirm(user)
-  console.log(resend)
   if (resend.status < 200 || resend.status > 300) {
     let newErrors = []
     for (let error of resend.data.message.split('/')) {
