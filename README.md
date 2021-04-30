@@ -1,5 +1,5 @@
 # GuitarFinder Frontend
-Frontend for guitar-finder application.
+Frontend for [guitar-finder](https://guitar-finder.net) application.
 Uses React, Redux and Material-UI.
 
 ## Available Scripts
