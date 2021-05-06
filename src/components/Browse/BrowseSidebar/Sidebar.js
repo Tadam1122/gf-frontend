@@ -37,7 +37,7 @@ function Sidebar({
   const scrollMatches = useMediaQuery(theme.breakpoints.up('sm'))
   const [sidebarHeight, setSidebarHeight] = useState('84vh')
   const [scrollbar, setScrollbar] = useState('scroll')
-  const [collapseOpen, setOpen] = useState(true)
+  const [collapseOpen, setOpen] = useState(false)
 
   //dynamically set sidebar height
   const classes = useStyles({ sidebarHeight, scrollbar })
@@ -94,14 +94,6 @@ function Sidebar({
         <Typography variant='h6' className={classes.title}>
           Filters
         </Typography>
-      </Hidden>
-      <Hidden smUp>
-        <ListItem button onClick={handleClick}>
-          <ListItemText primary='Filters' />
-          {collapseOpen ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-      </Hidden>
-      <Collapse in={collapseOpen} timeout='auto' unmountOnExit>
         {filters.map((prodFilter) => (
           <FilterTable
             key={prodFilter.filterName}
@@ -111,7 +103,24 @@ function Sidebar({
             handlePriceChange={handlePriceChange}
           />
         ))}
-      </Collapse>
+      </Hidden>
+      <Hidden smUp>
+        <ListItem button onClick={handleClick}>
+          <ListItemText primary='Filters' />
+          {collapseOpen ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={collapseOpen} timeout='auto' unmountOnExit>
+          {filters.map((prodFilter) => (
+            <FilterTable
+              key={prodFilter.filterName}
+              prodFilter={prodFilter}
+              handleActiveChecked={handleActiveChecked}
+              handleRadioSelect={handleRadioSelect}
+              handlePriceChange={handlePriceChange}
+            />
+          ))}
+        </Collapse>
+      </Hidden>
     </div>
   )
 }
